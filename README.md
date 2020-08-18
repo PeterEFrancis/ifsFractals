@@ -1,4 +1,4 @@
-# ifsFractals
+# ifs-fractals
 
 This is a web app for experimenting with and creating fractals that are fixed points of iterated function systems (ifs).
 
