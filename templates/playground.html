@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>IFS Fractals</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  <link rel="stylesheet" href="static/guppy/guppy-default.min.css">
+  <link rel="stylesheet" href="static/css/variableSlider.css">
+  <link rel="stylesheet" href="static/css/TWRow.css">
+  <script type="text/javascript" src="static/guppy/guppy.min.js"></script>
+  <style>
+
+    body {
+      min-width: 250px;
+    }
+
+
+
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    canvas {
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    h3 {
+      margin-top: 40px;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="\">IFS Fractals</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="\">Home</a></li>
+        <li class="active"><a href="\playground">Playground</a></li>
+        <!-- <li><a href="#">Transformation Maker</a></li>
+        <li><a href="#">Experiment</a></li>
+        <li><a href="#">Batch</a></li> -->
+        <!-- <li><a href="#">Words</a></li> -->
+        <!-- <li><a href="#">Animations</a></li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Playground</h1>
+    </div>
+  </div>
+  <!-- <div class="row" style="margin-bottom: 40px;">
+    <div class="col-md-6">
+      <p>Upload a *.ifs file to load into the playground.</p>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</button>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-md-6">
+      <h3>
+        Transformations and Weights
+        <a data-toggle="modal" data-target="#transformations-modal" style="font-size: .75em" href="#transformations-modal">
+          <span class="glyphicon glyphicon-info-sign"></span>
+        </a>
+      </h3>
+      <div id="transformations-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Transformations and Weights</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                  <tr>
+                    <th colspan="2">Built-in Transformations</th>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">Scale(s)</span></td>
+                    <td>\((x,y)\to(sx,sy)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">ScaleX(s)</span></td>
+                    <td> \((x,y)\to(sx,y)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">ScaleY(s)</span></td>
+                    <td> \((x,y)\to(x,sy)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">ScaleXY(s,t)</span></td>
+                    <td> \((x,y)\to(sx,ty)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">Translate(h,k)</span></td>
+                    <td> \((x,y)\to(x+h,y+k)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">Rotate(theta)</span></td>
+                    <td> \((x,y)\to(x\cos\theta-y\sin\theta, x\sin\theta+y\cos\theta)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">ShearX(t)</span></td>
+                    <td> \((x,y)\to(x+ty,y)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">ShearY(t)</span></td>
+                    <td> \((x,y)\to(x,xt+y)\)</td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family:monospace">M(a,b,c,d,f,g)</span></td>
+                    <td> \((x,y)\to(ax+by+f,cx+dy+g)\)</td>
+                  </tr>
+                </table>
+
+              <p>Compose functions with <code><</code>, and rememeber that these functions operate from right to left!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div id="TW-container" style="width: 100%"></div>
+      <button type="button" class="btn btn-default" onclick="tw_row_group.add_row();" style="margin-top: 20px;">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+
+      <h3>Variable Sliders</h3>
+      <div id="variable-row-container" style="width: 100%"></div>
+      <button type="button" class="btn btn-default" onclick="variable_group.add_next_variable();">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+
+      <!-- <h3>Raw Transformations</h3>
+      <textarea id="raw-transformations" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea> -->
+
+
+
+      <!-- <h3>Generator</h3>
+      <canvas width="1000" height="1000" id="generator"></canvas> -->
+
+    </div>
+    <div class="col-md-6">
+      <h3>Fractal</h3>
+      <canvas width="1000" height="1000" id="fractal"></canvas>
+      <p class="text-center" id="hover-loc"></p>
+      <p id="fractal-error" style="color: red"></p>
+      <div class="btn-group" style="margin-top: 20px; width: 100%;">
+        <button id="start-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.start(); document.getElementById('pause-fractal').disabled = false; this.disabled = true;">
+          <span class="glyphicon glyphicon-play"></span>
+        </button>
+        <button id="pause-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.pause(); document.getElementById('start-fractal').disabled = false; this.disabled = true;" disabled>
+          <span class="glyphicon glyphicon-pause"></span>
+        </button>
+      </div>
+      <div class="input-group" style="margin-top: 20px;">
+        <span class="input-group-addon">Refresh Rate (ms)</span>
+        <input type="text" class="form-control" onchange="fractal.set_refresh_rate(this.value)" value="10"/>
+      </div>
+      <div class="input-group" style="margin-top: 20px;">
+        <span class="input-group-addon">Number of Points to Plot</span>
+        <input type="text" class="form-control" onchange="fractal.set_number_of_points(this.value)" value="10000"/>
+      </div>
+      <div class="input-group" style="margin-top: 20px;">
+        <span class="input-group-addon">Zoom</span>
+        <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
+      </div>
+      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="reset_settings()">Reset Settings</button>
+    </div>
+  </div>
+  <!-- <br><br><bR><br><br>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span> Download</button> -->
+
+</div>
+
+<script src="static/js/Cartesian.js"></script>
+<script src="static/js/Transformations.js"></script>
+<script src="static/js/VariableGroup.js"></script>
+<script src="static/js/Parser.js"></script>
+<script src="static/js/TWRow.js"></script>
+<script src="static/js/matrix.js"></script>
+<script src="static/js/Fractal.js"></script>
+
+
+<script>
+
+    var canvas = document.getElementById('fractal');
+    var cart = new Cartesian(canvas);
+    cart.on_zoom_change = function () {
+      document.getElementById('zoom').value = cart.zoom;
+    };
+    cart.reset_settings();
+
+    // update diaplay
+    setInterval(function() {
+      var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
+      document.getElementById('hover-loc').innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth)  + "," + (Math.round(cart.hover.y * depth) / depth) + ")";
+    }, 10);
+
+
+    // create variable group
+    var variable_group = new VariableGroup(document.getElementById('variable-row-container'));
+    variable_group.add_next_variable();
+
+    // create math parser
+    var parser = new Parser(variable_group);
+
+
+    // create transformation-weight row group
+    var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser);
+    for (var i = 0; i < 4; i++) {
+      tw_row_group.add_row();
+    }
+
+    // set barnsley fern defaults
+    tw_row_group.all_rows[0].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0</e></c><c><e>0</e></c><c><e>0</e></c><c><e>0.16</e></c><c><e>0</e></c><c><e>0</e></c></f><e></e></m>');
+    tw_row_group.all_rows[0].guppy.render(true);
+    tw_row_group.all_rows[0].set_weight(0.01);
+    tw_row_group.all_rows[1].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0.85</e></c><c><e>0.04</e></c><c><e>-0.04</e></c><c><e>0.85</e></c><c><e>0</e></c><c><e>1.6</e></c></f><e></e></m>');
+    tw_row_group.all_rows[1].guppy.render(true);
+    tw_row_group.all_rows[1].set_weight(0.85);
+    tw_row_group.all_rows[2].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0.20</e></c><c><e>-0.26</e></c><c><e>0.23</e></c><c><e>0.22</e></c><c><e>0</e></c><c><e>1.6</e></c></f><e></e></m>');
+    tw_row_group.all_rows[2].guppy.render(true);
+    tw_row_group.all_rows[2].set_weight(0.07);
+    tw_row_group.all_rows[3].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>-0.15</e></c><c><e>0.28</e></c><c><e>0.26</e></c><c><e>0.24</e></c><c><e>0.44</e></c><c><e>0.07</e></c></f><e></e></m>');
+    tw_row_group.all_rows[3].guppy.render(true);
+    tw_row_group.all_rows[3].set_weight(0.07);
+
+
+
+    // barnsley
+    var barnsley = {transformations: [M(0,0,0,0.16,0,0),
+                                      M(0.85,0.04,-0.04,0.85,0,1.60),
+                                      M(0.20,-0.26,0.23,0.22,0,1.60),
+                                      M(-0.15,0.28,0.26,0.24,0,0.44,0.07)],
+                    weights: [0, 0, 0, 0]};
+
+    // create fractal
+    var fractal_error_el =  document.getElementById('fractal-error');
+    var fractal = new Fractal(cart, fractal_error_el, barnsley);
+
+    setInterval(function() {
+      try {
+        fractal.set_TW(tw_row_group.get_TW());
+      } catch (e) {
+        console.log(e);
+      }
+    }, 10);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // td_1.event("change",function(e){
+  //   try {
+  //     document.getElementById('transformations').innerHTML = td_1.engine.get_content("ast");
+  //   } catch(e) {
+  //     console.log(e);
+  //   }
+  // });
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

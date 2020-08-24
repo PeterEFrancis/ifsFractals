@@ -1,0 +1,48 @@
+
+.variable-container {
+  width: 100%;
+}
+
+.variable-container > .row > div {
+  padding: 2px;
+}
+
+.trash-link {
+  color: grey;
+}
+
+.trash-link:hover {
+  color: red;
+  transition: 0.5s ease;
+}
+
+.slider-row {
+  margin-top: 10px;
+}
+
+.slider {
+   margin-top:.65em;
+}
+
+.bound {
+  width: 100%;
+}
+
+.step-input-group {
+  /* margin: auto; */
+  margin-left: 75px;
+}
+
+.name-input-group-addon {
+  font-weight: bold;
+}
+
+.variable-slider-error {
+  margin-top: 15px;
+  color: red;
+  font-size: small;
+}
+
+.variable-separator {
+  margin-top: 0px;
+}
