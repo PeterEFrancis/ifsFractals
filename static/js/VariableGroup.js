@@ -133,7 +133,6 @@ class VariableSlider {
     }
     this.lower_bound_input.onchange = function() {
       vars.set_min(vars.lower_bound_input.value);
-      console.log(vars.lower_bound_input.value);
     }
     this.upper_bound_input.onchange = function() {
       vars.set_max(vars.upper_bound_input.value);
@@ -156,7 +155,7 @@ class VariableSlider {
 
   display_errors() {
     var is_error = false;
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < this.current_errors.length; i++) {
       if (this.current_errors[i] == 1) {
         this.error.innerHTML = '<span class="glyphicon glyphicon-warning-sign"></span> ' + this.errors[i];
         is_error = true;
@@ -270,6 +269,7 @@ class VariableGroup {
       line.setAttribute('id', 'variable-separator-line-' + name);
       line.classList.add('variable-separator');
       this.container.appendChild(line);
+      this.onchange();
     }
   }
 

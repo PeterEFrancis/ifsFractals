@@ -1,18 +1,10 @@
 class Fractal {
 
 
-  constructor(cartesian, error_el, tw) {
+  constructor(cartesian, tw) {
 
     this.cartesian = cartesian;
     this.parser = parser;
-    this.error_el = error_el;
-
-    this.errors = ["number of points to plot must be a whole positive number",
-                   "refresh rate must be a positive whole number",
-                   "one or more specified transformtions is not a contraction mapping (check the console for more info)",
-                   "no transformations defined"
-                  ];
-    this.current_errors = [0, 0, 0, 0];
 
     this.tw;
     this.running_weights;
@@ -22,43 +14,16 @@ class Fractal {
     this.set_TW(tw);
   }
 
-  set_error(num) {
-    this.current_errors[num] = 1;
-    this.display_errors();
-  }
-
-  remove_error(num) {
-    this.current_errors[num] = 0;
-    this.display_errors();
-  }
-
-  display_errors() {
-    var is_error = false;
-    for (var i = 0; i < 6; i++) {
-      if (this.current_errors[i] == 1) {
-        this.error_el.innerHTML = '<span class="glyphicon glyphicon-warning-sign"></span> ' + this.errors[i];
-        is_error = true;
-        break;
-      }
-    }
-    if (!is_error) {
-      this.error_el.innerHTML = "";
-    }
-  }
-
   set_TW(tw) {
 
     if (tw.transformations == []) {
-      this.set_error(3);
-    } else {
-      this.remove_error(3);
+      throw "no transformations defined";
     }
 
     // check for non-contraction mappings
     var which_not_c_maps = this.which_are_not_contraction_mappings(tw.transformations);
-    if (which_not_c_maps = []) {
+    if (which_not_c_maps.length == 0) {
       this.tw = tw;
-      this.remove_error(2);
 
       var sum = this.tw.weights.reduce((a, b) => a + b, 0);
 
@@ -85,22 +50,23 @@ class Fractal {
       this.plot_fractal();
 
     } else {
-      set_error(2);
-      console.log("transformations ("  + which_not_c_maps + ") are not contraction mappings");
+      throw "the transformations [" + which_not_c_maps + "] are not a contraction mappings"
     }
 
 
   }
 
   opNorm(T) {
-    // get 2 x 2 matric (classic theorem 1.10!)
+    // get 2 x 2 matrix (classic theorem 1.10!)
     var M = [[0,0],[0,0]];
+    var t_0 = T({x:0, y:0});
     var t_e1 = T({x:1, y:0});
-    M[0][0] = t_e1.x;
-    M[1][0] = t_e1.y;
+    M[0][0] = t_e1.x - t_0.x;
+    M[1][0] = t_e1.y - t_0.y;
     var t_e2 = T({x:0, y:1});
-    M[0][1] = t_e2.x;
-    M[1][1] = t_e2.y;
+    M[0][1] = t_e2.x - t_0.x;
+    M[1][1] = t_e2.y - t_0.y;
+    M = mult(M, transpose(M));
     // return the square root of the largest eigenvalue
     return Math.sqrt(Math.max(...eigenvalues(M)));
   }
@@ -115,22 +81,11 @@ class Fractal {
     return which;
   }
 
-  // start() {
-  //   this.pause();
-  //   frac.plot_fractal()
-  //   this.moving = true;
-  // }
-
-  // pause() {
-  //   clearInterval(this.updateID);
-  //   this.moving = false;
-  // }
 
   set_max_number_of_points(num) {
     if (isNaN(num) || num <= 0 || Math.round(num) != num) {
-      this.set_error(0);
+      throw "number of points to plot must be a whole positive number";
     } else {
-      this.remove_error(0);
       this.max_number_of_points = num;
 
       this.plot_fractal();
@@ -138,17 +93,6 @@ class Fractal {
     }
   }
 
-  // set_refresh_rate(num) {
-  //   if (isNaN(num) || num <= 0 || Math.round(num) != num) {
-  //     this.set_error(1);
-  //   } else {
-  //     this.remove_error(1);
-  //     this.refresh_rate = num;
-  //     if (this.moving) {
-  //       this.start();
-  //     }
-  //   }
-  // }
 
   get_transformation_number() {
     var r = Math.random();

@@ -197,7 +197,8 @@
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
     };
-    cart.recenter();
+    cart.zoom_to(80);
+    cart.center_at({x:0,y:5});
 
     // update diaplay
     setInterval(function() {
@@ -230,28 +231,27 @@
     tw_row_group.all_rows[2].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0.20</e></c><c><e>-0.26</e></c><c><e>0.23</e></c><c><e>0.22</e></c><c><e>0</e></c><c><e>1.6</e></c></f><e></e></m>');
     tw_row_group.all_rows[2].guppy.render(true);
     tw_row_group.all_rows[2].set_weight(0.07);
-    tw_row_group.all_rows[3].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>-0.15</e></c><c><e>0.28</e></c><c><e>0.26</e></c><c><e>0.24</e></c><c><e>0.44</e></c><c><e>0.07</e></c></f><e></e></m>');
+    tw_row_group.all_rows[3].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>-0.15</e></c><c><e>0.28</e></c><c><e>0.26</e></c><c><e>0.24</e></c><c><e>0</e></c><c><e>0.44</e></c></f><e></e></m>');
     tw_row_group.all_rows[3].guppy.render(true);
     tw_row_group.all_rows[3].set_weight(0.07);
 
 
-    // barnsley
-    var barnsley = {transformations: [M(0,0,0,0.16,0,0),
-                                      M(0.85,0.04,-0.04,0.85,0,1.60),
-                                      M(0.20,-0.26,0.23,0.22,0,1.60),
-                                      M(-0.15,0.28,0.26,0.24,0,0.44,0.07)],
-                    weights: [0.01, 0.85, 0.07, 0.07]};
-
-    // create fractal
-    var fractal_error_el =  document.getElementById('fractal-error');
-    var fractal = new Fractal(cart, fractal_error_el, barnsley);
+    // create fractal error catch
+    function report_error(msg) {
+      document.getElementById('fractal-error').innerHTML = '<span class="glyphicon glyphicon-warning-sign"></span> ' + msg;
+      console.log(msg);
+    }
+    function clear_error() {
+      document.getElementById('fractal-error').innerHTML = '';
+    }
 
 
     function update() {
       try {
         fractal.set_TW(tw_row_group.get_TW());
+        clear_error();
       } catch (e) {
-        // TODO: do something with this error?
+        report_error(e);
       }
     }
 
@@ -259,6 +259,25 @@
     variable_group.onchange = update;
 
     tw_row_group.onchange = update;
+
+
+    // barnsley
+    var barnsley = {transformations: [M(0,0,0,0.16,0,0),
+                                      M(0.85,0.04,-0.04,0.85,0,1.60),
+                                      M(0.20,-0.26,0.23,0.22,0,1.60),
+                                      M(-0.15,0.28,0.26,0.24,0,0.44)],
+                    weights: [0.01, 0.85, 0.07, 0.07]};
+
+    // create fractal
+    try {
+      var fractal = new Fractal(cart, barnsley);
+      clear_error();
+    } catch(e) {
+      report_error(e);
+    }
+
+
+
 
 
 </script>

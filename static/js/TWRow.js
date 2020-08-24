@@ -128,42 +128,48 @@ class TWRow {
   }
 
   get_transformation() {
-    var entire_string = this.guppy.engine.get_content('text');
+    
+    try {
+      var entire_string = this.guppy.engine.get_content('text');
 
-    if (entire_string == "") {
-      return null;
-    }
-
-    // split functions
-    var functions_string_list;
-    if (entire_string[0] != "(") {
-      // only one function
-      functions_string_list = [entire_string];
-    } else {
-      functions_string_list = this.split_into_list(entire_string);
-    }
-
-    // create a list of ["function_name", [args]]
-    var arg_map = this.get_arg_map(functions_string_list);
-
-    // parse arg lists
-    var parsed_arg_map = [];
-    for (var i = 0; i < arg_map.length; i++) {
-      var new_list = [];
-      for (var j = 0; j < arg_map[i][1].length; j++) {
-        new_list.push(this.parser.parse(arg_map[i][1][j]));
+      if (entire_string == "") {
+        return null;
       }
-      parsed_arg_map.push([arg_map[i][0], new_list]);
-    }
 
-    // get list of functions (evaluate meta functions)
-    var functions = [];
-    for (var i = 0; i < parsed_arg_map.length; i++) {
-      functions.push(string_to_function[parsed_arg_map[i][0]](...parsed_arg_map[i][1]));
-    }
+      // split functions
+      var functions_string_list;
+      if (entire_string[0] != "(") {
+        // only one function
+        functions_string_list = [entire_string];
+      } else {
+        functions_string_list = this.split_into_list(entire_string);
+      }
 
-    // compose and return
-    return compose(functions);
+      // create a list of ["function_name", [args]]
+      var arg_map = this.get_arg_map(functions_string_list);
+
+      // parse arg lists
+      var parsed_arg_map = [];
+      for (var i = 0; i < arg_map.length; i++) {
+        var new_list = [];
+        for (var j = 0; j < arg_map[i][1].length; j++) {
+          new_list.push(this.parser.parse(arg_map[i][1][j]));
+        }
+        parsed_arg_map.push([arg_map[i][0], new_list]);
+      }
+
+      // get list of functions (evaluate meta functions)
+      var functions = [];
+      for (var i = 0; i < parsed_arg_map.length; i++) {
+        functions.push(string_to_function[parsed_arg_map[i][0]](...parsed_arg_map[i][1]));
+      }
+
+      // compose and return
+      return compose(functions);
+
+  } catch(e) {
+    throw "there was an error understanding the transfomation input";
+  }
 
   }
 
