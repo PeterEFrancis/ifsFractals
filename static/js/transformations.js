@@ -58,7 +58,7 @@ function ShearY(t) {
 function M(a, b, c, d, f, g) {
   return function(p) {
     return {x: a * p.x + b * p.y + f,
-            y: c * p.x + d * p.y  +g};
+            y: c * p.x + d * p.y + g};
   };
 }
 
@@ -70,3 +70,15 @@ function compose(ts) {
     return p;
   }
 }
+
+
+var string_to_function = {'Scale':Scale,
+                          'ScaleX':ScaleX,
+                          'ScaleY':ScaleY,
+                          'ScaleXY':ScaleXY,
+                          'Translate':Translate,
+                          'Rotate':Rotate,
+                          'ShearX':ShearX,
+                          'ShearY':ShearY,
+                          'M':M
+                        };

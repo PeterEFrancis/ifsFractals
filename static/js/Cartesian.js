@@ -34,7 +34,7 @@ class Cartesian {
       var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
       if (cart.mousedown) {
         var rp = cart.get_real_point(user_x, user_y);
-        cart.recenter({x:cart.center.x - (rp.x - cart.mousedown_loc.x),
+        cart.center_at({x:cart.center.x - (rp.x - cart.mousedown_loc.x),
                        y:cart.center.y - (rp.y - cart.mousedown_loc.y)});
       } else {
         cart.hover = cart.get_real_point(user_x, user_y);
@@ -45,7 +45,7 @@ class Cartesian {
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
       var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
-      cart.recenter(cart.get_real_point(user_x, user_y));
+      cart.center_at(cart.get_real_point(user_x, user_y));
       // zoom 2x
       cart.zoom_to(cart.zoom * 2);
     });
@@ -88,7 +88,7 @@ class Cartesian {
     this.ctx.fillStyle = color;
   }
 
-  recenter(xy) {
+  center_at(xy) {
     this.center = xy;
     this.redraw_points();
   }
@@ -117,9 +117,9 @@ class Cartesian {
     return {x: realX, y:realY}
   }
 
-  reset_settings() {
+  recenter() {
     this.zoom_to(50);
-    this.recenter({x:0,y:0});
+    this.center_at({x:0,y:0});
   }
 
 

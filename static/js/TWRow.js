@@ -9,11 +9,16 @@ const SYMBOLS = {"Scale": {"output": {"latex":"\\text{Scale}\\left({$1}\\right)"
                  "ShearX": {"output": {"latex":"\\text{ShearX}\\left({$1}\\right)", "text":"ShearX($1)"}, "attrs": { "type":"ShearX", "group":"function"}},
                  "ShearY": {"output": {"latex":"\\text{ShearY}\\left({$1}\\right)", "text":"ShearY($1)"}, "attrs": { "type":"ShearY", "group":"function"}},
                  "M": {"output": {"latex":"\\text{M}\\left({$1}, {$2}, {$3}, {$4}, {$5}, {$6}\\right)", "text":"M($1, $2, $3, $4, $5, $6)"}, "attrs": { "type":"M", "group":"function"}},
-                }
+                 }
 
 class TWRow {
 
-  constructor(id, row_container) {
+  constructor(id, row_container, parser, group) {
+
+    var ths = this;
+
+    this.parser = parser;
+    this.group = group;
 
     // create physical row
     this.tr = document.createElement('tr');
@@ -33,8 +38,8 @@ class TWRow {
           this.weight.setAttribute('type', 'text');
           this.weight.classList.add("form-control");
           this.weight.value = 0;
-          var ths = this;
           this.weight.onchange = function() {
+            ths.group.onchange();
             if (ths.weight.value == "") {
               ths.weight.value = 0;
             }
@@ -63,11 +68,15 @@ class TWRow {
 
     // create guppy backend
     this.guppy = new Guppy(div.id);
+    this.guppy.event('change', function() {
+      ths.group.onchange();
+    })
 
     // add all of the necessary symbols and functions
     for (var func in SYMBOLS) {
       this.guppy.engine.add_symbol(func, SYMBOLS[func]);
     }
+
 
   }
 
@@ -77,14 +86,84 @@ class TWRow {
   }
 
   get_weight() {
-    return Number(this.weight.value);
+    return this.parser.parse(this.weight.value);
   }
 
   set_weight(num) {
     this.weight.value = num;
   }
 
+  split_into_list(functions_string) {
+    var open_count = 0;
+    var closed_count = 0;
+    for (var i = 1; i < functions_string.length; i++) {
+      if (functions_string[i] == '(') {
+        open_count++;
+      } else if (functions_string[i] == ')') {
+        closed_count++;
+      }
+      if (open_count != 0 && open_count == closed_count) {
+        var first;
+        if (functions_string[1] != "(") {
+          // base case -- only two functions are composed
+          first = [functions_string.substring(1, i + 1)];
+        } else {
+          // recursively split (find the next set of parenthesis)
+          first = [...this.split_into_list(functions_string.substring(1, i + 1))];
+        }
+        return [...first,
+                functions_string.substring(i + 4, functions_string.length - 1)];
+      }
+    }
+  }
+
+  get_arg_map(f_list) {
+    var arg_map = [];
+    for (var i = 0; i < f_list.length; i++) {
+      var o_paren = f_list[i].indexOf("(");
+      arg_map.push([f_list[i].substring(0, o_paren),
+                    f_list[i].substring(o_paren + 1, f_list[i].length - 1).split(",")]);
+    }
+    return arg_map;
+  }
+
   get_transformation() {
+    var entire_string = this.guppy.engine.get_content('text');
+
+    if (entire_string == "") {
+      return null;
+    }
+
+    // split functions
+    var functions_string_list;
+    if (entire_string[0] != "(") {
+      // only one function
+      functions_string_list = [entire_string];
+    } else {
+      functions_string_list = this.split_into_list(entire_string);
+    }
+
+    // create a list of ["function_name", [args]]
+    var arg_map = this.get_arg_map(functions_string_list);
+
+    // parse arg lists
+    var parsed_arg_map = [];
+    for (var i = 0; i < arg_map.length; i++) {
+      var new_list = [];
+      for (var j = 0; j < arg_map[i][1].length; j++) {
+        new_list.push(this.parser.parse(arg_map[i][1][j]));
+      }
+      parsed_arg_map.push([arg_map[i][0], new_list]);
+    }
+
+    // get list of functions (evaluate meta functions)
+    var functions = [];
+    for (var i = 0; i < parsed_arg_map.length; i++) {
+      functions.push(string_to_function[parsed_arg_map[i][0]](...parsed_arg_map[i][1]));
+    }
+
+    // compose and return
+    return compose(functions);
 
   }
 
@@ -101,13 +180,14 @@ class TWRowGroup {
     this.table.style.width = "100%";
     this.all_rows = [];
     this.parser = parser;
+    this.onchange = function() {};
   }
 
   add_row() {
     // find an available ID
     var id = this.all_rows.length;
     // create and place a new row
-    var new_row = new TWRow(id, this.table);
+    var new_row = new TWRow(id, this.table, this.parser, this);
     this.all_rows.push(new_row);
     // this.table.appendChild(new_row.tr); <--- this is now done in TWRow (thanks a lot, Guppy :( )
   }
@@ -127,20 +207,54 @@ class TWRowGroup {
     // get content
 
     var weights = [];
+    var transformations = [];
+
     for (var i = 0; i < this.all_rows.length; i++) {
-      weights.push(this.all_rows[i].get_weight());
+      var t = this.all_rows[i].get_transformation();
+      if (t != null) {
+        weights.push(this.all_rows[i].get_weight());
+        transformations.push(t);
+      }
     }
 
-
-
-    // use parser to parse math
-
     // return list of transformations
-    return {transformations: [M(0,0,0,0.16,0,0),
-                              M(0.85,0.04,-0.04,0.85,0,1.60),
-                              M(0.20,-0.26,0.23,0.22,0,1.60),
-                              M(-0.15,0.28,0.26,0.24,0,0.44,0.07)],
-            weights: weights};
+    return {transformations: transformations, weights: weights};
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+// (((Scale(3) * Scale(2)) * Scale(1)) * Scale(0))
+//
+// ((Scale(3) * Scale(2)) * Scale(1)) + Scale(0)
+//
+// (Scale(3) * Scale(2)) + Scale(1) + Scale(0)

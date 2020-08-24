@@ -18,8 +18,6 @@
       min-width: 250px;
     }
 
-
-
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
@@ -28,10 +26,6 @@
     canvas {
       width: 100%;
       border: 1px solid black;
-    }
-
-    h3 {
-      margin-top: 40px;
     }
 
   </style>
@@ -63,7 +57,7 @@
 </nav>
 
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       <h1>Playground</h1>
     </div>
@@ -75,7 +69,7 @@
     </div>
   </div> -->
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" style="border-radius: 20px; border: 1px solid lightgrey; padding-bottom: 15px;">
       <h3>
         Transformations and Weights
         <a data-toggle="modal" data-target="#transformations-modal" style="font-size: .75em" href="#transformations-modal">
@@ -143,7 +137,7 @@
         <span class="glyphicon glyphicon-plus"></span>
       </button>
 
-      <h3>Variable Sliders</h3>
+      <h3 style="margin-top: 60px;">Variable Sliders</h3>
       <div id="variable-row-container" style="width: 100%"></div>
       <button type="button" class="btn btn-default" onclick="variable_group.add_next_variable();">
         <span class="glyphicon glyphicon-plus"></span>
@@ -163,27 +157,23 @@
       <canvas width="1000" height="1000" id="fractal"></canvas>
       <p class="text-center" id="hover-loc"></p>
       <p id="fractal-error" style="color: red"></p>
-      <div class="btn-group" style="margin-top: 20px; width: 100%;">
+      <!-- <div class="btn-group" style="margin-top: 20px; width: 100%;">
         <button id="start-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.start(); document.getElementById('pause-fractal').disabled = false; this.disabled = true;">
           <span class="glyphicon glyphicon-play"></span>
         </button>
         <button id="pause-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.pause(); document.getElementById('start-fractal').disabled = false; this.disabled = true;" disabled>
           <span class="glyphicon glyphicon-pause"></span>
         </button>
-      </div>
+      </div> -->
       <div class="input-group" style="margin-top: 20px;">
-        <span class="input-group-addon">Refresh Rate (ms)</span>
-        <input type="text" class="form-control" onchange="fractal.set_refresh_rate(this.value)" value="10"/>
-      </div>
-      <div class="input-group" style="margin-top: 20px;">
-        <span class="input-group-addon">Number of Points to Plot</span>
-        <input type="text" class="form-control" onchange="fractal.set_number_of_points(this.value)" value="10000"/>
+        <span class="input-group-addon">Max Number of Points to Plot</span>
+        <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
       </div>
       <div class="input-group" style="margin-top: 20px;">
         <span class="input-group-addon">Zoom</span>
         <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
       </div>
-      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="reset_settings()">Reset Settings</button>
+      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="cart.recenter()">Recenter</button>
     </div>
   </div>
   <!-- <br><br><bR><br><br>
@@ -207,7 +197,7 @@
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
     };
-    cart.reset_settings();
+    cart.recenter();
 
     // update diaplay
     setInterval(function() {
@@ -245,56 +235,30 @@
     tw_row_group.all_rows[3].set_weight(0.07);
 
 
-
     // barnsley
     var barnsley = {transformations: [M(0,0,0,0.16,0,0),
                                       M(0.85,0.04,-0.04,0.85,0,1.60),
                                       M(0.20,-0.26,0.23,0.22,0,1.60),
                                       M(-0.15,0.28,0.26,0.24,0,0.44,0.07)],
-                    weights: [0, 0, 0, 0]};
+                    weights: [0.01, 0.85, 0.07, 0.07]};
 
     // create fractal
     var fractal_error_el =  document.getElementById('fractal-error');
     var fractal = new Fractal(cart, fractal_error_el, barnsley);
 
-    setInterval(function() {
+
+    function update() {
       try {
         fractal.set_TW(tw_row_group.get_TW());
       } catch (e) {
-        console.log(e);
+        // TODO: do something with this error?
       }
-    }, 10);
+    }
 
 
+    variable_group.onchange = update;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // td_1.event("change",function(e){
-  //   try {
-  //     document.getElementById('transformations').innerHTML = td_1.engine.get_content("ast");
-  //   } catch(e) {
-  //     console.log(e);
-  //   }
-  // });
-
-
-
-
+    tw_row_group.onchange = update;
 
 
 </script>

@@ -125,12 +125,15 @@ class VariableSlider {
     }
     this.name_input.onchange = function() {
       vars.set_value(vars.name_input.value);
+      vars.group.onchange();
     }
     this.slider.oninput = function() {
       vars.set_value(vars.slider.value);
+      vars.group.onchange();
     }
     this.lower_bound_input.onchange = function() {
       vars.set_min(vars.lower_bound_input.value);
+      console.log(vars.lower_bound_input.value);
     }
     this.upper_bound_input.onchange = function() {
       vars.set_max(vars.upper_bound_input.value);
@@ -182,7 +185,7 @@ class VariableSlider {
   }
 
   get_min() {
-    return this.slider.min;
+    return Number(this.slider.min);
   }
 
   set_max(m) {
@@ -201,7 +204,7 @@ class VariableSlider {
   }
 
   get_max() {
-    return this.slider.max;
+    return Number(this.slider.max);
   }
 
   set_value(val) {
@@ -249,6 +252,7 @@ class VariableGroup {
   constructor(container) {
     this.container = container;
     this.variables = {};
+    this.onchange = function() {};
   }
 
   var_name_exists(name) {

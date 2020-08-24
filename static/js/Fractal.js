@@ -16,15 +16,10 @@ class Fractal {
 
     this.tw;
     this.running_weights;
+
+    this.max_number_of_points = 10000;
+
     this.set_TW(tw);
-
-    this.number_of_points = 10000;
-    this.refresh_rate = 10;
-
-    this.updateID;
-    this.moving = false;
-
-
   }
 
   set_error(num) {
@@ -87,6 +82,8 @@ class Fractal {
       }
       this.running_weights.shift();
 
+      this.plot_fractal();
+
     } else {
       set_error(2);
       console.log("transformations ("  + which_not_c_maps + ") are not contraction mappings");
@@ -118,42 +115,40 @@ class Fractal {
     return which;
   }
 
+  // start() {
+  //   this.pause();
+  //   frac.plot_fractal()
+  //   this.moving = true;
+  // }
 
-  start() {
-    this.pause();
-    var frac = this;
-    this.updateID = setInterval(function() {frac.plot_fractal()}, this.refresh_rate);
-    this.moving = true;
-  }
+  // pause() {
+  //   clearInterval(this.updateID);
+  //   this.moving = false;
+  // }
 
-  pause() {
-    clearInterval(this.updateID);
-    this.moving = false;
-  }
-
-  set_number_of_points(num) {
+  set_max_number_of_points(num) {
     if (isNaN(num) || num <= 0 || Math.round(num) != num) {
       this.set_error(0);
     } else {
       this.remove_error(0);
-      this.number_of_points = num;
-      if (this.moving) {
-        this.start();
-      }
+      this.max_number_of_points = num;
+
+      this.plot_fractal();
+
     }
   }
 
-  set_refresh_rate(num) {
-    if (isNaN(num) || num <= 0 || Math.round(num) != num) {
-      this.set_error(1);
-    } else {
-      this.remove_error(1);
-      this.refresh_rate = num;
-      if (this.moving) {
-        this.start();
-      }
-    }
-  }
+  // set_refresh_rate(num) {
+  //   if (isNaN(num) || num <= 0 || Math.round(num) != num) {
+  //     this.set_error(1);
+  //   } else {
+  //     this.remove_error(1);
+  //     this.refresh_rate = num;
+  //     if (this.moving) {
+  //       this.start();
+  //     }
+  //   }
+  // }
 
   get_transformation_number() {
     var r = Math.random();
@@ -169,7 +164,7 @@ class Fractal {
     cart.clear();
     // chaos game
     var p = {x: 1, y: 1};
-    for (var i = 0; i < this.number_of_points; i++) {
+    for (var i = 0; i < this.max_number_of_points; i++) {
       p = this.tw.transformations[this.get_transformation_number()](p);
       this.cartesian.plot(p.x, p.y);
     }
