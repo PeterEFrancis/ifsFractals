@@ -155,8 +155,8 @@
     <div class="col-md-6">
       <h3>Fractal</h3>
       <canvas width="1000" height="1000" id="fractal"></canvas>
-      <p class="text-center" id="hover-loc"></p>
-      <p id="fractal-error" style="color: red"></p>
+      <p class="text-center" id="hover-loc">&nbsp;</p>
+      <p id="fractal-error" style="color: red">&nbsp;</p>
       <!-- <div class="btn-group" style="margin-top: 20px; width: 100%;">
         <button id="start-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.start(); document.getElementById('pause-fractal').disabled = false; this.disabled = true;">
           <span class="glyphicon glyphicon-play"></span>
@@ -181,13 +181,18 @@
 
 </div>
 
+<!-- classes -->
 <script src="static/js/Cartesian.js"></script>
-<script src="static/js/transformations.js"></script>
 <script src="static/js/VariableGroup.js"></script>
+<script src="static/js/Fractal.js"></script>
 <script src="static/js/Parser.js"></script>
 <script src="static/js/TWRow.js"></script>
+
+<!-- auxilliary -->
+<script src="static/js/transformations.js"></script>
 <script src="static/js/matrix.js"></script>
-<script src="static/js/Fractal.js"></script>
+<script src="static/js/example_fractal_info.js"></script>
+
 
 
 <script>
@@ -197,43 +202,23 @@
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
     };
-    cart.zoom_to(80);
-    cart.center_at({x:0,y:5});
-
-    // update diaplay
-    setInterval(function() {
+    cart.on_mouse_over = function() {
       var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
       document.getElementById('hover-loc').innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth)  + "," + (Math.round(cart.hover.y * depth) / depth) + ")";
-    }, 10);
-
+    };
+    cart.on_mouse_out = function() {
+      document.getElementById('hover-loc').innerHTML = "&nbsp;";
+    }
 
     // create variable group
     var variable_group = new VariableGroup(document.getElementById('variable-row-container'));
-    variable_group.add_next_variable();
 
     // create math parser
     var parser = new Parser(variable_group);
 
-
     // create transformation-weight row group
     var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser);
-    for (var i = 0; i < 4; i++) {
-      tw_row_group.add_row();
-    }
 
-    // set barnsley fern defaults
-    tw_row_group.all_rows[0].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0</e></c><c><e>0</e></c><c><e>0</e></c><c><e>0.16</e></c><c><e>0</e></c><c><e>0</e></c></f><e></e></m>');
-    tw_row_group.all_rows[0].guppy.render(true);
-    tw_row_group.all_rows[0].set_weight(0.01);
-    tw_row_group.all_rows[1].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0.85</e></c><c><e>0.04</e></c><c><e>-0.04</e></c><c><e>0.85</e></c><c><e>0</e></c><c><e>1.6</e></c></f><e></e></m>');
-    tw_row_group.all_rows[1].guppy.render(true);
-    tw_row_group.all_rows[1].set_weight(0.85);
-    tw_row_group.all_rows[2].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>0.20</e></c><c><e>-0.26</e></c><c><e>0.23</e></c><c><e>0.22</e></c><c><e>0</e></c><c><e>1.6</e></c></f><e></e></m>');
-    tw_row_group.all_rows[2].guppy.render(true);
-    tw_row_group.all_rows[2].set_weight(0.07);
-    tw_row_group.all_rows[3].guppy.engine.set_content('<m v="1.2.0"><e></e><f type="M" group="function"><b p="latex">\\text{M}\\left(<r ref="1"/>, <r ref="2"/>, <r ref="3"/>, <r ref="4"/>, <r ref="5"/>, <r ref="6"/>\\right)</b><b p="text">M($1, $2, $3, $4, $5, $6)</b><c><e>-0.15</e></c><c><e>0.28</e></c><c><e>0.26</e></c><c><e>0.24</e></c><c><e>0</e></c><c><e>0.44</e></c></f><e></e></m>');
-    tw_row_group.all_rows[3].guppy.render(true);
-    tw_row_group.all_rows[3].set_weight(0.07);
 
 
     // create fractal error catch
@@ -242,7 +227,7 @@
       console.log(msg);
     }
     function clear_error() {
-      document.getElementById('fractal-error').innerHTML = '';
+      document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
 
 
@@ -261,23 +246,41 @@
     tw_row_group.onchange = update;
 
 
-    // barnsley
-    var barnsley = {transformations: [M(0,0,0,0.16,0,0),
-                                      M(0.85,0.04,-0.04,0.85,0,1.60),
-                                      M(0.20,-0.26,0.23,0.22,0,1.60),
-                                      M(-0.15,0.28,0.26,0.24,0,0.44)],
-                    weights: [0.01, 0.85, 0.07, 0.07]};
 
-    // create fractal
+
+
+
+
+    // set default fractal
+
+    const DEFAULT = SERPINSKI;
+
     try {
-      var fractal = new Fractal(cart, barnsley);
+      var fractal = new Fractal(cart, DEFAULT);
       clear_error();
     } catch(e) {
       report_error(e);
     }
 
+    for (var i = 0; i < DEFAULT.weights.length; i++) {
+      tw_row_group.add_row();
+      tw_row_group.all_rows[i].guppy.engine.set_content(DEFAULT.guppy_xml[i]);
+      tw_row_group.all_rows[i].guppy.engine.end();
+      tw_row_group.all_rows[i].guppy.render(true);
+      tw_row_group.all_rows[i].set_weight(DEFAULT.weights[i]);
+    }
 
+    cart.zoom_to(DEFAULT.zoom);
+    cart.center_at(DEFAULT.center);
 
+    for (var var_name in DEFAULT.vars) {
+      var v = variable_group.add_next_variable();
+      v.set_min(DEFAULT.vars[var_name].min);
+      v.set_max(DEFAULT.vars[var_name].max);
+      v.set_value(DEFAULT.vars[var_name].val);
+    }
+
+    update();
 
 
 </script>

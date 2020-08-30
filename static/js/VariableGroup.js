@@ -109,13 +109,14 @@ class VariableSlider {
 
 
     // set default values
-    this.name_input.value = 1;
+    this.name_input.value = 0.5;
     this.lower_bound_input.value = 0;
     this.slider.min = 0;
     this.upper_bound_input.value = 1;
     this.slider.max = 1;
     this.step_input.value = 0.01;
     this.slider.step = 0.01;
+    this.slider.value = 0.5;
 
 
     // make elements active
@@ -270,6 +271,7 @@ class VariableGroup {
       line.classList.add('variable-separator');
       this.container.appendChild(line);
       this.onchange();
+      return new_vars;
     }
   }
 
@@ -284,7 +286,7 @@ class VariableGroup {
       for (var i = 0; i < 26; i++) {
         var letter = "abcdefghijklmnopqrstuvwxyz".substring(i, i + 1);
         if (!this.var_name_exists(letter)) {
-          this.add_variable(letter);
+          return this.add_variable(letter);
           break;
         }
       }

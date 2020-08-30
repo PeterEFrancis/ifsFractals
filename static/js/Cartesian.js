@@ -7,6 +7,8 @@ class Cartesian {
     this.set_color("black");
     this.zoom = 50;
     this.on_zoom_change = function() {};
+    this.on_mouse_over = function() {};
+    this.on_mouse_out = function() {};
     this.center = {x:0, y:0};
     this.points = [];
     this.clear();
@@ -27,6 +29,7 @@ class Cartesian {
     this.canvas.addEventListener('mouseout', function() {
       cart.hover = {x:null, y:null};
       cart.mousedown = false;
+      cart.on_mouse_out();
     });
     this.canvas.addEventListener('mousemove', function(e) {
       var rect = canvas.getBoundingClientRect();
@@ -35,10 +38,11 @@ class Cartesian {
       if (cart.mousedown) {
         var rp = cart.get_real_point(user_x, user_y);
         cart.center_at({x:cart.center.x - (rp.x - cart.mousedown_loc.x),
-                       y:cart.center.y - (rp.y - cart.mousedown_loc.y)});
+                        y:cart.center.y - (rp.y - cart.mousedown_loc.y)});
       } else {
         cart.hover = cart.get_real_point(user_x, user_y);
       }
+      cart.on_mouse_over();
     });
     this.canvas.addEventListener('dblclick', function(e) {
       // recenter

@@ -70,15 +70,3 @@ function compose(ts) {
     return p;
   }
 }
-
-
-var string_to_function = {'Scale':Scale,
-                          'ScaleX':ScaleX,
-                          'ScaleY':ScaleY,
-                          'ScaleXY':ScaleXY,
-                          'Translate':Translate,
-                          'Rotate':Rotate,
-                          'ShearX':ShearX,
-                          'ShearY':ShearY,
-                          'M':M
-                        };

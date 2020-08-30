@@ -15,6 +15,8 @@ class TWRow {
 
   constructor(id, row_container, parser, group) {
 
+    this.id = id;
+
     var ths = this;
 
     this.parser = parser;
@@ -82,6 +84,13 @@ class TWRow {
 
   delete() {
     this.tr.remove();
+    for (var i = 0; i < this.group.all_rows.length; i++) {
+      if (this.id == this.group.all_rows[i].id) {
+        this.group.all_rows.splice(i,1);
+        break;
+      }
+    }
+    this.group.onchange();
     delete this;
   }
 
@@ -128,14 +137,25 @@ class TWRow {
   }
 
   get_transformation() {
-    
+
     try {
       var entire_string = this.guppy.engine.get_content('text');
-
-      if (entire_string == "") {
-        return null;
+    } catch(e) {
+      var entire_string = "";
+      if (this.guppy.engine.get_content('latex') == " ") {
+        throw "[ERROR: TWROW.js] transformation cannot be left empty";
+      } else {
+        throw "[ERROR: TWROW.js] there was a (guppy) error understanding the transfomation input.";
       }
+    }
 
+
+    if (entire_string == "") {
+      return null;
+    }
+
+
+    try {
       // split functions
       var functions_string_list;
       if (entire_string[0] != "(") {
@@ -144,10 +164,19 @@ class TWRow {
       } else {
         functions_string_list = this.split_into_list(entire_string);
       }
+    } catch(e) {
+      throw "[ERROR: TWROW.js] there was an error dicerning which transformations you are trying to compose";
+    }
 
+    try {
       // create a list of ["function_name", [args]]
       var arg_map = this.get_arg_map(functions_string_list);
+    } catch(e) {
+      throw "[ERROR: TWROW.js] there was an error understanding a transformation argument";
+    }
 
+
+    try {
       // parse arg lists
       var parsed_arg_map = [];
       for (var i = 0; i < arg_map.length; i++) {
@@ -157,19 +186,23 @@ class TWRow {
         }
         parsed_arg_map.push([arg_map[i][0], new_list]);
       }
+    } catch(e) {
+      throw "[ERROR: TWROW.js] there was an error parsing an argument";
+    }
 
+
+    try {
       // get list of functions (evaluate meta functions)
       var functions = [];
       for (var i = 0; i < parsed_arg_map.length; i++) {
-        functions.push(string_to_function[parsed_arg_map[i][0]](...parsed_arg_map[i][1]));
+        functions.push(eval(parsed_arg_map[i][0])(...parsed_arg_map[i][1]));
       }
+    } catch(e) {
+      throw "[ERROR: TWROW.js] there was an error evaluating a function";
+    }
 
-      // compose and return
-      return compose(functions);
-
-  } catch(e) {
-    throw "there was an error understanding the transfomation input";
-  }
+    // compose and return
+    return compose(functions);
 
   }
 
@@ -191,7 +224,21 @@ class TWRowGroup {
 
   add_row() {
     // find an available ID
-    var id = this.all_rows.length;
+    var id = 0;
+    while (true) {
+      var matched = false;
+      for (var i = 0; i < this.all_rows.length; i++) {
+        if (this.all_rows[i].id == id) {
+          matched = true;
+          break;
+        }
+      }
+      if (matched) {
+        id++;
+      } else {
+        break;
+      }
+    }
     // create and place a new row
     var new_row = new TWRow(id, this.table, this.parser, this);
     this.all_rows.push(new_row);
