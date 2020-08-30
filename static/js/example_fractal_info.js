@@ -27,6 +27,11 @@ const BARNSLEY_FERN = {
 };
 
 
+
+
+
+
+
 const SERPINSKI = {
   guppy_xml: [
     '<m v="1.2.0"><e></e><f type="Scale" group="function"><b p="latex">\\text{Scale}\\left(<r ref="1"/>\\right)</b><b p="text">Scale($1)</b><c><e>0.5</e></c></f><e></e></m>',

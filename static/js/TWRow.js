@@ -143,9 +143,9 @@ class TWRow {
     } catch(e) {
       var entire_string = "";
       if (this.guppy.engine.get_content('latex') == " ") {
-        throw "[ERROR: TWROW.js] transformation cannot be left empty";
+        throw "[ERROR: TWRow.js] transformation cannot be left empty";
       } else {
-        throw "[ERROR: TWROW.js] there was a (guppy) error understanding the transfomation input.";
+        throw "[ERROR: TWRow.js] there was a (guppy) error understanding the transfomation input.";
       }
     }
 
@@ -165,14 +165,14 @@ class TWRow {
         functions_string_list = this.split_into_list(entire_string);
       }
     } catch(e) {
-      throw "[ERROR: TWROW.js] there was an error dicerning which transformations you are trying to compose";
+      throw "[ERROR: TWRow.js] there was an error dicerning which transformations you are trying to compose";
     }
 
     try {
       // create a list of ["function_name", [args]]
       var arg_map = this.get_arg_map(functions_string_list);
     } catch(e) {
-      throw "[ERROR: TWROW.js] there was an error understanding a transformation argument";
+      throw "[ERROR: TWRow.js] there was an error understanding a transformation argument";
     }
 
 
@@ -198,7 +198,7 @@ class TWRow {
         functions.push(eval(parsed_arg_map[i][0])(...parsed_arg_map[i][1]));
       }
     } catch(e) {
-      throw "[ERROR: TWROW.js] there was an error evaluating a function";
+      throw "[ERROR: TWRow.js] there was an error evaluating a function";
     }
 
     // compose and return
@@ -275,39 +275,3 @@ class TWRowGroup {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// (((Scale(3) * Scale(2)) * Scale(1)) * Scale(0))
-//
-// ((Scale(3) * Scale(2)) * Scale(1)) + Scale(0)
-//
-// (Scale(3) * Scale(2)) + Scale(1) + Scale(0)
