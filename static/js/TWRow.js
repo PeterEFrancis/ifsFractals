@@ -242,7 +242,8 @@ class TWRowGroup {
     // create and place a new row
     var new_row = new TWRow(id, this.table, this.parser, this);
     this.all_rows.push(new_row);
-    // this.table.appendChild(new_row.tr); <--- this is now done in TWRow (thanks a lot, Guppy :( )
+    // this.table.appendChild(new_row.tr); <--- this is now done in TWRow -- thanks a lot, Guppy :(
+    this.onchange();
   }
 
   get_all_content(type) {
@@ -263,10 +264,13 @@ class TWRowGroup {
     var transformations = [];
 
     for (var i = 0; i < this.all_rows.length; i++) {
-      var t = this.all_rows[i].get_transformation();
-      if (t != null) {
-        weights.push(this.all_rows[i].get_weight());
-        transformations.push(t);
+      var w = this.all_rows[i].get_weight();
+      if (w != 0) {
+        var t = this.all_rows[i].get_transformation();
+        if (t != null) {
+          weights.push(w);
+          transformations.push(t);
+        }
       }
     }
 
