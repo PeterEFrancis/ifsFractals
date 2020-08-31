@@ -27,11 +27,6 @@ const BARNSLEY_FERN = {
 };
 
 
-
-
-
-
-
 const SERPINSKI = {
   guppy_xml: [
     '<m v="1.2.0"><e></e><f type="Scale" group="function"><b p="latex">\\text{Scale}\\left(<r ref="1"/>\\right)</b><b p="text">Scale($1)</b><c><e>0.5</e></c></f><e></e></m>',
@@ -49,7 +44,6 @@ const SERPINSKI = {
   zoom: 640,
   center: {x:0.5, y:0.5}
 }
-
 
 
 const VON_KOCH = {
@@ -71,3 +65,9 @@ const VON_KOCH = {
   zoom: 640,
   center: {x: 0.5, y: 0.5}
 }
+
+
+
+
+
+const EXAMPLES = [BARNSLEY_FERN, SERPINSKI, VON_KOCH];
