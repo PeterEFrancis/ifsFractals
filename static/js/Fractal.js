@@ -17,7 +17,7 @@ class Fractal {
   set_TW(tw) {
 
     if (tw.transformations.legnth == 0) {
-      throw "no transformations defined";
+      throw "[ERROR: Fractal.js] no transformations defined";
     }
 
     // check for non-contraction mappings
@@ -49,7 +49,7 @@ class Fractal {
       this.plot_fractal();
 
     } else {
-      throw "the transformations listed [" + which_not_c_maps + "] are not a contraction mappings"
+      throw "[ERROR: Fractal.js] the transformations listed [" + which_not_c_maps + "] are not a contraction mappings"
     }
 
 
@@ -83,7 +83,7 @@ class Fractal {
 
   set_max_number_of_points(num) {
     if (isNaN(num) || num <= 0 || Math.round(num) != num) {
-      throw "number of points to plot must be a whole positive number";
+      throw "[ERROR: Fractal.js] number of points to plot must be a whole positive number";
     } else {
       this.max_number_of_points = num;
 
@@ -100,17 +100,64 @@ class Fractal {
         return i;
       }
     }
-    throw "error with choosing random transformation";
+    throw "[ERROR: Fractal.js] error with choosing random transformation";
+  }
+
+  get_next_point(p) {
+    return this.tw.transformations[this.get_transformation_number()](p);
   }
 
   plot_fractal() {
     cart.clear();
     // chaos game
     var p = {x: 1, y: 1};
+    // first throw some starter points away so you start to converge
+    for (var i = 0; i < 200; i++) {
+      p = this.get_next_point(p);
+    }
+    // then start to plot
     for (var i = 0; i < this.max_number_of_points; i++) {
-      p = this.tw.transformations[this.get_transformation_number()](p);
+      p = this.get_next_point(p);
       this.cartesian.plot(p.x, p.y);
     }
+  }
+
+
+  get_bounds() {
+    var bounds = {
+      lb_x: Infinity,
+      lb_y: Infinity,
+      ub_x: -Infinity,
+      ub_y: -Infinity
+    }
+    var p = {x: 1, y: 1};
+    // first throw some starter points away so you start to converge
+    for (var i = 0; i < 200; i++) {
+      p = this.get_next_point(p);
+    }
+    // then go throught a BUNCH
+    for (var i = 0; i < 1000000; i++) {
+      p = this.get_next_point(p);
+      if (p.x > bounds.ub_x) bounds.ub_x = p.x;
+      if (p.x < bounds.lb_x) bounds.lb_x = p.x;
+      if (p.y > bounds.ub_y) bounds.ub_y = p.y;
+      if (p.y < bounds.lb_y) bounds.lb_y = p.y;
+    }
+    return bounds;
+  }
+
+
+  calculate_dimension() {
+
+    // Algorithm:
+    //   - plot an ample amount of points of the fractal on a fine grid
+    //   - count the number of pixels are dark (let this number be A)
+    //   - plot again on a grid with twice the number of pixels in each direction (4 times total)
+    //   - count the number of pixels again (let this number be B)
+    //   - the dimension D of the fractal must satisfy B / A = 2 ^ D, so D = log_2(B/A)
+
+
+
   }
 
 

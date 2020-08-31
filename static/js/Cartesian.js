@@ -5,7 +5,7 @@ class Cartesian {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
     this.set_color("black");
-    this.zoom = 50;
+    this.zoom = 50; // image / real
     this.on_zoom_change = function() {};
     this.on_mouse_over = function() {};
     this.on_mouse_out = function() {};
@@ -103,10 +103,12 @@ class Cartesian {
     this.on_zoom_change();
   }
 
-  plot(realX, realY) {
+  plot(realX, realY, dontsave) {
     var plot_point = this.get_plot_point(realX, realY);
     this.ctx.fillRect(plot_point.x, plot_point.y, 1, 1);
-    this.points.push([realX, realY]);
+    if (!dontsave) {
+      this.points.push([realX, realY]);
+    }
   }
 
   get_plot_point(realX, realY) {
@@ -127,9 +129,34 @@ class Cartesian {
   }
 
 
-  // TODO:
-  // get bounds
-  // is inside bounds?
+  set_with_bounds(bounds, padding) {
+    // zoom out and center, so all of the bounds are included, with an optional padding
+
+    // center at center of bounds
+    const new_center = {
+      x: (bounds.ub_x - bounds.lb_x) / 2,
+      y: (bounds.ub_y - bounds.lb_y) / 2
+    };
+    this.center_at(new_center);
+
+    // look through distances from center to bounds (plus possible padding)
+    var effective_bounds = {};
+    for (var b in bounds) {
+      effective_bounds[b] = bounds[b] + (padding && isNaN(padding) ? padding[b] : 0);
+    }
+    var new_zoom = Infinity;
+    for (var v in effective_bounds) {
+      const this_zoom = ((v[3] == "x" ? this.canvas.width : this.canvas.height) / 2) / Math.abs(effective_bounds[v] - new_center[v[3]]);
+      if (this_zoom < new_zoom) {
+        new_zoom = this_zoom;
+      }
+    }
+    if (padding && !isNaN(padding)) {
+      // padding then specifies a zoom multiplier
+      new_zoom = new_zoom * padding;
+    }
+    this.zoom_to(new_zoom);
+  }
 
 
 

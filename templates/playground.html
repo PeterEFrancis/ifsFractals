@@ -166,7 +166,6 @@
 
     </div>
     <div class="col-md-6">
-      <h3>Fractal</h3>
       <canvas width="1000" height="1000" id="fractal"></canvas>
       <p class="text-center" id="hover-loc">&nbsp;</p>
       <p id="fractal-error" style="color: red">&nbsp;</p>
@@ -186,7 +185,7 @@
         <span class="input-group-addon">Zoom</span>
         <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
       </div>
-      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="cart.recenter()">Recenter</button>
+      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
     </div>
   </div>
   <!-- <br><br><bR><br><br>
@@ -254,11 +253,6 @@
     }
 
 
-    variable_group.onchange = update;
-
-    tw_row_group.onchange = update;
-
-
 
 
 
@@ -269,7 +263,7 @@
     const DEFAULT = VON_KOCH;
 
     try {
-      var fractal = new Fractal(cart, DEFAULT);
+    var fractal = new Fractal(cart, DEFAULT);
       clear_error();
     } catch(e) {
       report_error(e);
@@ -283,15 +277,25 @@
       tw_row_group.all_rows[i].set_weight(DEFAULT.weights[i]);
     }
 
-    cart.zoom_to(DEFAULT.zoom);
-    cart.center_at(DEFAULT.center);
-
     for (var var_name in DEFAULT.vars) {
       var v = variable_group.add_next_variable();
       v.set_min(DEFAULT.vars[var_name].min);
       v.set_max(DEFAULT.vars[var_name].max);
       v.set_value(DEFAULT.vars[var_name].val);
     }
+
+
+
+    // once the fractal is all set, then we can set it to update on change
+
+    variable_group.onchange = update;
+
+    tw_row_group.onchange = update;
+
+
+    cart.zoom_to(DEFAULT.zoom);
+    cart.center_at(DEFAULT.center);
+
 
     update();
 
