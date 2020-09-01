@@ -76,7 +76,6 @@ class Cartesian {
 
   clear() {
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.draw_origin();
     this.points = [];
   }
 

@@ -186,6 +186,13 @@
         <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
       </div>
       <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
+      <br>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" onclick="document.getElementById('dimension').value = fractal.calculate_dimension();">Calculate Dimension</button>
+        </span>
+        <input id="dimension" class="form-control" readonly/>
+      </div>
     </div>
   </div>
   <!-- <br><br><bR><br><br>

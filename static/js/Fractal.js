@@ -108,7 +108,7 @@ class Fractal {
   }
 
   plot_fractal() {
-    cart.clear();
+    this.cartesian.clear();
     // chaos game
     var p = {x: 1, y: 1};
     // first throw some starter points away so you start to converge
@@ -146,8 +146,16 @@ class Fractal {
     return bounds;
   }
 
+  count_dark_pixels() {
+    var count = 0;
+    const pixel_data = this.cartesian.ctx.getImageData(0, 0, this.cartesian.canvas.width, this.cartesian.canvas.height).data;
+    for (var i = 0; i < pixel_data.length; i+= 4) {
+      count = count + ((pixel_data[i] + pixel_data[i + 1] + pixel_data[i + 2] + pixel_data[i + 3]) > 0 ? 1 : 0);
+    }
+    return count;
+  }
 
-  calculate_dimension() {
+  calculate_dimension(accuracy) {
 
     // Algorithm:
     //   - plot an ample amount of points of the fractal on a fine grid
@@ -156,11 +164,25 @@ class Fractal {
     //   - count the number of pixels again (let this number be B)
     //   - the dimension D of the fractal must satisfy B / A = 2 ^ D, so D = log_2(B/A)
 
+    const canvas = document.createElement('canvas');
+    canvas.width = 1000;
+    canvas.height = 1000;
 
+    const cart = new Cartesian(canvas);
+    const fract = new Fractal(cart, this.tw);
 
+    cart.set_with_bounds(fract.get_bounds());
+
+    fract.set_max_number_of_points(300000); // auto plots
+    const num_dark_2 = fract.count_dark_pixels();
+
+    cart.zoom_to(cart.zoom / 2);
+
+    fract.set_max_number_of_points(100000); // auto plots
+    const num_dark_1 = fract.count_dark_pixels();
+
+    return Math.log(num_dark_2/num_dark_1) / Math.log(2);
   }
-
-
 
 
 }
