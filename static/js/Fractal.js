@@ -165,20 +165,24 @@ class Fractal {
     //   - the dimension D of the fractal must satisfy B / A = 2 ^ D, so D = log_2(B/A)
 
     const canvas = document.createElement('canvas');
-    canvas.width = 1000;
-    canvas.height = 1000;
+    canvas.width = 3000;
+    canvas.height = 3000;
 
     const cart = new Cartesian(canvas);
+    cart.save = false;
     const fract = new Fractal(cart, this.tw);
 
     cart.set_with_bounds(fract.get_bounds());
 
-    fract.set_max_number_of_points(300000); // auto plots
+    fract.set_max_number_of_points(3000000); // auto plots
     const num_dark_2 = fract.count_dark_pixels();
 
-    cart.zoom_to(cart.zoom / 2);
+    canvas.width = 1500;
+    canvas.height = 1500;
 
-    fract.set_max_number_of_points(100000); // auto plots
+    cart.set_with_bounds(fract.get_bounds());
+    fract.plot_fractal();
+
     const num_dark_1 = fract.count_dark_pixels();
 
     return Math.log(num_dark_2/num_dark_1) / Math.log(2);

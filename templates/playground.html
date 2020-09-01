@@ -166,7 +166,7 @@
 
     </div>
     <div class="col-md-6">
-      <canvas width="1000" height="1000" id="fractal"></canvas>
+      <canvas id="fractal"></canvas>
       <p class="text-center" id="hover-loc">&nbsp;</p>
       <p id="fractal-error" style="color: red">&nbsp;</p>
       <!-- <div class="btn-group" style="margin-top: 20px; width: 100%;">
@@ -217,6 +217,8 @@
 <script>
 
     var canvas = document.getElementById('fractal');
+    canvas.width = 1000;
+    canvas.height = 1000;
     var cart = new Cartesian(canvas);
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
@@ -267,7 +269,7 @@
 
     // set default fractal
 
-    const DEFAULT = EXAMPLES[Math.floor(Math.random() * 3)];
+    const DEFAULT = DRAGON; // EXAMPLES[Math.floor(Math.random() * 3)];
 
     try {
     var fractal = new Fractal(cart, DEFAULT);

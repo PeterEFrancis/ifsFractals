@@ -6,6 +6,7 @@ class Cartesian {
     this.ctx = this.canvas.getContext("2d");
     this.set_color("black");
     this.zoom = 50; // image / real
+    this.save = true;
     this.on_zoom_change = function() {};
     this.on_mouse_over = function() {};
     this.on_mouse_out = function() {};
@@ -102,10 +103,10 @@ class Cartesian {
     this.on_zoom_change();
   }
 
-  plot(realX, realY, dontsave) {
+  plot(realX, realY) {
     var plot_point = this.get_plot_point(realX, realY);
     this.ctx.fillRect(plot_point.x, plot_point.y, 1, 1);
-    if (!dontsave) {
+    if (this.save) {
       this.points.push([realX, realY]);
     }
   }
@@ -133,8 +134,8 @@ class Cartesian {
 
     // center at center of bounds
     const new_center = {
-      x: (bounds.ub_x - bounds.lb_x) / 2,
-      y: (bounds.ub_y - bounds.lb_y) / 2
+      x: (bounds.ub_x + bounds.lb_x) / 2,
+      y: (bounds.ub_y + bounds.lb_y) / 2
     };
     this.center_at(new_center);
 
