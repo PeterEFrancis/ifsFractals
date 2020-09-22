@@ -212,13 +212,14 @@ class TWRow {
     const t_e2 = t({x:0, y:1});
     const t_e3 = t({x:0, y:0});
     return [
-      [t_e1.x, t_e2.x, t_e3.x],
-      [t_e1.y, t_e2.y, t_e3.y],
+      [t_e1.x - t_e3.x, t_e2.x - t_e3.x, t_e3.x],
+      [t_e1.y - t_e3.y, t_e2.y - t_e3.y, t_e3.y],
       [0, 0, 1]
     ];
   }
 
   get_factorization() {
+    //
 
   }
 
