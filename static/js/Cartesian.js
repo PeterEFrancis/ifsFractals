@@ -158,6 +158,11 @@ class Cartesian {
     this.zoom_to(new_zoom);
   }
 
-
+  download() {
+    var link = document.createElement('a');
+    link.download = 'ifs-fractals.png';
+    link.href = this.canvas.toDataURL();
+    link.click();
+  }
 
 }

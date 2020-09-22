@@ -206,6 +206,22 @@ class TWRow {
 
   }
 
+  get_matrix() {
+    const t = this.get_transformation();
+    const t_e1 = t({x:1, y:0});
+    const t_e2 = t({x:0, y:1});
+    const t_e3 = t({x:0, y:0});
+    return [
+      [t_e1.x, t_e2.x, t_e3.x],
+      [t_e1.y, t_e2.y, t_e3.y],
+      [0, 0, 1]
+    ];
+  }
+
+  get_factorization() {
+
+  }
+
 }
 
 
@@ -276,6 +292,22 @@ class TWRowGroup {
 
     // return list of transformations
     return {transformations: transformations, weights: weights};
+  }
+
+  get_matrices() {
+    var matrices = [];
+    for (var i in this.all_rows) {
+      matrices.push(this.all_rows[i].get_matrix());
+    }
+    return matrices;
+  }
+
+  get_weights() {
+    var w = [];
+    for (var i in this.all_rows) {
+      w.push(this.all_rows[i].get_weight());
+    }
+    return w;
   }
 
 }

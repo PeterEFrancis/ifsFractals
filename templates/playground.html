@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="shortcut icon" href="static/img/leaf.gif" type="image/gif">
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -39,6 +41,31 @@
     canvas {
       width: 100%;
       border: 1px solid black;
+    }
+
+    .matrix {
+      /* font-family: monospace; */
+      margin: 0px;
+      display: inline;
+    }
+
+    .paren:after, .paren:before {
+      content: " ";
+      padding:10px 5px 40px 1px;
+      border-bottom:2px solid #666;
+      border-top:2px solid #666;
+    }
+
+    .paren:before {
+      border-left:2px solid #666;
+      margin-right:10px;
+    }
+    .paren:after {
+      border-right:2px solid #666;
+    }
+
+    .matrix > tr > td {
+      width: 20%;
     }
 
   </style>
@@ -82,7 +109,7 @@
     </div>
   </div> -->
   <div class="row">
-    <div class="col-md-6" style="border-radius: 20px; border: 1px solid lightgrey; padding-bottom: 15px;">
+    <div class="col-md-6" style="padding-bottom: 15px;"> <!-- border-radius: 20px; border: 1px solid lightgrey; -->
       <h3>
         Transformations and Weights
         <a data-toggle="modal" data-target="#transformations-modal" style="font-size: .75em" href="#transformations-modal">
@@ -156,9 +183,16 @@
         <span class="glyphicon glyphicon-plus"></span>
       </button>
 
-      <!-- <h3>Raw Transformations</h3>
-      <textarea id="raw-transformations" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea> -->
-
+      <h3 style="margin-top: 60px;">Raw Transformations</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Matrix</th><th>Weight</th><th>Factorization</th>
+          </tr>
+        </thead>
+        <tbody id="raw-transformation-list"></tbody>
+      </table>
+      <!-- <textarea id="raw-transformations" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea> -->
 
 
       <!-- <h3>Generator</h3>
@@ -177,15 +211,19 @@
           <span class="glyphicon glyphicon-pause"></span>
         </button>
       </div> -->
-      <div class="input-group" style="margin-top: 20px;">
+      <button class="btn btn-lg btn-default center-block" onclick="cart.download()"><span class="glyphicon glyphicon-download-alt"></span> Download Image</button>
+      <br>
+      <div class="input-group">
         <span class="input-group-addon">Max Number of Points to Plot</span>
         <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
       </div>
-      <div class="input-group" style="margin-top: 20px;">
+      <br>
+      <div class="input-group">
         <span class="input-group-addon">Zoom</span>
         <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
       </div>
-      <button class="btn btn-default btn-lg btn-block" style="margin-top: 20px;" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
+      <br>
+      <button class="btn btn-default btn-lg btn-block" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
       <br>
       <div class="input-group">
         <span class="input-group-btn">
@@ -193,10 +231,10 @@
         </span>
         <input id="dimension" class="form-control" readonly/>
       </div>
+
     </div>
   </div>
-  <!-- <br><br><bR><br><br>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-download"></span> Download</button> -->
+  <br><br><bR><br><br>
 
 </div>
 
@@ -252,9 +290,56 @@
     }
 
 
+    function round(el, dec) {
+      if (isNaN(el)) {
+        var out = [];
+        for (var i in el) {
+          out.push(round(el[i], dec));
+        }
+        return out;
+      }
+      return Math.round((el + Number.EPSILON) * (10 ** dec)) / (10 ** dec);
+    }
+
+
     function update() {
       try {
+        // set fractal with new transformations
         fractal.set_TW(tw_row_group.get_TW());
+
+        // update raw transformations list
+        var raw_list = document.getElementById('raw-transformation-list');
+        while (raw_list.firstChild) {
+          raw_list.removeChild(raw_list.firstChild);
+        }
+        const matrices = round(tw_row_group.get_matrices(), 3);
+        const weights = tw_row_group.get_weights();
+        for (var i = 0; i < weights.length; i++) {
+          var tr = document.createElement('tr');
+          var matrix_td = document.createElement('td');
+          var matrix_div = document.createElement('div');
+          var matrix_table = document.createElement('table');
+          matrix_div.classList.add('paren');
+          matrix_table.classList.add('matrix');
+          matrix_table.classList.add('table');
+          for (var j = 0; j < 3; j++) {
+            var matrix_row = document.createElement('tr');
+            for (var k = 0; k < 3; k++) {
+              matrix_data = document.createElement('td');
+              matrix_data.appendChild(document.createTextNode(matrices[i][j][k]));
+              matrix_row.appendChild(matrix_data);
+            }
+            matrix_table.appendChild(matrix_row);
+          }
+          matrix_div.appendChild(matrix_table);
+          matrix_td.appendChild(matrix_div);
+          tr.appendChild(matrix_td);
+          var weight_td = document.createElement('td');
+          weight_td.appendChild(document.createTextNode(round(weights[i],3)));
+          tr.appendChild(weight_td);
+          raw_list.appendChild(tr);
+        }
+
         clear_error();
       } catch (e) {
         report_error(e);
@@ -269,7 +354,7 @@
 
     // set default fractal
 
-    const DEFAULT = EXAMPLES[Math.floor(Math.random() * 3)];
+    const DEFAULT = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
 
     try {
     var fractal = new Fractal(cart, DEFAULT);
