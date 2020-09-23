@@ -49,6 +49,10 @@
       display: inline;
     }
 
+    .paren {
+      margin: 10px;
+    }
+
     .paren:after, .paren:before {
       content: " ";
       padding:10px 5px 40px 1px;
@@ -58,14 +62,16 @@
 
     .paren:before {
       border-left:2px solid #666;
-      margin-right:10px;
+      margin-right:0px;
     }
     .paren:after {
       border-right:2px solid #666;
+      margin-left:-15px;
     }
 
     .matrix > tr > td {
       width: 20%;
+      /* text-align: center; */
     }
 
   </style>
@@ -291,7 +297,7 @@
 
 
     function round(el, dec) {
-      if (isNaN(el)) {
+      if (typeof(el) == "object") {
         var out = [];
         for (var i in el) {
           out.push(round(el[i], dec));
@@ -314,8 +320,10 @@
         }
         const matrices = round(tw_row_group.get_matrices(), 3);
         const weights = tw_row_group.get_weights();
-        for (var i = 0; i < weights.length; i++) {
+        const factorizations = tw_row_group.get_factorizations();
+        for (var i in weights) {
           var tr = document.createElement('tr');
+          // matrix
           var matrix_td = document.createElement('td');
           var matrix_div = document.createElement('div');
           var matrix_table = document.createElement('table');
@@ -334,9 +342,18 @@
           matrix_div.appendChild(matrix_table);
           matrix_td.appendChild(matrix_div);
           tr.appendChild(matrix_td);
+          // weight
           var weight_td = document.createElement('td');
           weight_td.appendChild(document.createTextNode(round(weights[i],3)));
           tr.appendChild(weight_td);
+          // factorization
+          var factorization_td = document.createElement('td');
+          for (var j in factorizations[i]) {
+            factorization_td.appendChild(document.createTextNode(factorizations[i][j].name + "(" + round(factorizations[i][j].args, 5) + ")"));
+            factorization_td.appendChild(document.createElement('br'));
+          }
+          tr.appendChild(factorization_td);
+          //
           raw_list.appendChild(tr);
         }
 

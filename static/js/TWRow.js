@@ -207,20 +207,71 @@ class TWRow {
   }
 
   get_matrix() {
-    const t = this.get_transformation();
-    const t_e1 = t({x:1, y:0});
-    const t_e2 = t({x:0, y:1});
-    const t_e3 = t({x:0, y:0});
-    return [
-      [t_e1.x - t_e3.x, t_e2.x - t_e3.x, t_e3.x],
-      [t_e1.y - t_e3.y, t_e2.y - t_e3.y, t_e3.y],
-      [0, 0, 1]
-    ];
+    return matrix_from_transformation(this.get_transformation());
   }
 
   get_factorization() {
-    //
+    var transformations = [];
+    var t = this.get_transformation();
 
+    // get the translation
+    var t_e3 = t({x:0, y:0});
+    if (t_e3.x != 0 || t_e3.y != 0) {
+      transformations.push({name:'Translate', args:[t_e3.x, t_e3.y]});
+    }
+
+    // get 2 x 2 matrix
+    const M = two_by_two(this.get_matrix());
+
+    const a = M[0][0];
+    const b = M[0][1];
+    const c = M[1][0];
+    const d = M[1][1];
+    const determinant = det(M);
+
+
+    const EPSILON = 1 / (10 ** 4);
+
+    // if M is not invertible
+    if (determinant == 0) {
+      // // if M is zero
+      // if (M == [[0,0],[0,0]]) {
+      //   // M was scaled by 0
+      //   transformations.push(Scale(0));
+      // }
+      // // otherwise, there is at least one nonzero column
+      // else {
+      //   const nonzero_col = M[0][0] + M[1][0] == 0 ? 0 : 1;
+      //   // if nonzero column is on the x axis
+      //   if (M[nonzero_col][0] != 0 && M[nonzero_col][0] == 0) {
+      //
+      //   }
+      // }
+    } else {
+      var angle = get_angle([M[0][0], M[1][0]]);
+      if (angle > EPSILON) {
+        transformations.push({name:'Rotate', args:[angle]});
+      }
+      if (Math.abs((a*b+c*d) / determinant > EPSILON)) {
+        transformations.push({name:'ShearX', args:[(a*b+c*d) / determinant]});
+      }
+      const s = Math.sqrt(a*a + c*c);
+      if (Math.abs(s - 1) > EPSILON) {
+        if (Math.abs(determinant / s - 1) > EPSILON) {
+          if (Math.abs(s - (determinant / s)) < EPSILON) {
+            transformations.push({name:'Scale', args:[s]});
+          } else {
+            transformations.push({name:'ScaleXY', args:[s, determinant / s]});
+          }
+        } else {
+          transformations.push({name:'ScaleX', args:[s]});
+        }
+      } else if (Math.abs(determinant / s - 1) < EPSILON) {
+        transformations.push({name:'ScaleY', args:[determinant / s]});
+      }
+    }
+
+    return transformations;
   }
 
 }
@@ -296,19 +347,28 @@ class TWRowGroup {
   }
 
   get_matrices() {
-    var matrices = [];
+    var matrices = {};
     for (var i in this.all_rows) {
-      matrices.push(this.all_rows[i].get_matrix());
+      matrices[this.all_rows[i].id] = this.all_rows[i].get_matrix();
     }
     return matrices;
   }
 
   get_weights() {
-    var w = [];
+    var w = {};
     for (var i in this.all_rows) {
-      w.push(this.all_rows[i].get_weight());
+      w[this.all_rows[i].id] = this.all_rows[i].get_weight();
     }
     return w;
   }
+
+  get_factorizations() {
+    var factorizations = {};
+    for (var i in this.all_rows) {
+      factorizations[this.all_rows[i].id] = this.all_rows[i].get_factorization();
+    }
+    return factorizations;
+  }
+
 
 }

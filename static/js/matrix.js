@@ -1,5 +1,5 @@
 
-// matrix calculations for 2 x 2 matrices
+// matrix calculations for 2 x 2 matrices and 2 x 1 vectors
 
 function trace(M) {
   return M[0][0] + M[1][1]
@@ -34,4 +34,33 @@ function mult(A, B) {
     }
   }
   return M;
+}
+
+
+function matrix_from_transformation(t) {
+  const t_e1 = t({x:1, y:0});
+  const t_e2 = t({x:0, y:1});
+  const t_e3 = t({x:0, y:0});
+  return [
+    [t_e1.x - t_e3.x, t_e2.x - t_e3.x, t_e3.x],
+    [t_e1.y - t_e3.y, t_e2.y - t_e3.y, t_e3.y],
+    [0, 0, 1]
+  ];
+}
+
+
+function two_by_two(M) {
+  M.pop();
+  M[0].pop();
+  M[1].pop();
+  return M;
+}
+
+
+function get_angle(vec) {
+  var angle = Math.atan(vec[1] / vec[0]);
+  if (vec[0] < 0) {
+    angle = Math.PI - angle;
+  }
+  return (2 * Math.PI + angle) % (2 * Math.PI);
 }
