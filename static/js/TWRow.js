@@ -39,11 +39,11 @@ class TWRow {
           this.weight.setAttribute('id', 'TW-row-weight-' + id);
           this.weight.setAttribute('type', 'text');
           this.weight.classList.add("form-control");
-          this.weight.value = 0;
+          this.weight.value = 1;
           this.weight.onchange = function() {
             ths.group.onchange();
             if (ths.weight.value == "") {
-              ths.weight.value = 0;
+              ths.weight.value = 1;
             }
           };
         weight_container.appendChild(this.weight);
@@ -228,25 +228,49 @@ class TWRow {
     const c = M[1][0];
     const d = M[1][1];
     const determinant = det(M);
+    const s = Math.sqrt(a*a + c*c);
 
 
     const EPSILON = 1 / (10 ** 4);
 
     // if M is not invertible
     if (determinant == 0) {
-      // // if M is zero
-      // if (M == [[0,0],[0,0]]) {
-      //   // M was scaled by 0
-      //   transformations.push(Scale(0));
-      // }
-      // // otherwise, there is at least one nonzero column
-      // else {
-      //   const nonzero_col = M[0][0] + M[1][0] == 0 ? 0 : 1;
-      //   // if nonzero column is on the x axis
-      //   if (M[nonzero_col][0] != 0 && M[nonzero_col][0] == 0) {
-      //
-      //   }
-      // }
+      // if col1 = 0
+      if (Math.abs(a) < EPSILON && Math.abs(c) < EPSILON) {
+        // if col2 == 0
+        if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) {
+          transformations.push({name:'Scale', args:[0]});
+        } else {
+          if (Math.abs(d) < EPSILON) {
+            transformations.push({name:'Rotate', args:[-Math.PI / 2]});
+            transformations.push({name:'ScaleXY', args:[0, b]});
+          } else {
+            if (Math.abs(b) > EPSILON) {
+              transformations.push({name:'ShearX', args:[b / d]});
+            }
+            transformations.push({name:'ScaleXY', args:[0, d]});
+          }
+        }
+      } else if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) { // if col2 = 0
+        if (Math.abs(a) < EPSILON) {
+          transformations.push({name:'Rotate', args:[Math.PI / 2]});
+          transformations.push({name:'ScaleXY', args:[c, 0]});
+        } else {
+          if (Math.abs(c) > EPSILON) {
+            transformations.push({name:'ShearY', args:[c/a]});
+          }
+          transformations.push({name:'ScaleXY', args:[a, 0]});
+        }
+      } else {
+        var theta = get_angle([a, c]);
+        if (Math.abs(theta) < EPSILON) {
+          transformations.push({name:'Rotate', args:[theta]});
+          transformations.push({name:'ScaleXY', args:[s, 0]});
+        } else {
+          transformations.push({name:'ScaleXY', args:[a, 0]});
+        }
+        transformations.push({name:'ShearX', args:[b / a]});
+      }
     } else {
       var angle = get_angle([M[0][0], M[1][0]]);
       if (angle > EPSILON) {
@@ -255,7 +279,6 @@ class TWRow {
       if (Math.abs((a*b+c*d) / determinant > EPSILON)) {
         transformations.push({name:'ShearX', args:[(a*b+c*d) / determinant]});
       }
-      const s = Math.sqrt(a*a + c*c);
       if (Math.abs(s - 1) > EPSILON) {
         if (Math.abs(determinant / s - 1) > EPSILON) {
           if (Math.abs(s - (determinant / s)) < EPSILON) {
