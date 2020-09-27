@@ -90,6 +90,9 @@ class Cartesian {
 
   set_color(color) {
     this.ctx.fillStyle = color;
+    if (this.points) {
+      this.redraw_points();
+    }
   }
 
   center_at(xy) {

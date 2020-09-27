@@ -4,7 +4,6 @@ class Fractal {
   constructor(cartesian, tw) {
 
     this.cartesian = cartesian;
-    this.parser = parser;
 
     this.tw;
     this.running_weights;
@@ -16,14 +15,17 @@ class Fractal {
 
   set_TW(tw) {
 
-    if (tw.transformations.legnth == 0) {
+    if (tw.transformations.length == 0) {
       throw "[ERROR: Fractal.js] no transformations defined";
     }
 
     // check for non-contraction mappings
     var which_not_c_maps = this.which_are_not_contraction_mappings(tw.transformations);
     if (which_not_c_maps.length == 0) {
-      this.tw = tw; // this means that the fractal object can edit the object you are giving it (so for example, if you load a fractal with un-normalized weights, this will normalize them.,)
+      this.tw = tw;
+      // ^ the fractal object can edit the tw object you are giving
+      // it (so for example, if you load a fractal with un-normalized weights,
+      // this will normalize them.)
       const sum = this.tw.weights.reduce((a, b) => a + b, 0);
 
       // make weights
@@ -49,7 +51,7 @@ class Fractal {
       this.plot_fractal();
 
     } else {
-      throw "[ERROR: Fractal.js] the transformations listed [" + which_not_c_maps + "] are not a contraction mappings"
+      throw "[ERROR: Fractal.js] the transformations listed [" + which_not_c_maps + "] are not a contraction mappings";
     }
 
 

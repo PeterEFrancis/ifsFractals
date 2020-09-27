@@ -19,6 +19,10 @@ def playground():
     return render_template('playground.html')
 
 
+@app.route('/word-fractals')
+def word_fractals():
+    return render_template('word-fractals.html')
+
 
 @app.route('/<string:s>')
 def not_found(s):
