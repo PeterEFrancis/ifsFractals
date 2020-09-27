@@ -6,21 +6,21 @@ function Scale(s) {
   };
 }
 
-function ScaleX(s) {
+function XScale(s) {
   return function(p) {
     return {x: p.x * s,
             y: p.y};
   };
 }
 
-function ScaleY(s) {
+function YScale(s) {
   return function(p) {
     return {x: p.x,
             y: p.y * s};
   };
 }
 
-function ScaleXY(s,t) {
+function XYScale(s,t) {
   return function(p) {
     return {x: p.x * s,
             y: p.y * t};
@@ -41,14 +41,14 @@ function Rotate(theta) {
   };
 }
 
-function ShearX(t) {
+function XShear(t) {
   return function(p) {
     return {x: p.x + p.y * t,
             y: p.y};
   };
 }
 
-function ShearY(t) {
+function YShear(t) {
   return function(p) {
     return {x: p.x,
             y: p.y + p.x * t};

@@ -1,13 +1,13 @@
 
 // https://guppy.js.org/site/api/guppy-js/2.0.0-rc.1/Guppy.html#.add_global_symbol
 const SYMBOLS = {"Scale": {"output": {"latex":"\\text{Scale}\\left({$1}\\right)", "text":"Scale($1)"}, "attrs": { "type":"Scale", "group":"function"}},
-                 "ScaleX": {"output": {"latex":"\\text{ScaleX}\\left({$1}\\right)", "text":"ScaleX($1)"}, "attrs": { "type":"ScaleX", "group":"function"}},
-                 "ScaleY": {"output": {"latex":"\\text{ScaleY}\\left({$1}\\right)", "text":"ScaleY($1)"}, "attrs": { "type":"ScaleY", "group":"function"}},
-                 "ScaleXY": {"output": {"latex":"\\text{ScaleXY}\\left({$1}, {$2}\\right)", "text":"ScaleXY($1)"}, "attrs": { "type":"ScaleXY", "group":"function"}},
+                 "XScale": {"output": {"latex":"\\text{XScale}\\left({$1}\\right)", "text":"XScale($1)"}, "attrs": { "type":"XScale", "group":"function"}},
+                 "YScale": {"output": {"latex":"\\text{YScale}\\left({$1}\\right)", "text":"YScale($1)"}, "attrs": { "type":"YScale", "group":"function"}},
+                 "XYScale": {"output": {"latex":"\\text{XYScale}\\left({$1}, {$2}\\right)", "text":"XYScale($1)"}, "attrs": { "type":"XYScale", "group":"function"}},
                  "Translate": {"output": {"latex":"\\text{Translate}\\left({$1}, {$2}\\right)", "text":"Translate($1, $2)"}, "attrs": { "type":"Translate", "group":"function"}},
                  "Rotate": {"output": {"latex":"\\text{Rotate}\\left({$1}\\right)", "text":"Rotate($1)"}, "attrs": { "type":"Rotate", "group":"function"}},
-                 "ShearX": {"output": {"latex":"\\text{ShearX}\\left({$1}\\right)", "text":"ShearX($1)"}, "attrs": { "type":"ShearX", "group":"function"}},
-                 "ShearY": {"output": {"latex":"\\text{ShearY}\\left({$1}\\right)", "text":"ShearY($1)"}, "attrs": { "type":"ShearY", "group":"function"}},
+                 "XShear": {"output": {"latex":"\\text{XShear}\\left({$1}\\right)", "text":"XShear($1)"}, "attrs": { "type":"XShear", "group":"function"}},
+                 "YShear": {"output": {"latex":"\\text{YShear}\\left({$1}\\right)", "text":"YShear($1)"}, "attrs": { "type":"YShear", "group":"function"}},
                  "M": {"output": {"latex":"\\text{M}\\left({$1}, {$2}, {$3}, {$4}, {$5}, {$6}\\right)", "text":"M($1, $2, $3, $4, $5, $6)"}, "attrs": { "type":"M", "group":"function"}},
                  }
 
@@ -243,33 +243,33 @@ class TWRow {
         } else {
           if (Math.abs(d) < EPSILON) {
             transformations.push({name:'Rotate', args:[-Math.PI / 2]});
-            transformations.push({name:'ScaleXY', args:[0, b]});
+            transformations.push({name:'XYScale', args:[0, b]});
           } else {
             if (Math.abs(b) > EPSILON) {
-              transformations.push({name:'ShearX', args:[b / d]});
+              transformations.push({name:'XShear', args:[b / d]});
             }
-            transformations.push({name:'ScaleXY', args:[0, d]});
+            transformations.push({name:'XYScale', args:[0, d]});
           }
         }
       } else if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) { // if col2 = 0
         if (Math.abs(a) < EPSILON) {
           transformations.push({name:'Rotate', args:[Math.PI / 2]});
-          transformations.push({name:'ScaleXY', args:[c, 0]});
+          transformations.push({name:'XYScale', args:[c, 0]});
         } else {
           if (Math.abs(c) > EPSILON) {
-            transformations.push({name:'ShearY', args:[c/a]});
+            transformations.push({name:'YShear', args:[c/a]});
           }
-          transformations.push({name:'ScaleXY', args:[a, 0]});
+          transformations.push({name:'XYScale', args:[a, 0]});
         }
       } else {
         var theta = get_angle([a, c]);
         if (Math.abs(theta) < EPSILON) {
           transformations.push({name:'Rotate', args:[theta]});
-          transformations.push({name:'ScaleXY', args:[s, 0]});
+          transformations.push({name:'XYScale', args:[s, 0]});
         } else {
-          transformations.push({name:'ScaleXY', args:[a, 0]});
+          transformations.push({name:'XYScale', args:[a, 0]});
         }
-        transformations.push({name:'ShearX', args:[b / a]});
+        transformations.push({name:'XShear', args:[b / a]});
       }
     } else {
       var angle = get_angle([M[0][0], M[1][0]]);
@@ -277,20 +277,20 @@ class TWRow {
         transformations.push({name:'Rotate', args:[angle]});
       }
       if (Math.abs((a*b+c*d) / determinant > EPSILON)) {
-        transformations.push({name:'ShearX', args:[(a*b+c*d) / determinant]});
+        transformations.push({name:'XShear', args:[(a*b+c*d) / determinant]});
       }
       if (Math.abs(s - 1) > EPSILON) {
         if (Math.abs(determinant / s - 1) > EPSILON) {
           if (Math.abs(s - (determinant / s)) < EPSILON) {
             transformations.push({name:'Scale', args:[s]});
           } else {
-            transformations.push({name:'ScaleXY', args:[s, determinant / s]});
+            transformations.push({name:'XYScale', args:[s, determinant / s]});
           }
         } else {
-          transformations.push({name:'ScaleX', args:[s]});
+          transformations.push({name:'XScale', args:[s]});
         }
       } else if (Math.abs(determinant / s - 1) < EPSILON) {
-        transformations.push({name:'ScaleY', args:[determinant / s]});
+        transformations.push({name:'YScale', args:[determinant / s]});
       }
     }
 
