@@ -110,10 +110,19 @@
       <br>
       <div class="input-group">
         <span class="input-group-btn">
-          <button class="btn btn-default" onclick="document.getElementById('dimension').value = fractal.calculate_dimension();">Calculate Dimension</button>
+          <button class="btn btn-default" onclick="document.getElementById('box-dimension').value = fractal.calculate_box_dimension();">Calculate Box Dimension</button>
         </span>
-        <input id="dimension" class="form-control" readonly/>
+        <input id="box-dimension" class="form-control" readonly/>
       </div>
+      <br>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" onclick="document.getElementById('analytic-dimension').value = fractal.calculate_analytic_dimension(5);">Calculate Analytic Dimension</button>
+        </span>
+        <input id="analytic-dimension" class="form-control" readonly/>
+      </div>
+
+
     </div>
   </div>
   <br><br><bR><br><br>
@@ -126,6 +135,7 @@
 
 <!-- auxilliary -->
 <script src="static/js/transformations.js"></script>
+<script src="static/js/factor_transformation.js"></script>
 <script src="static/js/letter_transformations.js"></script>
 <script src="static/js/helper.js"></script>
 

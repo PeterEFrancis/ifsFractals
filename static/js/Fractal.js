@@ -157,7 +157,7 @@ class Fractal {
     return count;
   }
 
-  calculate_dimension(accuracy) {
+  calculate_box_dimension() {
 
     // Algorithm:
     //   - plot an ample amount of points of the fractal on a fine grid
@@ -191,4 +191,66 @@ class Fractal {
   }
 
 
+  calculate_analytic_dimension(accuracy) {
+    // find the scales s_i of each of the n pieces
+    // if the scales are all the same, sue the direct formula
+    // otherwise, solve \sum_{i=1}^n (s_i)^D = 1
+
+    var n = this.tw.transformations.length;
+    var scales = [];
+    var all_same = true;
+    var first = null;
+    for (var i = 0; i < this.tw.transformations.length; i++) {
+      const factored = factor_transformation(this.tw.transformations[i]);
+      for (var j = 0; j < factored.length; j++) {
+        if (factored[j].name.includes("Scale")) {
+          var s_x = 1;
+          var s_y = 1;
+          if (factored[j].name == "Scale") {
+            s_x = factored[j].args[0];
+            s_y = s_x;
+          } else if (factored[j].name == "XScale") {
+            s_x = factored[j].args[0];
+          } else if (factored[j].name == "YScale") {
+            s_y = factored[j].args[0];
+          } else if (factored[j].name == "XYScale") {
+            s_x = factored[j].args[0];
+            s_y = factored[j].args[1];
+          }
+          const s = Math.sqrt(Math.abs(s_x * s_y));
+          if (all_same) {
+            if (first == null) {
+              first = s;
+            } else if (Math.abs(first - s) > Math.pow(0.1, accuracy)) {
+              all_same = false;
+            }
+          }
+          scales.push(s);
+        }
+      }
+    }
+
+    if (all_same) {
+      return "log(" + n + ")/log(" + (1 / scales[0]) + ") = " + round(Math.log(n)/Math.log(1 / scales[0]), accuracy);
+    }
+
+
+    function f(D) {
+      var sum = 0;
+      for (var i = 0; i < n; i++) {
+        sum += Math.pow(scales[i], D);
+      }
+      return sum - 1;
+    }
+
+    test = f;
+
+    return round(find_zero_binary(1, 10, f, Math.pow(0.1, accuracy)), 5);
+
+
+  }
+
 }
+
+
+var test = {};

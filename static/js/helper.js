@@ -67,13 +67,6 @@ function get_angle(vec) {
 
 
 
-
-
-
-
-
-
-
 function round(el, dec) {
   if (typeof(el) == "object") {
     var out = [];
@@ -83,4 +76,25 @@ function round(el, dec) {
     return out;
   }
   return Math.round((el + Number.EPSILON) * (10 ** dec)) / (10 ** dec);
+}
+
+
+function find_zero_binary(x1, x2, f, accuracy) {
+  if (f(x1) * f(x2) > 0) {
+    throw "No solution garanteed";
+  }
+  function search(a, b) {
+    const mid = (a + b) / 2;
+    if (Math.abs(f(mid)) < accuracy) {
+      return mid;
+    }
+    if (f(mid) * f(a) < 0) {
+      b = mid;
+    } else {
+      a = mid;
+    }
+    return search(a,b);
+  }
+
+  return search(x1, x2);
 }
