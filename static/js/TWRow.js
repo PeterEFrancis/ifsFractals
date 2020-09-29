@@ -295,9 +295,13 @@ class TWRowGroup {
   }
 
   get_weights() {
-    var w = {};
+    var s = 0;
     for (var i in this.all_rows) {
-      w[this.all_rows[i].id] = this.all_rows[i].get_weight();
+      s += this.all_rows[i].get_weight();
+    }
+    var w = [];
+    for (var i in this.all_rows) {
+      w[this.all_rows[i].id] = this.all_rows[i].get_weight() / s;
     }
     return w;
   }
