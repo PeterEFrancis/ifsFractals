@@ -1,5 +1,8 @@
 function factor_transformation(t) {
 
+  // Rotation arguments are given as multiples of PI
+
+
   var transformations = [];
 
   // get the translation
@@ -30,7 +33,7 @@ function factor_transformation(t) {
         transformations.push({name:'Scale', args:[0]});
       } else {
         if (Math.abs(d) < EPSILON) {
-          transformations.push({name:'Rotate', args:[-Math.PI / 2]});
+          transformations.push({name:'Rotate', args:[- 1 / 2]});
           transformations.push({name:'XYScale', args:[0, b]});
         } else {
           if (Math.abs(b) > EPSILON) {
@@ -41,7 +44,7 @@ function factor_transformation(t) {
       }
     } else if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) { // if col2 = 0
       if (Math.abs(a) < EPSILON) {
-        transformations.push({name:'Rotate', args:[Math.PI / 2]});
+        transformations.push({name:'Rotate', args:[1 / 2]});
         transformations.push({name:'XYScale', args:[c, 0]});
       } else {
         if (Math.abs(c) > EPSILON) {
@@ -52,7 +55,7 @@ function factor_transformation(t) {
     } else {
       var theta = get_angle([a, c]);
       if (Math.abs(theta) < EPSILON) {
-        transformations.push({name:'Rotate', args:[theta]});
+        transformations.push({name:'Rotate', args:[theta / Math.PI]});
         transformations.push({name:'XYScale', args:[s, 0]});
       } else {
         transformations.push({name:'XYScale', args:[a, 0]});
@@ -62,7 +65,7 @@ function factor_transformation(t) {
   } else {
     var angle = get_angle([M[0][0], M[1][0]]);
     if (angle > EPSILON) {
-      transformations.push({name:'Rotate', args:[angle]});
+      transformations.push({name:'Rotate', args:[angle / Math.PI]});
     }
     if (Math.abs((a*b+c*d) / determinant > EPSILON)) {
       transformations.push({name:'XShear', args:[(a*b+c*d) / determinant]});

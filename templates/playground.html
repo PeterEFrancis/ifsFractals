@@ -376,7 +376,12 @@
           // factorization
           var factorization_td = document.createElement('td');
           for (var j in factorizations[i]) {
-            factorization_td.appendChild(document.createTextNode(factorizations[i][j].name + "(" + round(factorizations[i][j].args, 5) + ")"));
+            var text = factorizations[i][j].name + "(" + round(factorizations[i][j].args, 5);
+            if (factorizations[i][j].name == "Rotate") {
+              text = text + " π";
+            }
+            text = text + ")";
+            factorization_td.appendChild(document.createTextNode(text));
             factorization_td.appendChild(document.createElement('br'));
           }
           tr.appendChild(factorization_td);
