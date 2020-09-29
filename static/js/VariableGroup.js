@@ -81,13 +81,13 @@ class VariableSlider {
           name_addon.classList.add('input-group-addon');
           name_addon.classList.add('name-input-group-addon');
           this.name_input.classList.add('form-control')
-          this.name_input.setAttribute('type', 'text');
+          this.name_input.setAttribute('type', 'number');
       step_col.classList.add('col-xs-5');
         step_input_group.classList.add('input-group');
         step_input_group.classList.add('step-input-group');
           step_addon.classList.add('input-group-addon');
           this.step_input.classList.add('form-control')
-          this.step_input.setAttribute('type', 'text');
+          this.step_input.setAttribute('type', 'number');
       trash_col.classList.add('col-xs-3');
       trash_col.classList.add('text-right');
         trash_link.classList.add('btn');
@@ -99,12 +99,14 @@ class VariableSlider {
       lower_bound_col.classList.add('col-xs-2');
         this.lower_bound_input.classList.add('form-control');
         this.lower_bound_input.classList.add('bound');
+        this.lower_bound_input.setAttribute('type', 'number');
       slider_col.classList.add('col-xs-8');
         this.slider.setAttribute('type', 'range');
         this.slider.classList.add('slider');
       upper_bound_col.classList.add('col-xs-2');
         this.upper_bound_input.classList.add('form-control');
         this.upper_bound_input.classList.add('bound');
+        this.upper_bound_input.setAttribute('type', 'number');
     this.error.classList.add('variable-slider-error');
 
 
@@ -179,8 +181,11 @@ class VariableSlider {
     } else {
       this.remove_error(0);
       this.remove_error(1);
-      this.slider.min = m;
-      this.lower_bound_input.value = m;
+      if (m > this.get_value()) {
+        this.set_value(m);
+      }
+      this.slider.min = Number(m);
+      this.lower_bound_input.value = Number(m);
     }
   }
 
@@ -198,8 +203,11 @@ class VariableSlider {
     } else {
       this.remove_error(2);
       this.remove_error(3);
-      this.slider.max = m;
-      this.upper_bound_input.value = m;
+      if (m < this.get_value()) {
+        this.set_value(m);
+      }
+      this.slider.max = Number(m);
+      this.upper_bound_input.value = Number(m);
     }
   }
 
@@ -218,8 +226,8 @@ class VariableSlider {
       if (val > this.get_max()) {
         this.set_max(val);
       }
-      this.name_input.value = val;
-      this.slider.value = val;
+      this.name_input.value = Number(val);
+      this.slider.value = Number(val);
     }
   }
 
@@ -228,8 +236,8 @@ class VariableSlider {
       this.set_error(5);
     } else {
       this.remove_error(5);
-      this.slider.step = s;
-      this.step_input.value = s;
+      this.slider.step = Number(s);
+      this.step_input.value = Number(s);
     }
   }
 
