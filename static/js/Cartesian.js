@@ -50,12 +50,24 @@ class Cartesian {
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
       var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
-      cart.center_at(cart.get_real_point(user_x, user_y));
+      const clicked_point = cart.get_real_point(user_x, user_y);
+      cart.center_at({
+        x: clicked_point.x + (cart.center.x - clicked_point.x) / 2,
+        y: clicked_point.y + (cart.center.y - clicked_point.y) / 2
+      });
       // zoom 2x
       cart.zoom_to(cart.zoom * 2);
     });
     this.canvas.addEventListener('contextmenu', function(e) {
       e.preventDefault();
+      var rect = canvas.getBoundingClientRect();
+      var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
+      var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
+      const clicked_point = cart.get_real_point(user_x, user_y);
+      cart.center_at({
+        x: clicked_point.x + (cart.center.x - clicked_point.x) * 2,
+        y: clicked_point.y + (cart.center.y - clicked_point.y) * 2
+      });
       cart.zoom_to(cart.zoom / 2);
     });
   }
