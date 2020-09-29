@@ -202,7 +202,22 @@
         </thead>
         <tbody id="raw-transformation-list"></tbody>
       </table>
-      <!-- <textarea id="raw-transformations" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea> -->
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#export-modal" href="#export-modal">
+        <span class="glyphicon glyphicon-export"></span> Export
+      </button>
+      <div id="export-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Export</h4>
+            </div>
+            <div class="modal-body">
+              <textarea id="export-matrices" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 
@@ -323,7 +338,7 @@
         while (raw_list.firstChild) {
           raw_list.removeChild(raw_list.firstChild);
         }
-        const matrices = round(tw_row_group.get_matrices(), 3);
+        const matrices = tw_row_group.get_matrices();
         const weights = tw_row_group.get_weights();
         const factorizations = tw_row_group.get_factorizations();
         for (var i in weights) {
@@ -339,7 +354,7 @@
             var matrix_row = document.createElement('tr');
             for (var k = 0; k < 3; k++) {
               matrix_data = document.createElement('td');
-              matrix_data.appendChild(document.createTextNode(matrices[i][j][k]));
+              matrix_data.appendChild(document.createTextNode(round(matrices[i][j][k], 3)));
               matrix_row.appendChild(matrix_data);
             }
             matrix_table.appendChild(matrix_row);
@@ -362,9 +377,18 @@
           raw_list.appendChild(tr);
         }
 
+        // export matrices
+        document.getElementById('export-matrices').innerHTML = "";
+        for (var i in matrices) {
+          document.getElementById('export-matrices').innerHTML += JSON.stringify(matrices[i]) + "\n";
+        }
+
 
         // update the generator
         generator_pane.update(tw);
+
+
+
 
         clear_error();
       } catch (e) {
