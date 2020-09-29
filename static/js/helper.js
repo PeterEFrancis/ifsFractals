@@ -64,3 +64,23 @@ function get_angle(vec) {
   }
   return (2 * Math.PI + angle) % (2 * Math.PI);
 }
+
+
+
+
+
+
+
+
+
+
+function round(el, dec) {
+  if (typeof(el) == "object") {
+    var out = [];
+    for (var i in el) {
+      out.push(round(el[i], dec));
+    }
+    return out;
+  }
+  return Math.round((el + Number.EPSILON) * (10 ** dec)) / (10 ** dec);
+}

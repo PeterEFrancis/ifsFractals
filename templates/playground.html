@@ -205,8 +205,8 @@
       <!-- <textarea id="raw-transformations" style="width: 100%; font-family: monospace;" rows="10" cols="40" readonly></textarea> -->
 
 
-      <!-- <h3>Generator</h3>
-      <canvas width="1000" height="1000" id="generator"></canvas> -->
+      <h3 style="margin-top: 60px;">Generator</h3>
+      <canvas width="750" height="750" id="generator"></canvas>
 
     </div>
     <div class="col-md-6">
@@ -254,11 +254,13 @@
 <script src="static/js/Fractal.js"></script>
 <script src="static/js/Parser.js"></script>
 <script src="static/js/TWRow.js"></script>
+<script src="static/js/GeneratorPane.js"></script>
 
 <!-- auxilliary -->
 <script src="static/js/transformations.js"></script>
 <script src="static/js/letter_transformations.js"></script>
-<script src="static/js/matrix.js"></script>
+<script src="static/js/factor_transformation.js"></script>
+<script src="static/js/helper.js"></script>
 <script src="static/js/example_fractal_info.js"></script>
 
 
@@ -289,6 +291,8 @@
     // create transformation-weight row group
     var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser);
 
+    // create generatorPane
+    var generator_pane = new GeneratorPane(document.getElementById('generator'));
 
 
     // create fractal error catch
@@ -301,22 +305,16 @@
     }
 
 
-    function round(el, dec) {
-      if (typeof(el) == "object") {
-        var out = [];
-        for (var i in el) {
-          out.push(round(el[i], dec));
-        }
-        return out;
-      }
-      return Math.round((el + Number.EPSILON) * (10 ** dec)) / (10 ** dec);
-    }
 
 
     function update() {
       try {
+
+        var tw = tw_row_group.get_TW();
+
         // set fractal with new transformations
-        fractal.set_TW(tw_row_group.get_TW());
+        fractal.set_TW(tw);
+
 
         // update raw transformations list
         var raw_list = document.getElementById('raw-transformation-list');
@@ -362,6 +360,10 @@
           raw_list.appendChild(tr);
         }
 
+
+        // update the generator
+        generator_pane.update(tw);
+
         clear_error();
       } catch (e) {
         report_error(e);
@@ -399,7 +401,6 @@
       v.set_max(DEFAULT.vars[var_name].max);
       v.set_value(DEFAULT.vars[var_name].val);
     }
-
 
 
     // once the fractal is all set, then we can set it to update on change
