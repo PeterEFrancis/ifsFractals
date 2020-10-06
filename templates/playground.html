@@ -198,7 +198,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Matrix</th><th>Weight</th><th>Factorization</th>
+            <th style="width: 5px;"></th><th>Matrix</th><th>Weight</th><th>Factorization</th>
           </tr>
         </thead>
         <tbody id="raw-transformation-list"></tbody>
@@ -336,6 +336,47 @@
       document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
 
+    const colors = [
+      'C10020', // Vivid Red
+      'FF6800', // Vivid Orange
+      'FFB300', // Vivid Yellow
+      '007D34', // Vivid Green
+      '00538A', // Strong Blue
+      '803E75', // Strong Purple
+      'A6BDD7', // Very Light Blue
+      'CEA262', // Grayish Yellow
+      '817066', // Medium Gray
+      'F6768E', // Strong Purplish Pink
+      'FF7A5C', // Strong Yellowish Pink
+      '53377A', // Strong Violet
+      'FF8E00', // Vivid Orange Yellow
+      'B32851', // Strong Purplish Red
+      'F4C800', // Vivid Greenish Yellow
+      '7F180D', // Strong Reddish Brown
+      '93AA00', // Vivid Yellowish Green
+      '593315', // Deep Yellowish Brown
+      'F13A13', // Vivid Reddish Orange
+      '232C16'  // Dark Olive Green
+    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -356,8 +397,12 @@
         const matrices = tw_row_group.get_matrices();
         const weights = tw_row_group.get_weights();
         const factorizations = tw_row_group.get_factorizations();
-        for (var i in weights) {
+        for (var i = 0; i < weights.length; i++) {
           var tr = document.createElement('tr');
+          // color
+          var color_td = document.createElement('td');
+          color_td.style.backgroundColor = '#' + colors[i];
+          tr.appendChild(color_td);
           // matrix
           var matrix_td = document.createElement('td');
           var matrix_div = document.createElement('div');

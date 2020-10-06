@@ -22,7 +22,22 @@ class GeneratorPane {
       var next = this.get_canvas_point(box[i]);
       this.ctx.lineTo(next.x, next.y);
     }
+    this.ctx.globalAlpha = 1;
     this.ctx.stroke();
+  }
+
+
+  fill_box(box, color) {
+    this.ctx.fillStyle = color;
+    this.ctx.beginPath();
+    var start = this.get_canvas_point(box[0]);
+    this.ctx.moveTo(start.x, start.y);
+    for (var i = 1; i < 4; i++) {
+      var next = this.get_canvas_point(box[i]);
+      this.ctx.lineTo(next.x, next.y);
+    }
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.fill();
   }
 
 
@@ -91,6 +106,7 @@ class GeneratorPane {
 
     for (var i = 0; i < transformed_boxes.length; i++) {
       this.plot_box(transformed_boxes[i], "black");
+      this.fill_box(transformed_boxes[i], '#' + colors[i]);
     }
 
 
