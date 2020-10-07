@@ -287,9 +287,9 @@ class TWRowGroup {
   }
 
   get_matrices() {
-    var matrices = {};
+    var matrices = [];
     for (var i in this.all_rows) {
-      matrices[this.all_rows[i].id] = this.all_rows[i].get_matrix();
+      matrices.push(this.all_rows[i].get_matrix());
     }
     return matrices;
   }
@@ -301,15 +301,15 @@ class TWRowGroup {
     }
     var w = [];
     for (var i in this.all_rows) {
-      w[this.all_rows[i].id] = this.all_rows[i].get_weight() / s;
+      w.push(this.all_rows[i].get_weight() / s);
     }
     return w;
   }
 
   get_factorizations() {
-    var factorizations = {};
+    var factorizations = [];
     for (var i in this.all_rows) {
-      factorizations[this.all_rows[i].id] = this.all_rows[i].get_factorization();
+      factorizations.push(this.all_rows[i].get_factorization());
     }
     return factorizations;
   }
