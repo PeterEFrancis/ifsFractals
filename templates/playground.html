@@ -381,7 +381,7 @@
 
 
     function update() {
-      // try {
+      try {
 
         var tw = tw_row_group.get_TW();
 
@@ -454,11 +454,11 @@
 
 
 
-      //
-      //   clear_error();
-      // } catch (e) {
-      //   report_error(e);
-      // }
+
+        clear_error();
+      } catch (e) {
+        report_error(e);
+      }
     }
 
 
@@ -468,8 +468,8 @@
 
 
     // set default fractal
-
-    const DEFAULT = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+    var d = new Date();
+    const DEFAULT = EXAMPLES[d.getSeconds() % EXAMPLES.length];
 
     try {
     var fractal = new Fractal(cart, DEFAULT);

@@ -7,7 +7,7 @@ The goals and sections are outlined below.
 #### About
 Provide a rich info hub for all things ifs, including links to other resources and papers, and a detailed explanation of all of the parts of the website.
 
-#### Playground
+<!-- #### Playground
 An interactive page where users can explicitly write transformations and specify fractal image properties such as the number of points to be used, and then view the fractal produced in real-time (with a play/pause and a zoom feature). Also included will be the ability to define variables and sliders for those variables to see how the fractal produced is affected. An upload and download section will make it easy for users to share images and data related to their fractals.
 
 #### Transformation Maker
@@ -23,4 +23,4 @@ This page will allow a large number of ifs generating functions to be read and o
 This is just fun: users can type a word and view that word as a fractal. (I already did all of the real work for this).
 
 #### Animation Maker (to be done if there is extra time)
-Allow the user to create animations based on either Zooming in on or chaning the generating functions for a fractal.
+Allow the user to create animations based on either Zooming in on or chaning the generating functions for a fractal. -->
