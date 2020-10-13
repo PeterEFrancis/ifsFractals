@@ -3,11 +3,37 @@
   src: url(/static/fonts/lmroman8-regular.otf);
 }
 
-#LaTeX {
+.LaTeX {
   font-family: 'tex';
   font-size: 13pt;
 }
 
-blockquote {
+.LaTeX a {
+  border: 1px solid cyan;
+}
+
+.LaTeX blockquote {
   margin-top: 20px;
+}
+
+.LaTeX .section {
+  margin-top: 50px;
+}
+
+.LaTeX .subsection {
+  font-size: 16pt;
+}
+
+
+.LaTeX-toc ol {
+  counter-reset: item;
+}
+
+.LaTeX-toc li {
+  display: block;
+}
+
+.LaTeX-toc li:before {
+  content: counters(item, ".") " ";
+  counter-increment: item;
 }
