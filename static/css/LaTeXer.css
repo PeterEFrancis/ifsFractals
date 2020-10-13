@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'tex';
+  src: url(/static/fonts/lmroman8-regular.otf);
+}
+
+#LaTeX {
+  font-family: 'tex';
+  font-size: 13pt;
+}
+
+blockquote {
+  margin-top: 20px;
+}
