@@ -5,9 +5,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="static/img/leaf.gif" type="image/gif">
+
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']]
+      }
+    });
+  </script>
+  <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+  <!-- LaTeXer -->
+  <link rel="stylesheet" href="static/css/LaTeXer.css">
+  <script src="static/js/LaTeXer.js"></script>
+
+
   <style>
 
     body {
@@ -17,6 +35,10 @@
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
+    }
+
+    br {
+      user-select: none;
     }
 
   </style>
@@ -47,17 +69,134 @@
   </div>
 </nav>
 
-<div class="container">
+<div class="container" style="margin-bottom: 100px;">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" id="LaTeX" spellcheck="false" contenteditable="false">
+
+      \(
+        \newcommand{\R}{\mathbb{R}}
+      \)
+
+
+
       <h1>IFS Fractals</h1>
-      <p>This site is...</p>
+      <em>a showcase and collection of the Mathematics and beauty of fractals generated with iterated function systems</em>
+
       <hr>
-      <h3>About</h3>
-      <p>Lorem ipsum...</p>
+      <tableofcontents></tableofcontents>
+      <hr>
+
+
+
+      <section id="intro">Introduction</section>
+      The word <strong>fractal</strong> has gotten much abuse: its definition is often misquoted or changed, and although many people seem to have an intuitive understanding of basic "fractal-like" shapes, many people do not know that fractals do not have to be self-similar. We will use the following definition (given by Benoit Mandelbrot in 1975):</p>
+      <definition id="fractal">
+        A <em>fractal</em> is a subset of the plane $\R^2$ whose Hausdorff–Besicovitch dimension is strictly greater than its topological dimension.
+      </definition>
+      The idea of fractal dimension will be explored below. The fractals that we are concerned with, however, are fixed points of linear contraction mappings from the plane to itself, and these fractals <em>are</em> decidedly self-similar.
+
+
+
+
+
+      <section>Affine Linear Transformations in the Plane</section>
+      The functions that we will be concerned with are linear transformations from the plane $\R^2$ to itself. These mappings can be represented by matrix multiplication and vector addition: consider the mapping
+        \begin{align*}
+          f: \R^2 & \to \R^2 \\
+                x & \mapsto Ax+b
+        \end{align*}
+      where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2$. Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3$. The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
+      $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(x) \\ f(y)\\ 1\end{bmatrix}.$$
+      Compositions of affine linear tranformations can therefore be seen as products of these $3\times 3$ matrices.
+
+
+
+
+      <section>Existence of an IFS Fractal</section>
+      In order to completely understand the type of fractal we are interested in, we must first build to an existence theorem.
+      <br><br>
+      We start simply: in the following definition from <a href="#cite-1">[1]</a>, $X$ is a metric space with metric $d$.
+      <definition id="contraction-mapping">
+        A function $f: X\to X$ is a <em>contraction mapping</em> if there is some $c\in(0,1)$ such that for all $x_1,x_2\in X$, $$d(f(x_1)-f(x_2))\leq cd(x_1-x_2).$$ The number $c$ is called the <em>contraction constant</em> of $f$.
+      </definition>
+      <theorem title="The contraction mapping principle">
+        Suppose that $X$ is a complete metric space with metric $d$ and that $f:X\to X$ is a contraction mapping. Then
+        <ul>
+          <li>$f$ has a unique fixed point: there is a single $p\in X$ such that $f(p)=p$;</li>
+          <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>1$ converges to $p$.</li>
+        </ul>
+      </theorem>
+
+
+
+
+
+
+
+      <section>Transformation Decomposition</section>
+
+      One question that can be asked, is given a transformation matrix
+      $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix},$$
+      how can we interpret the action that this matrix makes? To start, we already know that $b$ is a translation vector. We write $$\text{Translate}(h,k)$$ for the function that translates a vector by $(h,k)$.
+      <br><br>
+      Now we can narrow our focus to $A$. There are some "basic" matrices whose actions are naturally understood geometrically:
+      <br><br>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Matrix</th><th>Mapping</th><th>Action</th>
+          </tr>
+        <thead>
+        <tbody>
+          <tr>
+            <td>$\text{Scale}(s) = \begin{pmatrix} s & 0\\ 0 & s \end{pmatrix}$</td>
+            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ sy\end{bmatrix}$</td>
+            <td>$\text{Scale}(s)$ scales a vector by $s$ in the $x$ and $y$ directions.</td>
+          </tr>
+          <tr>
+            <td>$\text{XYScale}(s, t) = \begin{pmatrix} s & 0\\ 0 & t \end{pmatrix}$</td>
+            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ ty\end{bmatrix}$</td>
+            <td>$\text{XYScale}(s, t)$ scales a vector by $s$ in the $x$ direction and by $t$ in the $y$ direction.</td>
+          </tr>
+          <tr>
+            <td>$\text{Rotate}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{pmatrix}$</td>
+            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\cos\theta-y\sin\theta\\ x\sin\theta+y\cos\theta\end{bmatrix}$</td>
+            <td>$\text{Rotate}(\theta)$ rotates a vector by $\theta$ radians, counter-clockwise around the origin.</td>
+          </tr>
+          <tr>
+            <td>$\text{XShear}(t) = \begin{pmatrix} 1 & t \\ 0 & 1 \end{pmatrix}$</td>
+            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x+ty\\ y\end{bmatrix}$</td>
+            <td>$\text{XShear}(t)$ shears a vector in the x direction with a slope of $t$.</td>
+          </tr>
+          <tr>
+            <td>$\text{YShear}(t) = \begin{pmatrix} 1 & 0 \\ t & 1 \end{pmatrix}$</td>
+            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\\ tx+y\end{bmatrix}$</td>
+            <td>$\text{YShear}(t)$ shears a vector in the y direction with a slope of $t$.</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <section>Fractal dimension</section>
+
+
+
+
+
+
+      <hr>
+      <h3>References</h3>
+      <ol>
+        <li id="cite-1">Benjamin Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</li>
+      </ol>
     </div>
   </div>
 </div>
 
+
 </body>
+
+<script>
+    (new LaTeXer(document.getElementById('LaTeX'))).render();
+</script>
 </html>

@@ -17,10 +17,10 @@ class LaTeXer {
     var section_tree = {};
 
     // labeled blocks nodes
-    var number = 1;
+    var block_number = 1;
     for (var i = 0; i < nodes.length; i++) {
       if (labeled_blocks_tag_types.includes(nodes[i].tagName)) {
-        var id = nodes[i].id || nodes[i].tagName.toLowerCase() + number;
+        var id = nodes[i].id || nodes[i].tagName.toLowerCase() + block_number;
         var blockquote = document.createElement('blockquote');
         var strong = document.createElement('strong');
         var text = document.createElement('p');
@@ -30,18 +30,21 @@ class LaTeXer {
           )
         );
         var a = document.createElement('a');
-        a.appendChild(document.createTextNode(number));
+        a.appendChild(document.createTextNode(block_number));
         a.href = "#" + id;
         strong.appendChild(a);
         strong.appendChild(document.createTextNode('.'));
+        if (nodes[i].title) {
+          strong.appendChild(document.createTextNode(' ' + nodes[i].title + '.'))
+        }
         text.innerHTML = nodes[i].innerHTML;
         blockquote.appendChild(strong);
         blockquote.appendChild(text);
         blockquote.id = id;
         this.container.replaceChild(blockquote, nodes[i]);
 
-        refs[nodes[i].id] = number;
-        number++;
+        refs[nodes[i].id] = block_number;
+        block_number++;
       }
     }
 
