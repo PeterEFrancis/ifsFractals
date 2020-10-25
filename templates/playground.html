@@ -79,6 +79,11 @@
       user-select: none;
     }
 
+    #cursorText{
+      position: absolute;
+      background-color: white;
+    }
+
   </style>
 </head>
 <body>
@@ -225,8 +230,22 @@
     </div>
     <div class="col-md-6">
       <canvas id="fractal"></canvas>
-      <p class="text-center" id="hover-loc">&nbsp;</p>
       <p id="fractal-error" style="color: red">&nbsp;</p>
+
+      <div class="row">
+        <div class="col-xs-4">
+          <input id="color" type="color" style="width: 100%; height: 2.5em; border: 0px;" oninput="cart.set_color(this.value)"></input>
+        </div>
+        <div class="col-xs-4">
+          <button class="btn btn-default btn-block" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
+        </div>
+        <div class="col-xs-4">
+          <button class="btn btn-default btn-block" onclick="cart.download()">
+            <span class="glyphicon glyphicon-download-alt"></span>
+          </button>
+        </div>
+      </div>
+      <br>
       <!-- <div class="btn-group" style="margin-top: 20px; width: 100%;">
         <button id="start-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.start(); document.getElementById('pause-fractal').disabled = false; this.disabled = true;">
           <span class="glyphicon glyphicon-play"></span>
@@ -236,40 +255,38 @@
         </button>
       </div> -->
       <div class="row">
-        <div class="col-xs-4">
-          <input id="color" type="color" style="width: 100%; height: 3em;" oninput="cart.set_color(this.value)"></input>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <span class="input-group-addon">Points to Plot</span>
+            <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
+          </div>
         </div>
-        <div class="col-xs-8">
-          <button class="btn btn-lg btn-default btn-block" onclick="cart.download()"><span class="glyphicon glyphicon-download-alt"></span> Download Image</button>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <span class="input-group-addon">Zoom</span>
+            <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
+          </div>
         </div>
       </div>
       <br>
-      <div class="input-group">
-        <span class="input-group-addon">Max Number of Points to Plot</span>
-        <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default" onclick="document.getElementById('box-dimension').value = fractal.calculate_box_dimension();">Box Dim.</button>
+            </span>
+            <input id="box-dimension" class="form-control" readonly/>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default" onclick="document.getElementById('analytic-dimension').value = fractal.calculate_analytic_dimension(5);">Analytic Dim.</button>
+            </span>
+            <input id="analytic-dimension" class="form-control" readonly/>
+          </div>
+        </div>
       </div>
-      <br>
-      <div class="input-group">
-        <span class="input-group-addon">Zoom</span>
-        <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
-      </div>
-      <br>
-      <button class="btn btn-default btn-lg btn-block" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
-      <br>
-      <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-default" onclick="document.getElementById('box-dimension').value = fractal.calculate_box_dimension();">Calculate Box Dimension</button>
-        </span>
-        <input id="box-dimension" class="form-control" readonly/>
-      </div>
-      <br>
-      <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-default" onclick="document.getElementById('analytic-dimension').value = fractal.calculate_analytic_dimension(5);">Calculate Analytic Dimension</button>
-        </span>
-        <input id="analytic-dimension" class="form-control" readonly/>
-      </div>
-
       <h3 style="margin-top: 60px;">Generator</h3>
       <canvas width="750" height="750" id="generator"></canvas>
 
@@ -306,12 +323,17 @@
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
     };
+    var curTxt = document.createElement('div');
+    curTxt.id="cursorText";
+    document.body.appendChild(curTxt);
     cart.on_mouse_over = function() {
       var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
-      document.getElementById('hover-loc').innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth)  + "," + (Math.round(cart.hover.y * depth) / depth) + ")";
+      curTxt.innerHTML =  "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
+      curTxt.style.left = (event.clientX + 10) + "px";
+      curTxt.style.top = event.clientY + "px";
     };
     cart.on_mouse_out = function() {
-      document.getElementById('hover-loc').innerHTML = "&nbsp;";
+      curTxt.innerHTML = "";
     }
 
     // create variable group
