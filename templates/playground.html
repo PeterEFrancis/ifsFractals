@@ -112,7 +112,7 @@
   </div>
 </nav>
 
-<div class="container">
+<div class="container-fluid" style="max-width: 1500px;">
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       <h1>Playground</h1>
@@ -203,7 +203,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 5px;"></th><th>Matrix</th><th>Weight</th><th>Factorization</th>
+            <th style="width: 5px;"></th><th>Matrix</th><th>Weight</th><th>Factorization</th><th>Use</th>
           </tr>
         </thead>
         <tbody id="raw-transformation-list"></tbody>
@@ -229,7 +229,7 @@
 
     </div>
     <div class="col-md-6">
-      <canvas id="fractal"></canvas>
+      <canvas id="fractal" class="center-block"></canvas>
       <p id="fractal-error" style="color: red">&nbsp;</p>
 
       <div class="row">
@@ -241,19 +241,11 @@
         </div>
         <div class="col-xs-4">
           <button class="btn btn-default btn-block" onclick="cart.download()">
-            <span class="glyphicon glyphicon-download-alt"></span>
+            Download <span class="glyphicon glyphicon-download-alt"></span>
           </button>
         </div>
       </div>
       <br>
-      <!-- <div class="btn-group" style="margin-top: 20px; width: 100%;">
-        <button id="start-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.start(); document.getElementById('pause-fractal').disabled = false; this.disabled = true;">
-          <span class="glyphicon glyphicon-play"></span>
-        </button>
-        <button id="pause-fractal" class="btn btn-default btn-lg" style="width: 50%" onclick="fractal.pause(); document.getElementById('start-fractal').disabled = false; this.disabled = true;" disabled>
-          <span class="glyphicon glyphicon-pause"></span>
-        </button>
-      </div> -->
       <div class="row">
         <div class="col-xs-6">
           <div class="input-group">
@@ -389,19 +381,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     function update() {
       try {
 
@@ -450,16 +429,35 @@
           tr.appendChild(weight_td);
           // factorization
           var factorization_td = document.createElement('td');
+          var func_string = ""; // for use button
           for (var j in factorizations[i]) {
             var text = factorizations[i][j].name + "(" + round(factorizations[i][j].args, 5);
             if (factorizations[i][j].name == "Rotate") {
               text = text + " π";
             }
             text = text + ")";
+            func_string = func_string + text;
             factorization_td.appendChild(document.createTextNode(text));
             factorization_td.appendChild(document.createElement('br'));
           }
           tr.appendChild(factorization_td);
+          // use factorization
+          var use_td = document.createElement('td');
+          var button = document.createElement('button');
+          button.classList.add('btn');
+          button.classList.add('btn-default');
+          var icon = document.createElement('span');
+          icon.classList.add('glyphicon');
+          icon.classList.add('glyphicon-circle-arrow-up');
+          button.appendChild(icon);
+          const this_i = i;
+          const this_f_s = func_string.replace('π','pi');
+          button.onclick = function() {
+            tw_row_group.all_rows[this_i].guppy.engine.import_text(this_f_s);
+            tw_row_group.all_rows[this_i].guppy.render(true);
+          }
+          use_td.appendChild(button);
+          tr.appendChild(use_td);
           //
           raw_list.appendChild(tr);
         }
@@ -473,8 +471,6 @@
 
         // update the generator
         generator_pane.update(tw);
-
-
 
 
         clear_error();
