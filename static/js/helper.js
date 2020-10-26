@@ -59,7 +59,7 @@ function two_by_two(M) {
 
 function get_angle(vec) {
   var angle = Math.atan(vec[1] / vec[0]);
-  if (vec[0] < 0 || angle < 0) {
+  if (vec[0] < 0) {
     angle += Math.PI;
   }
   return (2 * Math.PI + angle) % (2 * Math.PI);
