@@ -112,7 +112,7 @@
   </div>
 </nav>
 
-<div class="container-fluid" style="max-width: 1500px;">
+<div class="container-fluid">
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       <h1>Playground</h1>
@@ -125,7 +125,7 @@
     </div>
   </div> -->
   <div class="row">
-    <div class="col-md-6" style="padding-bottom: 15px;"> <!-- border-radius: 20px; border: 1px solid lightgrey; -->
+    <div class="col-md-7" style="padding-bottom: 15px;">
       <h3>
         Transformations and Weights
         <a data-toggle="modal" data-target="#transformations-modal" style="font-size: .75em" href="#transformations-modal">
@@ -228,7 +228,7 @@
 
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
       <canvas id="fractal" class="center-block"></canvas>
       <p id="fractal-error" style="color: red">&nbsp;</p>
 
@@ -487,7 +487,7 @@
 
     // set default fractal
     var d = new Date();
-    const DEFAULT = EXAMPLES[d.getSeconds() % EXAMPLES.length];
+    const DEFAULT = EXAMPLES[0 * d.getSeconds() % EXAMPLES.length];
 
     try {
     var fractal = new Fractal(cart, DEFAULT);

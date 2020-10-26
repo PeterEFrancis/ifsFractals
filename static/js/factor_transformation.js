@@ -67,7 +67,7 @@ function factor_transformation(t) {
     if (angle > EPSILON) {
       transformations.push({name:'Rotate', args:[angle / Math.PI]});
     }
-    if (Math.abs((a*b+c*d) / determinant > EPSILON)) {
+    if (Math.abs((a*b+c*d) / determinant) > EPSILON) {
       transformations.push({name:'XShear', args:[(a*b+c*d) / determinant]});
     }
     if (Math.abs(s - 1) > EPSILON) {
