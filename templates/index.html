@@ -72,11 +72,16 @@
 <div class="container" style="margin-bottom: 100px;">
   <div class="row">
     <div class="col-md-12" id="LaTeX" spellcheck="false" contenteditable="false">
-
+      <div hidden>
       \(
         \newcommand{\R}{\mathbb{R}}
+        \newcommand{\Rotate}{\operatorname{Rotate}}
+        \newcommand{\Scale}{\operatorname{Scale}}
+        \newcommand{\XYScale}{\operatorname{XYScale}}
+        \newcommand{\XShear}{\operatorname{XShear}}
+        \newcommand{\YShear}{\operatorname{YShear}}
       \)
-
+      </div>
 
 
       <h1>IFS Fractals</h1>
@@ -89,7 +94,7 @@
 
 
       <section id="intro">Introduction</section>
-      The word <strong>fractal</strong> has gotten much abuse: its definition is often misquoted or changed, and although many people seem to have an intuitive understanding of basic "fractal-like" shapes, many people do not know that fractals do not have to be self-similar. We will use the following definition (given by Benoit Mandelbrot in 1975):</p>
+      The word <strong>fractal</strong> has gotten much abuse: its definition is often misquoted or changed, and although many people seem to have an intuitive understanding of basic "fractal-like" shapes, many people do not know that fractals do not have to be self-similar. We will use the following definition (given by Benoit Mandelbrot in 1975):
       <definition id="fractal">
         A <em>fractal</em> is a subset of the plane $\R^2$ whose Hausdorff–Besicovitch dimension is strictly greater than its topological dimension.
       </definition>
@@ -103,18 +108,61 @@
       The functions that we will be concerned with are linear transformations from the plane $\R^2$ to itself. These mappings can be represented by matrix multiplication and vector addition: consider the mapping
         \begin{align*}
           f: \R^2 & \to \R^2 \\
-                x & \mapsto Ax+b
+                v & \mapsto Av+b
         \end{align*}
       where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2$. Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3$. The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
       $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(x) \\ f(y)\\ 1\end{bmatrix}.$$
       Compositions of affine linear tranformations can therefore be seen as products of these $3\times 3$ matrices.
-
-
-
+      <br><br>
+      There are some "basic" matrices whose actions are naturally understood geometrically. To start, since we already know that $b$ is a translation vector, we can write $\text{Translate}(h,k)$ for the function with standard matrix $$\begin{pmatrix} 1 & 0 & h \\ 0 & 1 & k \\ 0 & 0 & 1 \end{pmatrix};$$ the function that maps
+      $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}x+h \\ y+k\\ 1\end{bmatrix}.$$
+      We can narrow our focus to the action made by $A$. The following table shows the $A$ matrices for basic transformations.
+      <br>
+      <table class="table-bordered" id="basic-transformations" caption="Basic Transformations">
+       <thead>
+         <tr>
+           <th>Function</th>
+           <th>Matrix $A$</th>
+           <th>Mapping</th>
+           <th>Action</th>
+         </tr>
+       <thead>
+       <tbody>
+         <tr>
+           <td>$\Scale(s)$</td>
+           <td>$\begin{pmatrix} s & 0\\ 0 & s \end{pmatrix}$</td>
+           <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ sy\end{bmatrix}$</td>
+           <td>Scale a vector by $s$ in the $x$ and $y$ directions.</td>
+         </tr>
+         <tr>
+           <td>$\XYScale(s, t)$</td>
+           <td>$\begin{pmatrix} s & 0\\ 0 & t \end{pmatrix}$</td>
+           <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ ty\end{bmatrix}$</td>
+           <td>Scale a vector by $s$ in the $x$ direction and by $t$ in the $y$ direction.</td>
+         </tr>
+         <tr>
+           <td>$\Rotate(\theta)$</td>
+           <td>$\begin{pmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{pmatrix}$</td>
+           <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\cos\theta-y\sin\theta\\ x\sin\theta+y\cos\theta\end{bmatrix}$</td>
+           <td>Rotate a vector by $\theta$ radians, counter-clockwise around the origin.</td>
+         </tr>
+         <tr>
+           <td>$\XShear(t)$</td>
+           <td>$\begin{pmatrix} 1 & t \\ 0 & 1 \end{pmatrix}$</td>
+           <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x+ty\\ y\end{bmatrix}$</td>
+           <td>Shear a vector in the $x$ direction with a slope of $t$.</td>
+         </tr>
+         <tr>
+           <td>$\XShear(t)$</td>
+           <td>$\begin{pmatrix} 1 & 0 \\ t & 1 \end{pmatrix}$</td>
+           <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\\ tx+y\end{bmatrix}$</td>
+           <td>Shear a vector in the $y$ direction with a slope of $t$.</td>
+         </tr>
+       </tbody>
+      </table>
 
       <section>Existence of an IFS Fractal</section>
-      In order to completely understand the type of fractal we are interested in, we must first build to an existence theorem.
-      <br><br>
+      In order to completely understand the type of fractal we are interested in, we must first build up to an existence theorem.</p>
       We start simply: in the following definition from <a href="#cite-1">[1]</a>, $X$ is a metric space with metric $d$.
       <definition id="contraction-mapping">
         A function $f: X\to X$ is a <em>contraction mapping</em> if there is some $c\in(0,1)$ such that for all $x_1,x_2\in X$, $$d(f(x_1)-f(x_2))\leq cd(x_1-x_2).$$ The number $c$ is called the <em>contraction constant</em> of $f$.
@@ -123,10 +171,9 @@
         Suppose that $X$ is a complete metric space with metric $d$ and that $f:X\to X$ is a contraction mapping. Then
         <ul>
           <li>$f$ has a unique fixed point: there is a single $p\in X$ such that $f(p)=p$;</li>
-          <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>1$ converges to $p$.</li>
+          <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>0$ converges to $p$.</li>
         </ul>
       </theorem>
-
 
 
 
@@ -136,45 +183,17 @@
       <section>Transformation Decomposition</section>
 
       One question that can be asked, is given a transformation matrix
-      $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix},$$
-      how can we interpret the action that this matrix makes? To start, we already know that $b$ is a translation vector. We write $$\text{Translate}(h,k)$$ for the function that translates a vector by $(h,k)$.
-      <br><br>
-      Now we can narrow our focus to $A$. There are some "basic" matrices whose actions are naturally understood geometrically:
-      <br><br>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Matrix</th><th>Mapping</th><th>Action</th>
-          </tr>
-        <thead>
-        <tbody>
-          <tr>
-            <td>$\text{Scale}(s) = \begin{pmatrix} s & 0\\ 0 & s \end{pmatrix}$</td>
-            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ sy\end{bmatrix}$</td>
-            <td>$\text{Scale}(s)$ scales a vector by $s$ in the $x$ and $y$ directions.</td>
-          </tr>
-          <tr>
-            <td>$\text{XYScale}(s, t) = \begin{pmatrix} s & 0\\ 0 & t \end{pmatrix}$</td>
-            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}sx\\ ty\end{bmatrix}$</td>
-            <td>$\text{XYScale}(s, t)$ scales a vector by $s$ in the $x$ direction and by $t$ in the $y$ direction.</td>
-          </tr>
-          <tr>
-            <td>$\text{Rotate}(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta\\ \sin\theta & \cos\theta \end{pmatrix}$</td>
-            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\cos\theta-y\sin\theta\\ x\sin\theta+y\cos\theta\end{bmatrix}$</td>
-            <td>$\text{Rotate}(\theta)$ rotates a vector by $\theta$ radians, counter-clockwise around the origin.</td>
-          </tr>
-          <tr>
-            <td>$\text{XShear}(t) = \begin{pmatrix} 1 & t \\ 0 & 1 \end{pmatrix}$</td>
-            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x+ty\\ y\end{bmatrix}$</td>
-            <td>$\text{XShear}(t)$ shears a vector in the x direction with a slope of $t$.</td>
-          </tr>
-          <tr>
-            <td>$\text{YShear}(t) = \begin{pmatrix} 1 & 0 \\ t & 1 \end{pmatrix}$</td>
-            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\\ tx+y\end{bmatrix}$</td>
-            <td>$\text{YShear}(t)$ shears a vector in the y direction with a slope of $t$.</td>
-          </tr>
-        </tbody>
-      </table>
+      $$T=\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix},$$
+      how can we understand the action of $A$? (Since we know that $b$ is a translation vector). It turns out that we can make sense of $T$ using only the basic transformations listed in Table <ref to="basic-transformations"></ref>.
+      <theorem title="Factorization of linear transformations">
+        Any linear transformation can be written as a composition of a rotation, shearing, and scaling. In particular, if $A=\begin{pmatrix}A_1 & A_2\end{pmatrix}$ is invertible, then
+        $$A=\Rotate\left(\arg A_1\right)\ \XShear\left(\frac{A_1\cdot A_2}{\det A}\right)\ \XYScale\left(|A_1|, \frac{\det A}{|A_1|}\right).$$
+      </theorem>
+
+
+
+
+
 
 
       <section>Fractal dimension</section>

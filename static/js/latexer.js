@@ -4,6 +4,8 @@ const labeled_blocks_tag_types = [
   'LEMMA',
 ];
 
+var test;
+
 class LaTeXer {
 
   constructor(container) {
@@ -20,7 +22,7 @@ class LaTeXer {
     var block_number = 1;
     for (var i = 0; i < nodes.length; i++) {
       if (labeled_blocks_tag_types.includes(nodes[i].tagName)) {
-        var id = nodes[i].id || nodes[i].tagName.toLowerCase() + block_number;
+        var id = nodes[i].id || nodes[i].tagName.toLowerCase() + '-' + block_number;
         var blockquote = document.createElement('blockquote');
         var strong = document.createElement('strong');
         var text = document.createElement('p');
@@ -43,10 +45,40 @@ class LaTeXer {
         blockquote.id = id;
         this.container.replaceChild(blockquote, nodes[i]);
 
-        refs[nodes[i].id] = block_number;
+        refs[id] = block_number;
         block_number++;
       }
     }
+
+    // tables
+    var table_number = 1;
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].tagName == "TABLE") {
+        var id = nodes[i].id || 'table-' + table_number;
+        var caption_text = nodes[i].getAttribute('caption');
+        nodes[i].classList.add('table');
+        nodes[i].id = undefined;
+        var table_container = document.createElement('div');
+        table_container.classList.add('table-container');
+        table_container.appendChild(nodes[i]);
+        if (caption_text) {
+          var caption = document.createElement('p');
+          caption.classList.add('text-center');
+          var a = document.createElement('a');
+          a.appendChild(document.createTextNode(table_number));
+          a.href = "#" + id;
+          caption.appendChild(document.createTextNode('Table '));
+          caption.appendChild(a);
+          caption.appendChild(document.createTextNode(': ' + caption_text));
+          table_container.appendChild(caption);
+        }
+        table_container.id = id;
+        this.container.replaceChild(table_container, nodes[i]);
+        refs[id] = table_number;
+        table_number++;
+      }
+    }
+
 
     // sections and subsections
     var section_number = 0;
@@ -59,7 +91,11 @@ class LaTeXer {
         var h3 = document.createElement('h3');
         h3.classList.add('section');
         h3.id = id;
-        h3.appendChild(document.createTextNode(section_number + " " + text));
+        var a = document.createElement('a');
+        a.appendChild(document.createTextNode(section_number));
+        a.href = "#" + id;
+        h3.appendChild(a);
+        h3.appendChild(document.createTextNode(" " + text));
         this.container.replaceChild(h3, nodes[i]);
         subsection_number = 0;
         refs[id] = section_number;
