@@ -243,14 +243,10 @@ class Fractal {
       return sum - 1;
     }
 
-    test = f;
-
     return round(find_zero_binary(1, 10, f, Math.pow(0.1, accuracy)), 5);
 
 
   }
 
+
 }
-
-
-var test = {};

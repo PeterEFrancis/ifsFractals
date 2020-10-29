@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" href="static/img/leaf.gif" type="image/gif">
+  <link rel="shortcut icon" href="/static/img/leaf.gif" type="image/gif">
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -16,12 +16,12 @@
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 
   <!-- Guppy -->
-  <link rel="stylesheet" href="static/guppy/guppy-default.min.css">
-  <script type="text/javascript" src="static/guppy/guppy.min.js"></script>
+  <link rel="stylesheet" href="/static/guppy/guppy-default.min.css">
+  <script type="text/javascript" src="/static/guppy/guppy.min.js"></script>
 
   <!-- Class styles -->
-  <link rel="stylesheet" href="static/css/variableSlider.css">
-  <link rel="stylesheet" href="static/css/TWRow.css">
+  <link rel="stylesheet" href="/static/css/variableSlider.css">
+  <link rel="stylesheet" href="/static/css/TWRow.css">
 
   <!-- MathJs -->
   <script src="https://unpkg.com/mathjs/dist/math.min.js"></script>
@@ -41,6 +41,7 @@
     canvas {
       width: 100%;
       border: 1px solid black;
+      max-width: 1000px;
     }
 
     .matrix {
@@ -112,12 +113,33 @@
   </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" style="max-width: 1500px;">
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
-      <h1>Playground</h1>
+      <h1>
+        Playground <a id="save-button" data-toggle="modal" data-target="#share-modal" style="font-size: .75em" href="#share-modal" onclick="save()">
+          <span class="glyphicon glyphicon-floppy-save"></span>
+        </a>
+      </h1>
     </div>
   </div>
+
+  <div id="share-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Share your fractal</h4>
+        </div>
+        <div class="modal-body">
+          <a id="share-link" href="" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <!-- <div class="row" style="margin-bottom: 40px;">
     <div class="col-md-6">
       <p>Upload a *.ifs file to load into the playground.</p>
@@ -290,19 +312,19 @@
 </div>
 
 <!-- classes -->
-<script src="static/js/Cartesian.js"></script>
-<script src="static/js/VariableGroup.js"></script>
-<script src="static/js/Fractal.js"></script>
-<script src="static/js/Parser.js"></script>
-<script src="static/js/TWRow.js"></script>
-<script src="static/js/GeneratorPane.js"></script>
+<script src="/static/js/Cartesian.js"></script>
+<script src="/static/js/VariableGroup.js"></script>
+<script src="/static/js/Fractal.js"></script>
+<script src="/static/js/Parser.js"></script>
+<script src="/static/js/TWRow.js"></script>
+<script src="/static/js/GeneratorPane.js"></script>
 
 <!-- auxilliary -->
-<script src="static/js/transformations.js"></script>
-<script src="static/js/letter_transformations.js"></script>
-<script src="static/js/factor_transformation.js"></script>
-<script src="static/js/helper.js"></script>
-<script src="static/js/example_fractal_info.js"></script>
+<script src="/static/js/transformations.js"></script>
+<script src="/static/js/letter_transformations.js"></script>
+<script src="/static/js/factor_transformation.js"></script>
+<script src="/static/js/helper.js"></script>
+<script src="/static/js/example_fractal_info.js"></script>
 
 
 
@@ -321,8 +343,8 @@
     cart.on_mouse_over = function() {
       var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
       curTxt.innerHTML =  "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
-      curTxt.style.left = (event.clientX + 10) + "px";
-      curTxt.style.top = event.clientY + "px";
+      curTxt.style.left = (event.pageX + 10) + "px";
+      curTxt.style.top = event.pageY + "px";
     };
     cart.on_mouse_out = function() {
       curTxt.innerHTML = "";
@@ -343,10 +365,12 @@
 
     // create fractal error catch
     function report_error(msg) {
+      document.getElementById('save-button').style.display = "none";
       document.getElementById('fractal-error').innerHTML = '<span class="glyphicon glyphicon-warning-sign"></span> ' + msg;
       console.log(msg);
     }
     function clear_error() {
+      document.getElementById('save-button').style.display = "inline-block";
       document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
 
@@ -402,7 +426,7 @@
           var tr = document.createElement('tr');
           // color
           var color_td = document.createElement('td');
-          color_td.style.backgroundColor = '#' + colors[i];
+          color_td.style.backgroundColor = '#' + (colors[i] || "000000");
           tr.appendChild(color_td);
           // matrix
           var matrix_td = document.createElement('td');
@@ -486,15 +510,8 @@
 
 
     // set default fractal
-    var d = new Date();
-    const DEFAULT = EXAMPLES[0 * d.getSeconds() % EXAMPLES.length];
-
-    try {
-    var fractal = new Fractal(cart, DEFAULT);
-      clear_error();
-    } catch(e) {
-      report_error(e);
-    }
+    // var d = new Date();
+    var DEFAULT = JSON.parse({{info|tojson}}); // [d.getSeconds() % EXAMPLES.length];
 
     for (var i = 0; i < DEFAULT.weights.length; i++) {
       tw_row_group.add_row();
@@ -511,19 +528,89 @@
       v.set_value(DEFAULT.vars[var_name].val);
     }
 
+    // these are functions, so cannot be in JSON -- must be generated by parsing
+    DEFAULT.transformations = tw_row_group.get_TW().transformations;
+
+    try {
+    var fractal = new Fractal(cart, DEFAULT);
+      clear_error();
+    } catch(e) {
+      report_error(e);
+    }
 
     // once the fractal is all set, then we can set it to update on change
 
     variable_group.onchange = update;
-
     tw_row_group.onchange = update;
-
 
     cart.zoom_to(DEFAULT.zoom);
     cart.center_at(DEFAULT.center);
 
-
     update();
+
+
+
+
+
+
+
+
+  function get_info() {
+    // {guppy_xml, weights, transformations, zoom, center, vars}
+    var info = {};
+
+    // guppy xml
+    info.guppy_xml = [];
+    const xml = tw_row_group.get_all_content('xml');
+    for (var i in xml) {
+      info.guppy_xml.push(xml[i])
+    }
+
+    // weights
+    info.weights = JSON.parse(JSON.stringify(fractal.tw.weights));
+
+    // zoom
+    info.zoom = cart.zoom;
+
+    // center
+    info.center = JSON.parse(JSON.stringify(cart.center));
+
+    // vars
+    info.vars = variable_group.get_values_and_bounds();
+
+    return info;
+
+  }
+
+
+
+
+
+  function save() {
+    $.ajax({
+      url: '/save_playground',
+      data: {info: JSON.stringify(get_info())},
+      type: 'POST',
+      cache: false,
+      success: function(response){
+        if (response.success == 'true') {
+          var curr = window.location.href;
+          var link = curr.substring(0,curr.indexOf('d/') + 2) + response.name;
+          document.getElementById('share-link').innerHTML = link;
+          document.getElementById('share-link').href = link;
+        } else {
+          console.log('saving error');
+        }
+      },
+      error: function(error){
+        console.log(error);
+      },
+    });
+
+  }
+
+
+
 
 
 </script>

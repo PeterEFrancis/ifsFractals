@@ -311,6 +311,18 @@ class VariableGroup {
   }
 
 
+  get_values_and_bounds() {
+    var vars = {};
+    for (var v in this.variables) {
+      vars[v] = {
+        min: this.variables[v].get_min(),
+        max: this.variables[v].get_max(),
+        val: this.variables[v].get_value()
+      };
+    }
+    return vars;
+  }
+
   delete(name) {
     if (!this.var_name_exists(name)) {
       throw "cannot delete variable that doesn't exist";
