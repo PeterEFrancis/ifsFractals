@@ -604,8 +604,9 @@
         if (response.success == 'true') {
           var curr = window.location.href;
           var link = curr.substring(0,curr.indexOf('d/') + 2) + response.name;
-          document.getElementById('share-link').innerHTML = link;
-          document.getElementById('share-link').href = link;
+          window.location = link;
+          // document.getElementById('share-link').innerHTML = link;
+          // document.getElementById('share-link').href = link;
         } else {
           console.log('saving error');
         }
