@@ -81,6 +81,8 @@
         \newcommand{\XShear}{\operatorname{XShear}}
         \newcommand{\YShear}{\operatorname{YShear}}
         \newcommand{\m}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
+        \newcommand{\K}{\mathcal{K}}
+        \renewcommand{\mid}{\ : \ }
       \)
       </div>
 
@@ -168,17 +170,38 @@
       <definition id="contraction-mapping">
         A function $f: X\to X$ is a <em>contraction mapping</em> if there is some $c\in(0,1)$ such that for all $x_1,x_2\in X$, $$d(f(x_1)-f(x_2))\leq cd(x_1-x_2).$$ The number $c$ is called the <em>contraction constant</em> of $f$.
       </definition>
-      <theorem title="The contraction mapping principle">
+      The following theorem is stated without proof, and is a common result in an introductory Analysis course.
+      <theorem id="contraction-mapping-principle" title="The contraction mapping principle">
         Suppose that $X$ is a complete metric space with metric $d$ and that $f:X\to X$ is a contraction mapping. Then
         <ul>
           <li>$f$ has a unique fixed point: there is a single $p\in X$ such that $f(p)=p$;</li>
           <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>0$ converges to $p$.</li>
         </ul>
       </theorem>
-
-
-
-
+      In order to use Theorem <ref to="contraction-mapping-principle"></ref>, we have to discuss the metric space $\K$, the set of nonempty compact subsets of $\R^2$. The metric on this space is called the Hausdorff Metric, which first requires the following definiton.
+      <definition id="r-collar">
+        Given $A\subseteq \R^2$ and $r>0$, we define the <em>$r$-collar</em> of $A$ to be the set $$A_r=\{x\in\R^2\mid |x-a|\leq r\text{ for some $a\in A$}\}.$$
+      </definition>
+      Intuitively, the name "collar" should invoke a sense that $A_r$ is the result of expanding the borders of $A$ by a distance $r$.
+      <definition id="hausdorff-metric">
+        We define the <em>Hausdorff Metric</em> on $\K$ by $$h(A,B)=\min\{r\geq 0 \mid A\subseteq B_r\text{ and } B\subseteq A_r\}.$$
+      </definition>
+      In other words, the Hausdorff "distance" between two sets is the smallest amount one needs to expand either so each resulting collar contains the other.
+      <theorem>
+        Equipped with the Hausdorff Metric, $\K$ is complete.
+      </theorem>
+      Now that we have a copmlete metric space, we can define the transformations used in an IFS.
+      <definition id="hutchinson-operator">
+        Suppose that $f_1, f_2, \dots, f_k:\R^2\to \R^2$ are contraction mappings. Then the funciton
+        \begin{align*}
+          F : \K & \to \K \\
+               A & \mapsto f_1(A)\cup f_2(A)\cup \dots \cup f_k(A)
+        \end{align*}
+        is called a <em>Hutchinson Operator</em>.
+      </definition>
+      <theorem>
+        Any Hutchinson operator $F:\K\to\K$ is a contraction mapping on $K$ with respect to the Hausdorff metric.
+      </theorem>
 
 
       <section>Transformation Decomposition</section>
