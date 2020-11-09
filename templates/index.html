@@ -23,7 +23,7 @@
 
   <!-- LaTeXer -->
   <link rel="stylesheet" href="static/css/LaTeXer.css">
-  <script src="static/js/latexer.js"></script>
+  <script src="static/js/Latexer.js"></script>
 
 
   <style>
@@ -80,6 +80,7 @@
         \newcommand{\XYScale}{\operatorname{XYScale}}
         \newcommand{\XShear}{\operatorname{XShear}}
         \newcommand{\YShear}{\operatorname{YShear}}
+        \newcommand{\m}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
       \)
       </div>
 
@@ -112,7 +113,7 @@
         \end{align*}
       where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2$. Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3$. The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
       $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(x) \\ f(y)\\ 1\end{bmatrix}.$$
-      Compositions of affine linear tranformations can therefore be seen as products of these $3\times 3$ matrices.
+      Compositions of affine linear tranformations can therefore be seen as products of these $3\times 3$ matrices. Since every linear transformation uniquely corresponds to a function, we will interchangably refer to the function and its $3\times 3$ standard matrix as the same object.
       <br><br>
       There are some "basic" matrices whose actions are naturally understood geometrically. To start, since we already know that $b$ is a translation vector, we can write $\text{Translate}(h,k)$ for the function with standard matrix $$\begin{pmatrix} 1 & 0 & h \\ 0 & 1 & k \\ 0 & 0 & 1 \end{pmatrix};$$ the function that maps
       $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}x+h \\ y+k\\ 1\end{bmatrix}.$$
@@ -188,7 +189,62 @@
       <theorem title="Factorization of linear transformations">
         Any linear transformation can be written as a composition of a rotation, shearing, and scaling. In particular, if $A=\begin{pmatrix}A_1 & A_2\end{pmatrix}$ is invertible, then
         $$A=\Rotate\left(\arg A_1\right)\ \XShear\left(\frac{A_1\cdot A_2}{\det A}\right)\ \XYScale\left(|A_1|, \frac{\det A}{|A_1|}\right).$$
+        If $A$ is not invertible and $A_1\neq 0$, then
+        $$A=\Rotate(\arg A_1)\ \XYScale(|A_1|,0)\ \XShear\left(\frac{|A_2|}{|A_1|}\right).$$
+        If $A_1=0$ and $A_2\neq 0$, then
+        $$A=\Rotate\left(\frac{\pi}{2}-\arg A_2\right)\ \XYScale(0,|A_2|);$$
+        otherwise, $A=\Scale(0).$
       </theorem>
+      <proof>
+        In the first case, recognize that $\cos(\arg A_1)=\frac{A_{11}}{|A_1|}$ and $\sin(\arg A_1)=\frac{A_{12}}{|A_1|}$, so $$\Rotate(\arg A_1)=\frac{1}{|A_1|}\m{A_{11}}{-A_{12}}{A_{12}}{A_{11}}.$$
+        Then
+        \begin{align*}
+          & \  \Rotate\left(\arg A_1\right)\
+          \XShear\left(\frac{A_1\cdot A_2}{\det A}\right)\
+          \XYScale\left(|A_1|, \frac{\det A}{|A_1|}\right) \\
+          = & \ \frac{1}{|A_1|}
+        \m{A_{11}}{-A_{12}}{A_{12}}{A_{11}}
+        \m{1}{\frac{A_1\cdot A_2}{\det A}}{0}{1}
+        \m{|A_1|}{0}{0}{\frac{\det A}{|A_1|}} \\
+          = & \ \frac{1}{|A_1|}
+        \m{A_{11}}{A_{11}\frac{A_1\cdot A_2}{\det A}-A_{12}}{A_{12}}{A_{12}\frac{A_1\cdot A_2}{\det A}+A_{11}}
+        \m{|A_1|}{0}{0}{\frac{\det A}{|A_1|}}\\
+          = & \ \m{A_{11}}{A_{11}\frac{A_1\cdot A_2}{\det A}-A_{12}}{A_{12}}{A_{12}\frac{A_1\cdot A_2}{\det A}+A_{11}}
+        \m{1}{0}{0}{\frac{\det A}{|A_1|^2}}\\
+          = & \ \m{A_{11}}{\left(A_{11}\frac{A_1\cdot A_2}{\det A}-A_{12}\right)\frac{\det A}{|A_1|^2}}{A_{12}}{\left(A_{12}\frac{A_1\cdot A_2}{\det A}+A_{11}\right)\frac{\det A}{|A_1|^2}}\\
+          = & \ \m{A_{11}}{\frac{A_{11}(A_1\cdot A_2) - A_{12}\det A}{|A_1|^2}}{A_{12}}{\frac{A_{12}(A_1\cdot A_2) + A_{11}\det A}{|A_1|^2}}\\
+          = & \ \m{A_{11}}{\frac{A_{11}(A_{11}A_{21} + A_{12}A_{22}) - A_{12}(A_{11}A_{22} - A_{21}A_{12})}{|A_1|^2}}{A_{12}}{\frac{A_{12}(A_{11}A_{21} + A_{12}A_{22}) + A_{11}(A_{11}A_{22} - A_{21}A_{12})}{|A_1|^2}}\\
+          = & \ \m{A_{11}}{\frac{A_{21}(A_{11}^2+A_{12}^2)}{|A_1|^2}}{A_{12}}{\frac{A_{22}(A_{11}^2+A_{12}^2)}{|A_1|^2}}\\
+          = & \ \m{A_{11}}{A_{21}}{A_{12}}{A_{22}}\\
+          = & \ A.
+        \end{align*}
+
+      In the second case, suppose that $A_1\neq 0$, so $A_2=\frac{|A_2|}{|A_1|}A_1$. Then,
+      \begin{align*}
+          & \ \Rotate(\arg A_1)\ \XYScale(|A_1|,0)\ \XShear\left(\frac{|A_2|}{|A_1|}\right) \\
+        = & \ \frac{1}{|A_1|}\m{A_{11}}{-A_{12}}{A_{12}}{A_{11}} \m{|A_1|}{0}{0}{0} \m{1}{\frac{|A_2|}{|A_1|}}{0}{1}\\
+        = & \ \m{A_{11}}{-A_{12}}{A_{12}}{A_{11}} \m{1}{0}{0}{0} \m{1}{\frac{|A_2|}{|A_1|}}{0}{1}\\
+        = & \ \m{A_{11}}{0}{A_{12}}{0} \m{1}{\frac{|A_2|}{|A_1|}}{0}{1}\\
+        = & \ \m{A_{11}}{\frac{|A_2|}{|A_1|}A_{11}}{A_{12}}{\frac{|A_2|}{|A_1|}A_{12}}\\
+        = & \ \begin{pmatrix}A_1 & \frac{|A_2|}{|A_1|}A_1\end{pmatrix}\\
+        = & \ \begin{pmatrix}A_1 & A_2\end{pmatrix}\\
+        = & \ A.
+      \end{align*}
+
+      In the third case, suppose that $A_1=0$. If $A_2=0$, is is clear that
+      $$A=\m{0}{0}{0}{0} = \Scale(0).$$
+      Otherwise, $A_2\neq 0$, so
+      \begin{align*}
+          & \ \Rotate\left(\arg A_2 - \frac{\pi}{2}\right)\ \XYScale(0, |A_2|) \\
+        = & \ \m{\cos\left(\arg A_2 - \frac{\pi}{2}\right)}{-\sin\left(\arg A_2 - \frac{\pi}{2}\right)}{\sin\left(\arg A_2 - \frac{\pi}{2}\right)}{\cos\left(\arg A_2 - \frac{\pi}{2}\right)} \m{0}{0}{0}{|A_2|}\\
+        = & \ \m{\sin\left(\arg A_2\right)}{\cos\left(\arg A_2\right)}{-\cos\left(\arg A_2\right)}{\sin\left(\arg A_2\right)} \m{0}{0}{0}{|A_2|}\\
+        = & \ \frac{1}{|A_2|}\m{A_{22}}{A_{21}}{-A_{21}}{A_{22}} \m{0}{0}{0}{|A_2|}\\
+        = & \ \m{A_{22}}{A_{21}}{-A_{21}}{A_{22}} \m{0}{0}{0}{1}\\
+        = & \ \m{0}{A_{21}}{0}{A_{22}}\\
+        = & \ \begin{pmatrix}A_1 & A_2\end{pmatrix}\\
+        = & \ A.
+      \end{align*}
+      </proof>
 
 
 
@@ -196,7 +252,7 @@
 
 
 
-      <section>Fractal dimension</section>
+      <!-- <section>Fractal dimension</section> -->
 
 
 

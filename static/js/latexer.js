@@ -50,6 +50,24 @@ class LaTeXer {
       }
     }
 
+    // proofs
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].tagName == "PROOF") {
+        var div = document.createElement('div');
+        var proof = document.createElement('em');
+        proof.appendChild(document.createTextNode('Proof.'));
+        div.appendChild(proof);
+        var p = document.createElement('p');
+        p.innerHTML = nodes[i].innerHTML;
+        div.appendChild(p);
+        var right = document.createElement('div');
+        right.classList.add('text-right');
+        right.appendChild(document.createTextNode('$\\blacksquare$'));
+        div.appendChild(right);
+        this.container.replaceChild(div, nodes[i]);
+      }
+    }
+
     // tables
     var table_number = 1;
     for (var i = 0; i < nodes.length; i++) {
