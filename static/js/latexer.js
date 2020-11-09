@@ -4,7 +4,8 @@ const labeled_blocks_tag_types = [
   'LEMMA',
 ];
 
-var test;
+
+var test = 3;
 
 class LaTeXer {
 
