@@ -314,5 +314,11 @@ class TWRowGroup {
     return factorizations;
   }
 
+  delete_all() {
+    const l = this.all_rows.length;
+    for (var i = 0; i < l; i++) {
+      this.all_rows[0].delete();
+    }
+  }
 
 }
