@@ -170,7 +170,6 @@ def initialize():
                 points = info['points'],
                 color = info['color']
             )
-            print(playground.transformations)
             db.session.add(playground)
             db.session.commit()
     return 'done'

@@ -570,11 +570,13 @@
       tw_row_group.delete_all();
 
       for (var i = 0; i < f_info.transformations.length; i++) {
+        // transformations
         tw_row_group.add_row();
         tw_row_group.all_rows[i].guppy.import_text(f_info.transformations[i]);
         tw_row_group.all_rows[i].guppy.engine.end();
         tw_row_group.all_rows[i].guppy.render(true);
-        tw_row_group.all_rows[i].set_weight(f_info.weights[i]);
+        // weights
+        tw_row_group.all_rows[i].weight.value = f_info.weights[i];
       }
 
       for (var var_name in f_info.vars) {
@@ -585,7 +587,7 @@
       }
 
       try {
-        fractal = new Fractal(cart, tw_row_group.get_TW()); // (the actual function objects need to be generated)
+        fractal = new Fractal(cart, tw_row_group.get_TW()); // (the actual function objects and weight numbers need to be generated)
         clear_error();
       } catch(e) {
         report_error(e);
@@ -625,7 +627,7 @@
       info.transformations = info.transformations.substring(0, info.transformations.length - 1)
 
       // weights
-      info.weights = fractal.tw.weights.join(",");
+      info.weights = tw_row_group.get_all_weight_text().join(",");
 
       // vars
       info.vars = JSON.stringify(variable_group.get_values_and_bounds());

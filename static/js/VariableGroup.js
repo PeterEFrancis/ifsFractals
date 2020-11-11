@@ -22,48 +22,54 @@ class VariableSlider {
     this.current_errors = [0,0,0,0,0,0];
 
     // create elements
-    var top_row = document.createElement('div');
+    var row = document.createElement('div');
       var name_col = document.createElement('div');
         var name_input_group = document.createElement('div');
           var name_addon = document.createElement('span');
           this.name_input = document.createElement('input');
-      var trash_col = document.createElement('div');
-        var trash_link = document.createElement('a');
-          var trash_icon = document.createElement('span');
-    var bottom_row = document.createElement('div');
+      var slider_col = document.createElement('div');
+        var slider_row = document.createElement('div');
+          var slider_input_col = document.createElement('div');
+            this.slider = document.createElement('input');
+        var bounds_row = document.createElement('div');
       var lower_bound_col = document.createElement('div');
         this.lower_bound_input = document.createElement('input');
-      var slider_col = document.createElement('div');
-        this.slider = document.createElement('input');
+      var spacer_col = document.createElement('div');
       var upper_bound_col = document.createElement('div');
         this.upper_bound_input = document.createElement('input');
       var step_col = document.createElement('div');
         var step_input_group = document.createElement('div');
           var step_addon = document.createElement('span');
           this.step_input = document.createElement('input');
+      var trash_col = document.createElement('div');
+        var trash_link = document.createElement('a');
+          var trash_icon = document.createElement('span');
       this.error = document.createElement('p');
 
 
     // place elements (containments)
-    this.variable_container.appendChild(top_row);
-      top_row.appendChild(name_col);
+    this.variable_container.appendChild(row);
+      row.appendChild(name_col);
         name_col.appendChild(name_input_group)
           name_input_group.appendChild(name_addon);
           name_input_group.appendChild(this.name_input);
-      top_row.appendChild(step_col);
+      row.appendChild(slider_col);
+        slider_col.appendChild(slider_row);
+          slider_row.appendChild(slider_input_col);
+            slider_input_col.appendChild(this.slider);
+        slider_col.appendChild(bounds_row);
+          bounds_row.appendChild(lower_bound_col);
+            lower_bound_col.appendChild(this.lower_bound_input);
+          bounds_row.appendChild(spacer_col);
+          bounds_row.appendChild(upper_bound_col);
+            upper_bound_col.appendChild(this.upper_bound_input);
+      row.appendChild(step_col);
         step_col.appendChild(step_input_group);
           step_input_group.appendChild(step_addon);
           step_input_group.appendChild(this.step_input);
-      top_row.appendChild(trash_col);
+      row.appendChild(trash_col);
         trash_col.appendChild(trash_link);
           trash_link.appendChild(trash_icon);
-    this.variable_container.appendChild(bottom_row);
-      bottom_row.appendChild(lower_bound_col);
-        lower_bound_col.appendChild(this.lower_bound_input);
-      bottom_row.appendChild(slider_col);
-        slider_col.appendChild(this.slider);
-      bottom_row.appendChild(upper_bound_col);
-        upper_bound_col.appendChild(this.upper_bound_input);
     this.variable_container.appendChild(this.error);
 
 
@@ -75,38 +81,40 @@ class VariableSlider {
     // style elements
     this.variable_container.classList.add('variable-container');
     this.variable_container.classList.add('container-fluid');
-    top_row.classList.add('row');
-      name_col.classList.add('col-xs-4');
+    row.classList.add('row');
+      name_col.classList.add('col-xs-3');
         name_input_group.classList.add('input-group');
           name_addon.classList.add('input-group-addon');
           name_addon.classList.add('name-input-group-addon');
           this.name_input.classList.add('form-control')
           this.name_input.setAttribute('type', 'number');
-      step_col.classList.add('col-xs-5');
+      slider_col.classList.add('col-xs-6');
+        slider_row.classList.add('row');
+          slider_input_col.classList.add('col-xs-12');
+            this.slider.setAttribute('type', 'range');
+            this.slider.classList.add('slider');
+        bounds_row.classList.add('row');
+          lower_bound_col.classList.add('col-xs-3');
+            this.lower_bound_input.classList.add('form-control');
+            this.lower_bound_input.classList.add('bound');
+            // this.lower_bound_input.setAttribute('type', 'number');
+          spacer_col.classList.add('col-xs-6');
+          upper_bound_col.classList.add('col-xs-3');
+            this.upper_bound_input.classList.add('form-control');
+            this.upper_bound_input.classList.add('bound');
+            // this.upper_bound_input.setAttribute('type', 'number');
+      step_col.classList.add('col-xs-2');
         step_input_group.classList.add('input-group');
         step_input_group.classList.add('step-input-group');
           step_addon.classList.add('input-group-addon');
           this.step_input.classList.add('form-control')
-          this.step_input.setAttribute('type', 'number');
-      trash_col.classList.add('col-xs-3');
+          // this.step_input.setAttribute('type', 'number');
+      trash_col.classList.add('col-xs-1');
       trash_col.classList.add('text-right');
         trash_link.classList.add('btn');
         trash_link.classList.add('trash-link');
           trash_icon.classList.add('glyphicon');
           trash_icon.classList.add('glyphicon-trash');
-    bottom_row.classList.add('row');
-    bottom_row.classList.add('slider-row');
-      lower_bound_col.classList.add('col-xs-2');
-        this.lower_bound_input.classList.add('form-control');
-        this.lower_bound_input.classList.add('bound');
-        this.lower_bound_input.setAttribute('type', 'number');
-      slider_col.classList.add('col-xs-8');
-        this.slider.setAttribute('type', 'range');
-        this.slider.classList.add('slider');
-      upper_bound_col.classList.add('col-xs-2');
-        this.upper_bound_input.classList.add('form-control');
-        this.upper_bound_input.classList.add('bound');
-        this.upper_bound_input.setAttribute('type', 'number');
     this.error.classList.add('variable-slider-error');
 
 

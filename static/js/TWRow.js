@@ -1,15 +1,16 @@
 
 // https://guppy.js.org/site/api/guppy-js/2.0.0-rc.1/Guppy.html#.add_global_symbol
-const SYMBOLS = {"Scale": {"output": {"latex":"\\text{Scale}\\left({$1}\\right)", "text":"Scale($1)"}, "attrs": { "type":"Scale", "group":"function"}},
-                 "XScale": {"output": {"latex":"\\text{XScale}\\left({$1}\\right)", "text":"XScale($1)"}, "attrs": { "type":"XScale", "group":"function"}},
-                 "YScale": {"output": {"latex":"\\text{YScale}\\left({$1}\\right)", "text":"YScale($1)"}, "attrs": { "type":"YScale", "group":"function"}},
-                 "XYScale": {"output": {"latex":"\\text{XYScale}\\left({$1}, {$2}\\right)", "text":"XYScale($1)"}, "attrs": { "type":"XYScale", "group":"function"}},
-                 "Translate": {"output": {"latex":"\\text{Translate}\\left({$1}, {$2}\\right)", "text":"Translate($1, $2)"}, "attrs": { "type":"Translate", "group":"function"}},
-                 "Rotate": {"output": {"latex":"\\text{Rotate}\\left({$1}\\right)", "text":"Rotate($1)"}, "attrs": { "type":"Rotate", "group":"function"}},
-                 "XShear": {"output": {"latex":"\\text{XShear}\\left({$1}\\right)", "text":"XShear($1)"}, "attrs": { "type":"XShear", "group":"function"}},
-                 "YShear": {"output": {"latex":"\\text{YShear}\\left({$1}\\right)", "text":"YShear($1)"}, "attrs": { "type":"YShear", "group":"function"}},
-                 "M": {"output": {"latex":"\\text{M}\\left({$1}, {$2}, {$3}, {$4}, {$5}, {$6}\\right)", "text":"M($1, $2, $3, $4, $5, $6)"}, "attrs": { "type":"M", "group":"function"}},
-                 }
+const SYMBOLS = {
+  "Scale": {"output": {"latex":"\\text{Scale}\\left({$1}\\right)", "text":"Scale($1)"}, "attrs": { "type":"Scale", "group":"function"}},
+  "XScale": {"output": {"latex":"\\text{XScale}\\left({$1}\\right)", "text":"XScale($1)"}, "attrs": { "type":"XScale", "group":"function"}},
+  "YScale": {"output": {"latex":"\\text{YScale}\\left({$1}\\right)", "text":"YScale($1)"}, "attrs": { "type":"YScale", "group":"function"}},
+  "XYScale": {"output": {"latex":"\\text{XYScale}\\left({$1}, {$2}\\right)", "text":"XYScale($1)"}, "attrs": { "type":"XYScale", "group":"function"}},
+  "Translate": {"output": {"latex":"\\text{Translate}\\left({$1}, {$2}\\right)", "text":"Translate($1, $2)"}, "attrs": { "type":"Translate", "group":"function"}},
+  "Rotate": {"output": {"latex":"\\text{Rotate}\\left({$1}\\right)", "text":"Rotate($1)"}, "attrs": { "type":"Rotate", "group":"function"}},
+  "XShear": {"output": {"latex":"\\text{XShear}\\left({$1}\\right)", "text":"XShear($1)"}, "attrs": { "type":"XShear", "group":"function"}},
+  "YShear": {"output": {"latex":"\\text{YShear}\\left({$1}\\right)", "text":"YShear($1)"}, "attrs": { "type":"YShear", "group":"function"}},
+  "M": {"output": {"latex":"\\text{M}\\left({$1}, {$2}, {$3}, {$4}, {$5}, {$6}\\right)", "text":"M($1, $2, $3, $4, $5, $6)"}, "attrs": { "type":"M", "group":"function"}},
+}
 
 class TWRow {
 
@@ -256,10 +257,20 @@ class TWRowGroup {
 
   get_all_content(type) {
     // "type" is from Guppy - ex: 'latex', 'ast', 'text'
-    var output = {};
+    var output = [];
     for (var i in this.all_rows) {
       try {
         output[i] = this.all_rows[i].guppy.engine.get_content(type);
+      } catch(e) {}
+    }
+    return output;
+  }
+
+  get_all_weight_text() {
+    var output = [];
+    for (var i in this.all_rows) {
+      try {
+        output[i] = this.all_rows[i].weight.value;
       } catch(e) {}
     }
     return output;
