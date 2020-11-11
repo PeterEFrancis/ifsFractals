@@ -12,4 +12,11 @@
   margin-bottom: -0.25em;
 }
 
-.guppy_inactive{border:2px solid black;padding:10px;box-shadow:1px 1px 1px 0 lightgray inset;cursor:text;background-color:#fafafa;color:#000;position:relative}.guppy_text_current{border:1px solid #ccc}.guppy_active .main_cursor{animation:blink-animation 1s steps(2,start) infinite;-webkit-animation:blink-animation 1s steps(2,start) infinite}.guppy_active .guppy_buttons{display:block}.guppy_inactive .guppy_buttons{display:none}.guppy_buttons div.settings{background:url('./icons/settings.png') center no-repeat}.guppy_buttons div.keyboard{background:url('./icons/keyboard.png') center no-repeat}.guppy_buttons div.help{background:url('./icons/help.png') center no-repeat}.guppy_buttons div.symbols{background:url('./icons/symbols.png') center no-repeat}.guppy_buttons{position:absolute;bottom:0;right:0;padding:0 3px 3px 0;width:100%;text-align:right}.guppy_buttons div.guppy-button{background-size:12px 12px;cursor:pointer;height:16px;width:16px;padding:3px;opacity:.5;display:inline-block}.guppy_buttons img:hover{opacity:1}@keyframes blink-animation{to{visibility:hidden}}@-webkit-keyframes blink-animation{to{visibility:hidden}}
+.guppy_inactive{border:2px solid black;padding:10px;box-shadow:1px 1px 1px 0 lightgray inset;cursor:text;background-color:#fafafa;color:#000;position:relative}.guppy_text_current{border:1px solid #ccc}.guppy_active .main_cursor{animation:blink-animation 1s steps(2,start) infinite;-webkit-animation:blink-animation 1s steps(2,start) infinite}
+
+.guppy_active .guppy_buttons {
+  /* display:block */
+  display:none
+}
+
+.guppy_inactive .guppy_buttons{display:none}.guppy_buttons div.settings{background:url('./icons/settings.png') center no-repeat}.guppy_buttons div.keyboard{background:url('./icons/keyboard.png') center no-repeat}.guppy_buttons div.help{background:url('./icons/help.png') center no-repeat}.guppy_buttons div.symbols{background:url('./icons/symbols.png') center no-repeat}.guppy_buttons{position:absolute;bottom:0;right:0;padding:0 3px 3px 0;width:100%;text-align:right}.guppy_buttons div.guppy-button{background-size:12px 12px;cursor:pointer;height:16px;width:16px;padding:3px;opacity:.5;display:inline-block}.guppy_buttons img:hover{opacity:1}@keyframes blink-animation{to{visibility:hidden}}@-webkit-keyframes blink-animation{to{visibility:hidden}}
