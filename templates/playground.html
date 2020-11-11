@@ -26,6 +26,9 @@
   <!-- MathJs -->
   <script src="/static/js/math.js"></script>
 
+  <!-- fontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
   <style>
 
@@ -85,6 +88,10 @@
       background-color: white;
     }
 
+    a:hover {
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -117,7 +124,7 @@
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       <h1>
-        Playground <a id="save-button" data-toggle="modal" data-target="#share-modal" style="font-size: .75em" href="#share-modal" onclick="save()">
+        Playground <a id="save-button" style="font-size: .75em" onclick="save()">
           <span class="glyphicon glyphicon-floppy-save"></span>
         </a>
       </h1>
@@ -131,21 +138,6 @@
       <a href="tree">Tree</a>
     </div>
   </div>
-
-  <div id="share-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Share your fractal</h4>
-        </div>
-        <div class="modal-body">
-          <a id="share-link" href="" target="_blank"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
 
   <!-- <div class="row" style="margin-bottom: 40px;">
@@ -284,18 +276,24 @@
       <canvas id="fractal" class="center-block"></canvas>
       <p id="fractal-error" style="color: red">&nbsp;</p>
       <div class="row">
-        <div class="col-xs-3">
+        <div class="col-xs-2">
           <input id="color" type="color" style="width: 100%; height: 2.5em; border: 0px;" oninput="cart.set_color(this.value)"></input>
         </div>
-        <div class="col-xs-3">
-          <button class="btn btn-default btn-block" onclick="autocenter();">Auto Center</button>
+        <div class="col-xs-4">
+          <div class="btn-group" style="width: 100%">
+            <button class="btn btn-default btn" onclick="autocenter();" style="width:calc(100% - 40px)">Auto Center</button>
+            <button id="autolock" class="btn btn-default btn" onclick="toggle_autolock();" style="width:40px;">
+              <i class="fa fa-unlock" id="lock-icon"></i>
+            </button>
+          </div>
         </div>
         <div class="col-xs-3">
           <button class="btn btn-default btn-block" onclick="update();">Replot</button>
         </div>
         <div class="col-xs-3">
           <button class="btn btn-default btn-block" onclick="cart.download()">
-            Download <span class="glyphicon glyphicon-download-alt"></span>
+            Download
+             <!-- <span class="glyphicon glyphicon-download-alt"></span> -->
           </button>
         </div>
       </div>
@@ -304,13 +302,13 @@
         <div class="col-xs-6">
           <div class="input-group">
             <span class="input-group-addon">Points to Plot</span>
-            <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
+            <input id="points" type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
           </div>
         </div>
         <div class="col-xs-6">
           <div class="input-group">
             <span class="input-group-addon">Zoom</span>
-            <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
+            <input type="text" class="form-control" onchange="set_autolock(false); cart.zoom_to(this.value);" id="zoom" value="50"/>
           </div>
         </div>
       </div>
@@ -434,7 +432,29 @@
 
 
 
+    var autolock = false;
 
+    function set_autolock(val) {
+      autolock = val;
+      if (autolock) {
+        autocenter();
+        document.getElementById('autolock').classList.add("btn-success");
+        document.getElementById('lock-icon').classList.add("fa-lock");
+        document.getElementById('lock-icon').classList.remove("fa-unlock");
+      } else {
+        document.getElementById('lock-icon').classList.remove("fa-lock");
+        document.getElementById('lock-icon').classList.add("fa-unlock");
+        document.getElementById('autolock').classList.remove("btn-success");
+      }
+    }
+
+    function toggle_autolock() {
+      set_autolock(!autolock);
+    }
+
+    function autocenter() {
+      cart.set_with_bounds(fractal.get_bounds(), 0.9);
+    }
 
 
 
@@ -448,6 +468,9 @@
         // set fractal with new transformations
         fractal.set_TW(tw);
 
+        if (autolock) {
+          autocenter();
+        }
 
         // update raw transformations list
         var raw_list = document.getElementById('raw-transformation-list');
@@ -513,6 +536,7 @@
           const this_f_s = func_string.replace('π','pi');
           button.onclick = function() {
             tw_row_group.all_rows[this_i].guppy.engine.import_text(this_f_s);
+            tw_row_group.all_rows[this_i].guppy.engine.end();
             tw_row_group.all_rows[this_i].guppy.render(true);
           }
           use_td.appendChild(button);
@@ -540,14 +564,14 @@
     }
 
 
-    function set_fractal(f_info, ac) {
+    function set_fractal(f_info) {
 
       // clear current rows
       tw_row_group.delete_all();
 
-      for (var i = 0; i < f_info.weights.length; i++) {
+      for (var i = 0; i < f_info.transformations.length; i++) {
         tw_row_group.add_row();
-        tw_row_group.all_rows[i].guppy.engine.set_content(f_info.guppy_xml[i]);
+        tw_row_group.all_rows[i].guppy.import_text(f_info.transformations[i]);
         tw_row_group.all_rows[i].guppy.engine.end();
         tw_row_group.all_rows[i].guppy.render(true);
         tw_row_group.all_rows[i].set_weight(f_info.weights[i]);
@@ -560,11 +584,8 @@
         v.set_value(f_info.vars[var_name].val);
       }
 
-      // these are functions, so cannot be in JSON -- must be generated by parsing
-      f_info.transformations = tw_row_group.get_TW().transformations;
-
       try {
-        fractal = new Fractal(cart, f_info);
+        fractal = new Fractal(cart, tw_row_group.get_TW()); // (the actual function objects need to be generated)
         clear_error();
       } catch(e) {
         report_error(e);
@@ -574,49 +595,61 @@
       variable_group.onchange = update;
       tw_row_group.onchange = update;
 
-      cart.zoom_to(f_info.zoom);
       cart.center_at(f_info.center);
 
-      if (ac) {
-        autocenter();
+      if (f_info.zoom == 'auto') {
+        set_autolock(true);
+      } else {
+        cart.zoom_to(f_info.zoom);
       }
+
+      document.getElementById('points').value = f_info.points;
+
+      document.getElementById('color').value = f_info.color;
+      cart.set_color(f_info.color);
 
       update();
     }
 
 
     function get_info() {
-      // {guppy_xml, weights, transformations, zoom, center, vars}
+      // {transformations, weights, vars, zoom, center, points, color}
       var info = {};
 
-      // guppy xml
-      info.guppy_xml = [];
-      const xml = tw_row_group.get_all_content('xml');
-      for (var i in xml) {
-        info.guppy_xml.push(xml[i])
+      // transformations
+      info.transformations = '';
+      const text = tw_row_group.get_all_content('text');
+      for (var i in text) {
+        info.transformations = info.transformations + text[i] + "&";
       }
+      info.transformations = info.transformations.substring(0, info.transformations.length - 1)
 
       // weights
-      info.weights = JSON.parse(JSON.stringify(fractal.tw.weights));
-
-      // zoom
-      info.zoom = cart.zoom;
-
-      // center
-      info.center = JSON.parse(JSON.stringify(cart.center));
+      info.weights = fractal.tw.weights.join(",");
 
       // vars
-      info.vars = variable_group.get_values_and_bounds();
+      info.vars = JSON.stringify(variable_group.get_values_and_bounds());
+
+      // zoom
+      info.zoom = autolock ? 'auto' : String(cart.zoom);
+
+      // center
+      info.center = JSON.stringify(cart.center);
+
+      // points
+      info.points = String(document.getElementById('points').value);
+
+      // color
+      info.color = String(document.getElementById('color').value);
 
       return info;
-
     }
 
 
     function save() {
       $.ajax({
         url: '/save_playground',
-        data: {info: JSON.stringify(get_info())},
+        data: get_info(),
         type: 'POST',
         cache: false,
         success: function(response){
@@ -624,8 +657,6 @@
             var curr = window.location.href;
             var link = curr.substring(0,curr.indexOf('d/') + 2) + response.name;
             window.location = link;
-            // document.getElementById('share-link').innerHTML = link;
-            // document.getElementById('share-link').href = link;
           } else {
             console.log('saving error');
           }
@@ -637,11 +668,6 @@
 
     }
 
-
-
-    function autocenter() {
-      cart.set_with_bounds(fractal.get_bounds(), 0.9);
-    }
 
 
 
@@ -678,11 +704,17 @@
     }
 
 
-
     // set default fractal
-    var DEFAULT = JSON.parse({{info|tojson}});
+    var DEFAULT = {
+      transformations: {{playground.transformations|tojson}}.split('&'),
+      weights: {{playground.weights|tojson}}.split(','),
+      vars: JSON.parse({{playground.vars|tojson}}),
+      zoom: {{playground.zoom|tojson}},
+      center: JSON.parse({{playground.center|tojson}}),
+      points: Number({{playground.points}}),
+      color: {{playground.color|tojson}}
+    };
     set_fractal(DEFAULT);
-
 
 
 </script>

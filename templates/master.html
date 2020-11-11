@@ -38,14 +38,46 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Info</th>
+            <th>Transformations</th>
+            <th>Weights</th>
+            <th>vars</th>
+            <th>zoom</th>
+            <th>center</th>
+            <th>points</th>
+            <th>color</th>
           </tr>
         </thead>
         <tbody>
           {% for playground in all %}
             <tr>
               <td><a href="/playground/{{playground.name}}">{{ playground.name }}</td>
-              <td><div style="height:4em; overflow:scroll;">{{ playground.info }}</div></td>
+              <td>
+                {% for t in playground.transformations.split('&') %}
+                  {{ t }}
+                  <br>
+                {% endfor %}
+              </td>
+              <td>
+                {% for w in playground.weights.split(',') %}
+                  {{ w }}
+                  <br>
+                {% endfor %}
+              </td>
+              <td id="{{playground.name}}-vars"></td>
+              <script>
+                var vars = JSON.parse({{playground.vars|tojson}});
+                console.log(vars);
+                for (var v in vars) {
+                  console.log(v);
+                  document.getElementById("{{playground.name}}-vars").innerHTML += v + " = " + vars[v].val + " &isin; (" + vars[v].min + ", " + vars[v].max +  ")";
+                }
+              </script>
+              <td>{{ playground.zoom }}</td>
+              <td>{{ playground.center }}</td>
+              <td>{{ playground.points }}</td>
+              <td style="background-color:{{ playground.color }}">
+                <span style="background-color:white; border-radius: 5px; padding: 3px; margin-top: 50%">{{ playground.color }}</span>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
