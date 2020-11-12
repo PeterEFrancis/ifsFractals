@@ -34,13 +34,12 @@ class VariableSlider {
         var bounds_row = document.createElement('div');
       var lower_bound_col = document.createElement('div');
         this.lower_bound_input = document.createElement('input');
-      var spacer_col = document.createElement('div');
+      var step_col = document.createElement('div');
+        var step_label = document.createElement('label');
+          var step_span = document.createElement('span');
+          this.step_input = document.createElement('input');
       var upper_bound_col = document.createElement('div');
         this.upper_bound_input = document.createElement('input');
-      var step_col = document.createElement('div');
-        var step_input_group = document.createElement('div');
-          var step_addon = document.createElement('span');
-          this.step_input = document.createElement('input');
       var trash_col = document.createElement('div');
         var trash_link = document.createElement('a');
           var trash_icon = document.createElement('span');
@@ -60,13 +59,12 @@ class VariableSlider {
         slider_col.appendChild(bounds_row);
           bounds_row.appendChild(lower_bound_col);
             lower_bound_col.appendChild(this.lower_bound_input);
-          bounds_row.appendChild(spacer_col);
+          bounds_row.appendChild(step_col);
+            step_col.appendChild(step_label);
+              step_label.appendChild(step_span);
+              step_label.appendChild(this.step_input);
           bounds_row.appendChild(upper_bound_col);
             upper_bound_col.appendChild(this.upper_bound_input);
-      row.appendChild(step_col);
-        step_col.appendChild(step_input_group);
-          step_input_group.appendChild(step_addon);
-          step_input_group.appendChild(this.step_input);
       row.appendChild(trash_col);
         trash_col.appendChild(trash_link);
           trash_link.appendChild(trash_icon);
@@ -75,7 +73,7 @@ class VariableSlider {
 
     // add text
     name_addon.appendChild(document.createTextNode(this.name));
-    step_addon.innerHTML = '&Delta;';
+    step_span.innerHTML = '&Delta; = ';
 
 
     // style elements
@@ -87,28 +85,25 @@ class VariableSlider {
           name_addon.classList.add('input-group-addon');
           name_addon.classList.add('name-input-group-addon');
           this.name_input.classList.add('form-control')
-          this.name_input.setAttribute('type', 'number');
-      slider_col.classList.add('col-xs-6');
+          // this.name_input.setAttribute('type', 'number');
+      slider_col.classList.add('col-xs-8');
         slider_row.classList.add('row');
           slider_input_col.classList.add('col-xs-12');
             this.slider.setAttribute('type', 'range');
             this.slider.classList.add('slider');
         bounds_row.classList.add('row');
-          lower_bound_col.classList.add('col-xs-3');
+          lower_bound_col.classList.add('col-xs-2');
             this.lower_bound_input.classList.add('form-control');
             this.lower_bound_input.classList.add('bound');
             // this.lower_bound_input.setAttribute('type', 'number');
-          spacer_col.classList.add('col-xs-6');
-          upper_bound_col.classList.add('col-xs-3');
+          step_col.classList.add('col-xs-8', 'step-col');
+            step_label.classList.add('step-label');
+              this.step_input.classList.add('step-input')
+              // this.step_input.setAttribute('type', 'number');
+          upper_bound_col.classList.add('col-xs-2');
             this.upper_bound_input.classList.add('form-control');
             this.upper_bound_input.classList.add('bound');
             // this.upper_bound_input.setAttribute('type', 'number');
-      step_col.classList.add('col-xs-2');
-        step_input_group.classList.add('input-group');
-        step_input_group.classList.add('step-input-group');
-          step_addon.classList.add('input-group-addon');
-          this.step_input.classList.add('form-control')
-          // this.step_input.setAttribute('type', 'number');
       trash_col.classList.add('col-xs-1');
       trash_col.classList.add('text-right');
         trash_link.classList.add('btn');
