@@ -38,6 +38,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Title</th>
             <th>Transformations</th>
             <th>Weights</th>
             <th>vars</th>
@@ -50,7 +51,8 @@
         <tbody>
           {% for playground in all %}
             <tr>
-              <td><a href="/playground/{{playground.name}}">{{ playground.name }}</td>
+              <td><a href="/playground/{{playground.name}}">{{ playground.name }}</a></td>
+              <td>{{ playground.title }}</td>
               <td>
                 {% for t in playground.transformations.split('&') %}
                   {{ t }}

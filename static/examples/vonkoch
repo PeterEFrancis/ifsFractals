@@ -1,4 +1,5 @@
 {
+  "title":"vonkoch",
   "transformations":"
     Scale(1/3)&
     Translate(1/3,0)Rotate(pi/3)Scale(1/3)&

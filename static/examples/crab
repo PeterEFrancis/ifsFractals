@@ -1,4 +1,5 @@
 {
+  "title":"crab",
   "transformations":"
     Translate(0.5, 0.15)Scale(1/4)Rotate(pi/4)&
     Scale(1/2)&

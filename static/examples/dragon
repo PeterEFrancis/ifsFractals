@@ -1,4 +1,5 @@
 {
+  "title":"dragon",
   "transformations":"
     Rotate(-pi/4)Scale(1/squareroot(2))&
     Translate(1,0)Rotate(5pi/4)Scale(1/squareroot(2))

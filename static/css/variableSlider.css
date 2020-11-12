@@ -40,7 +40,7 @@
   text-align:center;
 }
 
-.bound:focus{
+.bound:focus {
   outline: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -69,13 +69,10 @@
   background-color: transparent;
 }
 
-.step-input-group {
-  /* margin: auto; */
-  /* margin-left: 75px; */
-}
-
-.name-input-group-addon {
-  font-weight: bold;
+.step-input:focus{
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .variable-slider-error {

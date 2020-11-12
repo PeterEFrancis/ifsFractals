@@ -30,6 +30,7 @@ class Playground(db.Model):
     __tablename__ = "playgrounds"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
+    title = db.Column(db.Text)
     transformations = db.Column(db.Text)
     weights = db.Column(db.Text)
     vars = db.Column(db.Text)
@@ -38,8 +39,9 @@ class Playground(db.Model):
     points = db.Column(db.Text)
     color = db.Column(db.Text)
 
-    def __init__(self, name, transformations, weights, vars, zoom, center, points, color):
+    def __init__(self, name, title, transformations, weights, vars, zoom, center, points, color):
         self.name = name
+        self.title = title
         self.transformations = transformations
         self.weights = weights
         self.vars = vars
@@ -58,10 +60,11 @@ def get_new_name():
 
 
 
-def save(transformations, weights, vars, zoom, center, points, color):
+def save(title, transformations, weights, vars, zoom, center, points, color):
     name = get_new_name()
     playground = Playground(
         name = name,
+        title = title,
         transformations = transformations,
         weights = weights,
         vars = vars,
@@ -78,6 +81,7 @@ def save(transformations, weights, vars, zoom, center, points, color):
 @app.route('/save_playground', methods=['POST'])
 def save_playground():
     if request.method == 'POST':
+        title = request.form['title']
         transformations = request.form['transformations']
         weights = request.form['weights']
         vars = request.form['vars']
@@ -85,7 +89,7 @@ def save_playground():
         center = request.form['center']
         points = request.form['points']
         color = request.form['color']
-        name = save(transformations, weights, vars, zoom, center, points, color)
+        name = save(title, transformations, weights, vars, zoom, center, points, color)
         return jsonify({'success':'true', 'name':name})
     return 'Access Denied'
 
@@ -135,7 +139,7 @@ def master():
 
 @app.route('/playground/t=<string:transformations>/w=<string:weights>')
 def m(transformations, weights):
-    name = save(transformations, weights, "{}", "auto", '{"x":0,"y":0}', "10000", "#000000")
+    name = save('myImportedFractal', transformations, weights, "{}", "auto", '{"x":0,"y":0}', "10000", "#000000")
     return redirect('/playground/' + name)
 
 
@@ -162,6 +166,7 @@ def initialize():
             info = eval(f.read().replace('\n','').replace(' ',''))
             playground = Playground(
                 name = filename,
+                title = info['title'],
                 transformations = info['transformations'],
                 weights = info['weights'],
                 vars = info['vars'],

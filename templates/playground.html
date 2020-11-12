@@ -122,12 +122,8 @@
 
 <div class="container-fluid" style="max-width: 1500px;">
   <div class="row" style="margin-bottom: 30px;">
-    <div class="col-md-12">
-      <h1>
-        Playground <a id="save-button" style="font-size: .75em" onclick="save()">
-          <span class="glyphicon glyphicon-floppy-save"></span>
-        </a>
-      </h1>
+    <div class="col-md-9">
+      <h1>Playground</h1>
       <br>
       Examples:
       <a href="barnsley">Barnsley Fern</a> &middot;
@@ -136,6 +132,16 @@
       <a href="dragon">Dragon</a> &middot;
       <a href="crab">Crab</a> &middot;
       <a href="tree">Tree</a>
+    </div>
+    <div class="col-sm-3 text-right">
+      <div class="input-group" style="margin-top: 20px;">
+        <input id="title" class="form-control" style="font-size: 1.75em; height:100%"/>
+        <span class="input-group-btn">
+          <button id="save-button" class="btn btn-primary" onclick="save()">
+            <span class="glyphicon glyphicon-floppy-save" style="font-size:1.75em;"></span>
+          </button>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -566,6 +572,9 @@
 
     function set_fractal(f_info) {
 
+      // place title
+      document.getElementById('title').value = f_info.title;
+
       // clear current rows
       tw_row_group.delete_all();
 
@@ -615,8 +624,11 @@
 
 
     function get_info() {
-      // {transformations, weights, vars, zoom, center, points, color}
+      // {title, transformations, weights, vars, zoom, center, points, color}
       var info = {};
+
+      // title
+      info.title = documnet.getElementById('title').value;
 
       // transformations
       info.transformations = '';
@@ -708,6 +720,7 @@
 
     // set default fractal
     var DEFAULT = {
+      title: {{playground.title|tojson}},
       transformations: {{playground.transformations|tojson}}.split('&'),
       weights: {{playground.weights|tojson}}.split(','),
       vars: JSON.parse({{playground.vars|tojson}}),
