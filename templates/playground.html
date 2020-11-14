@@ -283,23 +283,26 @@
       <p id="fractal-error" style="color: red">&nbsp;</p>
       <div class="row">
         <div class="col-xs-2">
-          <input id="color" type="color" style="width: 100%; height: 2.5em; border: 0px;" oninput="cart.set_color(this.value)"></input>
+          <input id="color" type="color" style="width: 100%; height: 1.5em; border: 0px;" oninput="cart.set_color(this.value)"></input>
         </div>
         <div class="col-xs-4">
           <div class="btn-group" style="width: 100%">
-            <button class="btn btn-default btn" onclick="autocenter();" style="width:calc(100% - 35px)">Auto Center</button>
-            <button id="autolock" class="btn btn-default btn" onclick="toggle_autolock();" style="width:35px;">
+            <button class="btn btn-default btn-xs" onclick="autocenter();" style="width:calc(100% - 35px)">Auto Center</button>
+            <button id="autolock" class="btn btn-default btn-xs" onclick="toggle_autolock();" style="width:35px;">
               <i class="fa fa-unlock" id="lock-icon"></i>
             </button>
           </div>
         </div>
         <div class="col-xs-3">
-          <button class="btn btn-default btn-block" onclick="update();">Replot</button>
+          <button class="btn btn-default btn-block btn-xs" onclick="update();">
+            Replot&nbsp;
+            <span class="glyphicon glyphicon-refresh"></span>
+          </button>
         </div>
         <div class="col-xs-3">
-          <button class="btn btn-default btn-block" onclick="cart.download()">
-            Download
-            <!-- <span class="glyphicon glyphicon-download-alt"></span> -->
+          <button class="btn btn-default btn-block btn-xs" onclick="cart.download()">
+            Download&nbsp;
+            <span class="glyphicon glyphicon-download-alt"></span>
           </button>
         </div>
       </div>
