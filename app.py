@@ -156,7 +156,7 @@ def m(transformations, weights):
  # |_|_| |_|_|\__|_|\__,_|_|_/___\___|
 
 
-@app.route('/initialize')
+# @app.route('/initialize')
 def initialize():
     db.drop_all()
     db.create_all()
