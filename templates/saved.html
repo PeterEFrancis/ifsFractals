@@ -95,7 +95,7 @@
                 console.log(vars);
                 for (var v in vars) {
                   console.log(v);
-                  document.getElementById("{{playground.name}}-vars").innerHTML += v + " = " + vars[v].val + " &isin; (" + vars[v].min + ", " + vars[v].max +  ")";
+                  document.getElementById("{{playground.name}}-vars").innerHTML += v + " = " + vars[v].val + " &isin; (" + vars[v].min + ", " + vars[v].max +  ")<br>";
                 }
               </script>
               <td>{{ playground.zoom }}</td>
