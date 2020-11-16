@@ -92,6 +92,10 @@
       cursor: pointer;
     }
 
+    .info-circ {
+      font-size: .75em;
+    }
+
   </style>
 </head>
 <body>
@@ -110,6 +114,7 @@
       <ul class="nav navbar-nav">
         <li><a href="\">Home</a></li>
         <li class="active"><a href="\playground">Playground</a></li>
+        <li><a href="\master">Master</a></li>
         <li><a href="\word-fractals">Word Fractals</a></li>
         <!-- <li><a href="#">Transformation Maker</a></li>
         <li><a href="#">Experiment</a></li>
@@ -178,7 +183,7 @@
 
       <h3>
         Transformations and Weights
-        <a data-toggle="modal" data-target="#transformations-modal" style="font-size: .75em" href="#transformations-modal">
+        <a class="info-circ" data-toggle="modal" data-target="#transformations-modal" href="#transformations-modal">
           <span class="glyphicon glyphicon-info-sign"></span>
         </a>
       </h3>
@@ -340,7 +345,28 @@
           </div>
         </div>
       </div>
-      <h3 style="margin-top: 60px;">Generator</h3>
+      <h3 style="margin-top: 60px;">
+        Generator
+        <a class="info-circ" data-toggle="modal" data-target="#generator-modal" href="#generator-modal">
+          <span class="glyphicon glyphicon-info-sign"></span>
+        </a>
+      </h3>
+      <div id="generator-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">The Generator</h4>
+            </div>
+            <div class="modal-body">
+              <p>The "generator" image pane shows the effect of each of the transformations on the unit square constructed with the standard unit vectors $(0,1)$ and $(1,0)$. To show orientation, each square also has an "L" shape connected to the bottom left corner.</p>
+              <p>The color of each transformes square corresponds to the color show in the "Raw Transformations" pane. The unshaded grey square shows the un-transformed unit square.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <canvas width="750" height="750" id="generator"></canvas>
 
 
@@ -381,7 +407,7 @@
     document.body.appendChild(curTxt);
     cart.on_mouse_over = function() {
       var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
-      curTxt.innerHTML =  "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
+      curTxt.innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
       curTxt.style.left = (event.pageX + 10) + "px";
       curTxt.style.top = event.pageY + "px";
     };
@@ -407,12 +433,14 @@
 
     // create fractal error catch
     function report_error(msg) {
-      document.getElementById('save-button').style.display = "none";
+      // document.getElementById('save-button').style.display = "none";
+      document.getElementById('save-button').disabled = true;
       document.getElementById('fractal-error').innerHTML = '<span class="glyphicon glyphicon-warning-sign"></span> ' + msg;
       console.log(msg);
     }
     function clear_error() {
-      document.getElementById('save-button').style.display = "inline-block";
+      // document.getElementById('save-button').style.display = "inline-block";
+      document.getElementById('save-button').disabled = false;
       document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
 

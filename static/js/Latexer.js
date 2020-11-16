@@ -52,20 +52,70 @@ class LaTeXer {
     }
 
     // proofs
+    var proof_number = 1;
     for (var i = 0; i < nodes.length; i++) {
       if (nodes[i].tagName == "PROOF") {
-        var div = document.createElement('div');
-        var proof = document.createElement('em');
-        proof.appendChild(document.createTextNode('Proof.'));
-        div.appendChild(proof);
-        var p = document.createElement('p');
-        p.innerHTML = nodes[i].innerHTML;
-        div.appendChild(p);
+
+        var proof = document.createElement('p');
+        proof.innerHTML = nodes[i].innerHTML;
         var right = document.createElement('div');
         right.classList.add('text-right');
         right.appendChild(document.createTextNode('$\\blacksquare$'));
-        div.appendChild(right);
-        this.container.replaceChild(div, nodes[i]);
+        proof.appendChild(right);
+
+        if (nodes[i].getAttribute('collapse')){
+          var panel_group = document.createElement('div');
+            panel_group.classList.add('panel-group');
+              var panel = document.createElement('div');
+              panel.classList.add('panel', 'panel-default');
+                var panel_heading = document.createElement('div');
+                panel_heading.classList.add('panel-heading');
+                  var row = document.createElement('div');
+                  row.classList.add('row');
+                    var col1 = document.createElement('div');
+                    col1.classList.add('col-xs-6');
+                      var em = document.createElement('em');
+                      em.appendChild(document.createTextNode('Proof.'))
+                    var col2 = document.createElement('div');
+                    col2.classList.add('col-xs-6', 'text-right');
+                      var a = document.createElement('a');
+                        a.setAttribute('data-toggle','collapse');
+                        a.setAttribute('href','#proof-' + String(proof_number));
+                        a.style.border="0px";
+                        a.style.color = "grey";
+                        var span = document.createElement('span');
+                        span.classList.add('glyphicon', 'glyphicon-collapse-down');
+                        span.setAttribute('onclick',"if(this.classList.contains('glyphicon-collapse-down')) {this.classList.remove('glyphicon-collapse-down'); this.classList.add('glyphicon-collapse-up');} else {this.classList.add('glyphicon-collapse-down'); this.classList.remove('glyphicon-collapse-up');}")
+                var panel_collapse = document.createElement('div');
+                panel_collapse.classList.add('panel-collapse', 'collapse');
+                panel_collapse.setAttribute('id', 'proof-' + String(proof_number));
+                  var panel_body = document.createElement('div');
+                  panel_body.classList.add('panel-body');
+
+          panel_group.appendChild(panel);
+            panel.appendChild(panel_heading);
+              panel_heading.appendChild(row);
+                row.appendChild(col1);
+                  col1.appendChild(em);
+                row.appendChild(col2);
+                  col2.appendChild(a);
+                    a.appendChild(span);
+            panel.appendChild(panel_collapse);
+              panel_collapse.appendChild(panel_body);
+
+          panel_body.appendChild(proof);
+
+          this.container.replaceChild(panel_group, nodes[i]);
+
+        } else {
+          var div = document.createElement('div');
+          var em = document.createElement('em');
+          em.appendChild(document.createTextNode('Proof.'));
+          div.appendChild(em);
+          div.appendChild(proof);
+          this.container.replaceChild(div, nodes[i]);
+        }
+        proof_number++;
       }
     }
 
