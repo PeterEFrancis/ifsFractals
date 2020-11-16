@@ -131,9 +131,9 @@ def word_fractals():
     return render_template('word-fractals.html')
 
 
-@app.route('/master')
-def master():
-    return render_template('master.html', all=db.session.query(Playground))
+@app.route('/saved')
+def saved():
+    return render_template('saved.html', all=db.session.query(Playground))
 
 
 
@@ -156,7 +156,7 @@ def m(transformations, weights):
  # |_|_| |_|_|\__|_|\__,_|_|_/___\___|
 
 
-# @app.route('/initialize')
+@app.route('/initialize')
 def initialize():
     db.drop_all()
     db.create_all()

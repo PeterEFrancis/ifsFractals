@@ -244,6 +244,10 @@ class VariableSlider {
     }
   }
 
+  get_step() {
+    return Number(this.slider.step);
+  }
+
   get_value() {
     return this.slider.value;
   }
@@ -320,7 +324,8 @@ class VariableGroup {
       vars[v] = {
         min: this.variables[v].get_min(),
         max: this.variables[v].get_max(),
-        val: this.variables[v].get_value()
+        val: this.variables[v].get_value(),
+        step: this.variables[v].get_step()
       };
     }
     return vars;

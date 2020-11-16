@@ -1,12 +1,19 @@
 {
   "title":"serpinski",
   "transformations":"
-    Scale(0.5)&
-    Translate(0.25,0.5)Scale(0.5)&
-    Translate(0.5, 0)Scale(0.5)
+    Scale(1/2)&
+    Translate(1/4,1/2)Scale(a)&
+    Translate(1/2, 0)Scale(a)
   ",
   "weights":"1,1,1",
-  "vars":"{}",
+  "vars":'{
+    "a":{
+      "min":0,
+      "max":0.5,
+      "val":0.5,
+      "step":0.01
+    }
+  }',
   "zoom":"640",
   "center":'{
     "x":0.5,

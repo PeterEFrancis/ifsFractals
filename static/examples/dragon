@@ -1,12 +1,19 @@
 {
   "title":"dragon",
   "transformations":"
-    Rotate(-pi/4)Scale(1/squareroot(2))&
+    Rotate(a*pi)Scale(1/squareroot(2))&
     Translate(1,0)Rotate(5pi/4)Scale(1/squareroot(2))
   ",
   "weights":"1,1",
-  "vars":"{}",
-  "zoom":"340",
+  "vars":'{
+    "a":{
+      "min":0,
+      "max":2,
+      "val":1.75,
+      "step":0.05
+    }
+  }',
+  "zoom":"auto",
   "center":'{
     "x":0.5,
     "y":0

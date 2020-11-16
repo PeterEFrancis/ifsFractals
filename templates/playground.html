@@ -114,7 +114,7 @@
       <ul class="nav navbar-nav">
         <li><a href="\">Home</a></li>
         <li class="active"><a href="\playground">Playground</a></li>
-        <li><a href="\master">Master</a></li>
+        <li><a href="\saved">Saved</a></li>
         <li><a href="\word-fractals">Word Fractals</a></li>
         <!-- <li><a href="#">Transformation Maker</a></li>
         <li><a href="#">Experiment</a></li>
@@ -624,6 +624,7 @@
         v.set_min(f_info.vars[var_name].min);
         v.set_max(f_info.vars[var_name].max);
         v.set_value(f_info.vars[var_name].val);
+        v.set_step(f_info.vars[var_name].step);
       }
 
       try {

@@ -1,14 +1,21 @@
 {
   "title":"crab",
   "transformations":"
-    Translate(0.5, 0.15)Scale(1/4)Rotate(pi/4)&
+    Translate(0.5, 0.15)Scale(1/4)Rotate(a*pi/4)&
     Scale(1/2)&
-    Translate(-0.5, 0.15)Scale(1/4)Rotate(-pi/4)&
+    Translate(-0.5, 0.15)Scale(1/4)Rotate(-a*pi/4)&
     Rotate(-pi/6)Scale(1/2)&
     Rotate(pi/6)Scale(1/2)
   ",
   "weights":"1,1,1,1,1",
-  "vars":"{}",
+  "vars":'{
+    "a":{
+      "min":0,
+      "max":1,
+      "val":1,
+      "step":0.05
+    }
+  }',
   "zoom":"700",
   "center":'{
     "x":0,

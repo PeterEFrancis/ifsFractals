@@ -26,42 +26,80 @@ function factor_transformation(t) {
 
   // if M is not invertible
   if (determinant == 0) {
-    // if col1 = 0
-    if (Math.abs(a) < EPSILON && Math.abs(c) < EPSILON) {
-      // if col2 == 0
-      if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) {
-        transformations.push({name:'Scale', args:[0]});
+    // // if col1 = 0
+    // if (Math.abs(a) < EPSILON && Math.abs(c) < EPSILON) {
+    //   // if col2 == 0
+    //   if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) {
+    //     transformations.push({name:'Scale', args:[0]});
+    //   } else {
+    //     if (Math.abs(d) < EPSILON) {
+    //       transformations.push({name:'Rotate', args:[- 1 / 2]});
+    //       transformations.push({name:'XYScale', args:[0, b]});
+    //     } else {
+    //       if (Math.abs(b) > EPSILON) {
+    //         transformations.push({name:'XShear', args:[b / d]});
+    //       }
+    //       transformations.push({name:'XYScale', args:[0, d]});
+    //     }
+    //   }
+    // } else if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) { // if col2 = 0
+    //   if (Math.abs(a) < EPSILON) {
+    //     transformations.push({name:'Rotate', args:[1 / 2]});
+    //     transformations.push({name:'XYScale', args:[c, 0]});
+    //   } else {
+    //     if (Math.abs(c) > EPSILON) {
+    //       transformations.push({name:'YShear', args:[c/a]});
+    //     }
+    //     transformations.push({name:'XYScale', args:[a, 0]});
+    //   }
+    // } else {
+    //   var theta = get_angle([a, c]);
+    //   if (Math.abs(theta) < EPSILON) {
+    //     transformations.push({name:'Rotate', args:[theta / Math.PI]});
+    //     transformations.push({name:'XYScale', args:[s, 0]});
+    //   } else {
+    //     transformations.push({name:'XYScale', args:[a, 0]});
+    //   }
+    //   transformations.push({name:'XShear', args:[b / a]});
+    // }
+
+
+    // NEWER VERSION
+    var mag1 = Math.sqrt(a*a + c*c);
+    var mag2 = Math.sqrt(b*b + d*d);
+
+    // if col1 =/= 0
+    if (mag1 != 0) {
+      var theta = get_angle([a,c]) / Math.PI;
+      if (Math.abs(theta) > EPSILON) {
+        transformations.push({name:'Rotate', args:[theta]});
+      }
+      if (math.abs(1 - mag1) > EPSILON) {
+        transformations.push({name:'XYScale', args:[mag1, 0]});
       } else {
-        if (Math.abs(d) < EPSILON) {
-          transformations.push({name:'Rotate', args:[- 1 / 2]});
-          transformations.push({name:'XYScale', args:[0, b]});
+        transformations.push({name:'YScale', args:[0]});
+      }
+      if (mag2 / mag1 > EPSILON) {
+        transformations.push({name:'XShear', args:[mag2 / mag1]});
+      }
+    } else if (mag2 != 0) { // if col2 =/= 0
+        var theta = ((Math.PI / 2) - get_angle([b,d])) / Math.PI;
+        if (Math.abs(theta) > EPSILON) {
+          transformations.push({name:'Rotate', args:[theta]});
+        }
+        if (math.abs(1 - mag2) > EPSILON) {
+          transformations.push({name:'XYScale', args:[0, mag2]});
         } else {
-          if (Math.abs(b) > EPSILON) {
-            transformations.push({name:'XShear', args:[b / d]});
-          }
-          transformations.push({name:'XYScale', args:[0, d]});
+          transformations.push({name:'XScale', args:[0]});
         }
-      }
-    } else if (Math.abs(b) < EPSILON && Math.abs(d) < EPSILON) { // if col2 = 0
-      if (Math.abs(a) < EPSILON) {
-        transformations.push({name:'Rotate', args:[1 / 2]});
-        transformations.push({name:'XYScale', args:[c, 0]});
-      } else {
-        if (Math.abs(c) > EPSILON) {
-          transformations.push({name:'YShear', args:[c/a]});
-        }
-        transformations.push({name:'XYScale', args:[a, 0]});
-      }
     } else {
-      var theta = get_angle([a, c]);
-      if (Math.abs(theta) < EPSILON) {
-        transformations.push({name:'Rotate', args:[theta / Math.PI]});
-        transformations.push({name:'XYScale', args:[s, 0]});
-      } else {
-        transformations.push({name:'XYScale', args:[a, 0]});
-      }
-      transformations.push({name:'XShear', args:[b / a]});
+      transformations.push({name:'Scale', args:[0]});
     }
+
+
+
+
+
   } else {
     var angle = get_angle([M[0][0], M[1][0]]);
     if (angle > EPSILON) {
