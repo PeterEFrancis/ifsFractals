@@ -99,7 +99,6 @@ function factor_transformation(t) {
 
 
 
-
   } else {
     var angle = get_angle([M[0][0], M[1][0]]);
     if (angle > EPSILON) {

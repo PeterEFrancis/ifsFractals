@@ -44,3 +44,11 @@
   margin-top: 2em;
   margin-bottom: 2em;
 }
+
+
+@media print {
+  .collapse {
+    display: block !important;
+    height: auto !important;
+  }
+}

@@ -108,6 +108,12 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/math')
+def math():
+    return render_template('math.html')
+
+
+
 examples = ['barnsley', 'serpinski', 'vonkoch', 'dragon', 'crab', 'tree']
 
 
