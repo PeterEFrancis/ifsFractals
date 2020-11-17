@@ -58,12 +58,14 @@ class LaTeXer {
 
         var proof = document.createElement('p');
         proof.innerHTML = nodes[i].innerHTML;
+        proof.style.margin = "0px";
         var right = document.createElement('div');
         right.classList.add('text-right');
         right.appendChild(document.createTextNode('$\\blacksquare$'));
         proof.appendChild(right);
 
-        if (nodes[i].getAttribute('collapse')){
+        if (eval(nodes[i].getAttribute('collapse'))) {
+          var open = eval(nodes[i].getAttribute('open'));
           var panel_group = document.createElement('div');
             panel_group.classList.add('panel-group');
               var panel = document.createElement('div');
@@ -84,7 +86,7 @@ class LaTeXer {
                         a.style.border="0px";
                         a.style.color = "grey";
                         var span = document.createElement('span');
-                        span.classList.add('glyphicon', 'glyphicon-collapse-down');
+                        span.classList.add('glyphicon', 'glyphicon-collapse-' + (open ? 'up' : 'down'));
                         span.setAttribute('onclick',"if(this.classList.contains('glyphicon-collapse-down')) {this.classList.remove('glyphicon-collapse-down'); this.classList.add('glyphicon-collapse-up');} else {this.classList.add('glyphicon-collapse-down'); this.classList.remove('glyphicon-collapse-up');}")
                 var panel_collapse = document.createElement('div');
                 panel_collapse.classList.add('panel-collapse', 'collapse');
@@ -105,7 +107,12 @@ class LaTeXer {
 
           panel_body.appendChild(proof);
 
+
           this.container.replaceChild(panel_group, nodes[i]);
+
+          if (open) {
+            $('#proof-' + String(proof_number)).collapse('show');
+          }
 
         } else {
           var div = document.createElement('div');
@@ -129,7 +136,7 @@ class LaTeXer {
         nodes[i].id = undefined;
         var table_container = document.createElement('div');
         table_container.classList.add('table-container');
-        table_container.appendChild(nodes[i]);
+        table_container.appendChild(nodes[i].cloneNode(true));
         if (caption_text) {
           var caption = document.createElement('p');
           caption.classList.add('text-center');

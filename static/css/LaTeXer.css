@@ -47,8 +47,13 @@
 
 
 @media print {
-  .collapse {
+  .LaTeX .collapse {
     display: block !important;
     height: auto !important;
   }
+
+  .LaTeX a {
+    border: 0px;
+  }
+
 }
