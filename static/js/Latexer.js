@@ -198,15 +198,35 @@ class LaTeXer {
     }
 
     // build references
-    for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i].tagName == "REF") {
+    // for (var i = 0; i < nodes.length; i++) {
+    //   if (nodes[i].tagName == "REF") {
+    //     var a = document.createElement('a');
+    //     var to = nodes[i].getAttribute('to');
+    //     a.href = "#" + to;
+    //     a.innerHTML = refs[to];
+    //     nodes[i].appendChild(a);
+    //   }
+    // }
+
+    // recursive search
+    var stack = [this.container];
+    while (stack.length > 0) {
+      var node = stack.pop();
+      if (node.tagName == "REF") {
         var a = document.createElement('a');
-        var to = nodes[i].getAttribute('to');
+        var to = node.getAttribute('to');
         a.href = "#" + to;
         a.innerHTML = refs[to];
-        nodes[i].appendChild(a);
+        node.appendChild(a);
+      } else if (node.childNodes && node.childNodes.length != 0) {
+        for (var i = 0; i < node.childNodes.length; i++) {
+          stack.push(node.childNodes[i]);
+        }
       }
     }
+
+
+
 
     // build table of contents
     for (var i = 0; i < nodes.length; i++) {

@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_heroku import Heroku
 import re
-import random
+import random as r
 import html
 import os
 import time
@@ -149,7 +149,34 @@ def m(transformations, weights):
     return redirect('/playground/' + name)
 
 
+@app.route('/random/<int:num>')
+def random(num):
+    # create transformations
+    transformations = ''
+    for i in range(num):
+        b = round(r.random(),3)
+        c = round(r.random(),3)
+        f = ((1 - c**2) * (1 - b**2) / (c**2))**(1/2)
+        a = round(r.random() * 2 * f - f, 3)
+        t = f'Translate({round(r.random(),3)},{round(r.random(),3)})'
+        t += f'Rotate({round(6.283185307179586 * r.random(),3)})'
+        t += f'XShear({a})'
+        t += f'XYScale({b},{c})'
+        transformations += t
+        if i < num - 1:
+            transformations += '&'
 
+    name = save(
+        title=f'random-{num}',
+        transformations=transformations,
+        weights=','.join('1' for _ in range(num)),
+        vars='{}',
+        zoom='auto',
+        center='{"x":0,"y":0}',
+        points="10000",
+        color="#000000"
+    )
+    return redirect('/playground/' + name)
 
 
 

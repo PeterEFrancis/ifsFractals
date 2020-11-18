@@ -25,6 +25,11 @@
       user-select: none;
     }
 
+    td > div {
+      overflow: scroll;
+      width: 300px;
+    }
+
   </style>
 </head>
 <body>
@@ -78,10 +83,12 @@
               <td><a href="/playground/{{playground.name}}">{{ playground.name }}</a></td>
               <td>{{ playground.title }}</td>
               <td>
-                {% for t in playground.transformations.split('&') %}
-                  {{ t }}
-                  <br>
-                {% endfor %}
+                <div>
+                  {% for t in playground.transformations.split('&') %}
+                    {{ t }}
+                    <br>
+                  {% endfor %}
+                </div>
               </td>
               <td>
                 {% for w in playground.weights.split(',') %}

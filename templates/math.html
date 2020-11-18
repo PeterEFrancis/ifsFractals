@@ -225,6 +225,13 @@
 
       Now we can ask the question: how can we tell when an affine linear transformation is a contraction mapping?
 
+      <theorem id="operator-norm">
+        A $2\times 2$ matrix $A$ is a contraction if and only if the largest eigenvalue $\lambda_1$ of $A^TA$ is less than 1. In this case, $A$ has contraction constant $\sqrt{\lambda_1}$.
+      </theorem>
+      <proof collapse="true" open="false">
+        (from Keir)
+      </proof>
+
 
 
       <section>Transformation Decomposition</section>
@@ -232,7 +239,7 @@
       One question that can be asked, is given a transformation matrix
       $$T=\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix},$$
       how can we understand the action of $A$? (Since we know that $b$ is a translation vector). It turns out that we can make sense of $T$ using only the basic transformations listed in Table <ref to="basic-transformations"></ref>.
-      <theorem title="Factorization of linear transformations">
+      <theorem id="factorizations" title="Factorization of linear transformations">
         Any linear transformation can be written as a composition of a rotation, shearing, and scaling. In particular, if $A=\begin{pmatrix}A_1 & A_2\end{pmatrix}$ is invertible, then
         $$A=\Rotate\left(\arg A_1\right)\ \XShear\left(\frac{A_1\cdot A_2}{\det A}\right)\ \XYScale\left(|A_1|, \frac{\det A}{|A_1|}\right).$$
         If $A$ is not invertible and $A_1\neq 0$, then
@@ -241,7 +248,7 @@
         $$A=\Rotate\left(\frac{\pi}{2}-\arg A_2\right)\ \XYScale(0,|A_2|);$$
         otherwise, $A=\Scale(0).$
       </theorem>
-      <proof collapse="true" open="true">
+      <proof collapse="true" open="false">
         In the first case, recognize that $\cos(\arg A_1)=\frac{A_{11}}{|A_1|}$ and $\sin(\arg A_1)=\frac{A_{12}}{|A_1|}$, so $$\Rotate(\arg A_1)=\frac{1}{|A_1|}\m{A_{11}}{-A_{12}}{A_{12}}{A_{11}}.$$
         Then
         \begin{align*}
@@ -293,8 +300,47 @@
       </proof>
 
 
+      This result comes in very handy both conceptually and computationally. We can classify the arguments in the matrix decomposition shown in Theorem <ref to="factorizations"></ref> for invertible matrices that result in contraction mappings.
 
-
+      <theorem>
+        Suppose $A$ is a $2\times 2$ invertible matrix, so $A$ can be written as
+        $$A=\Rotate(\theta)\XShear(a)\XYScale(b,c)$$
+        for some $a,b,c,\theta \in\R$. Then $A$ determines a contraction mapping if and only if $$a^2\lt\frac{(1-c^2)(1-b^2)}{c^2}.$$
+      </theorem>
+      <proof collapse="true" open="false">
+        First notice that
+        \begin{align*}
+          A^T & = \XYScale(b,c)^T\XShear(a)^T\Rotate(\theta)^T\\
+              & = \XYScale(b,c)\YShear(a)\Rotate(-\theta),\\
+        \end{align*}
+        so since $\Rotate(-\theta)\Rotate(\theta)=I$, we have that
+        \begin{align*}
+          A^TA & = \XYScale(b,c)\ \YShear(a)\ I\ \XShear(a)\ \XYScale(b,c)\\
+               & = \m{b}{0}{0}{c}\m{1}{0}{a}{1}\m{1}{a}{0}{1}\m{b}{0}{0}{c} \\
+               & = \m{b}{0}{0}{c}\m{1}{a}{a}{a^2+1}\m{b}{0}{0}{c} \\
+               & = \m{b}{ab}{abc}{c(1+a^2)}\m{b}{0}{0}{c} \\
+               & = \m{b^2}{abc}{abc}{c^2(1+a^2)}. \\
+        \end{align*}
+        We can use the characteristic polynomial for $A^TA$ to find its eigenvalues $\lambda$:
+        \begin{align*}
+                   & \det(A^TA - \lambda I) = 0 \\
+          \implies & \det \m{b^2 - \lambda}{abc}{abc}{c^2(1+a^2) - \lambda} = 0 \\
+          \implies & (b^2 - \lambda)(c^2(1+a^2) - \lambda) - (abc)^2 = 0 \\
+          \implies & \lambda^2 - (b^2+c^2(a^2+1))\lambda + b^2c^2 = 0\\
+          \implies & \lambda = \frac{b^2+c^2(a^2+1)\pm\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2 }}{2}.
+        \end{align*}
+        The larger of these two eigenvalues is $\lambda_1 = \frac{b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2}}{2}$. Then we know by Theorem <ref to="operator-norm"></ref> that $A$ is a contraction if and only if $\lambda_1 < 1$. Well,
+        \begin{align*}
+          \lambda_1 < 1 \iff & b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} < 2 \\
+                        \iff & b^2+c^2(a^2+1) - 2 < -\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} \\
+                        \iff & (b^2+c^2(a^2+1) - 2)^2 > (b^2+c^2(a^2+1))^2 - 4b^2c^2 \\
+                        \iff & (b^2+c^2(a^2+1))^2 -4(b^2+c^2(a^2+1)) + 4 > (b^2+c^2(a^2+1))^2 - 4b^2c^2 \\
+                        \iff & -4(b^2+c^2(a^2+1)) + 4 > - 4b^2c^2 \\
+                        \iff & b^2+c^2(a^2+1) - 1 < b^2c^2 \\
+                        \iff & a^2 < \frac{b^2c^2+1-b^2 - c^2}{c^2} \\
+                        \iff & a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.
+        \end{align*}
+      </proof>
 
 
 
@@ -308,7 +354,8 @@
       <hr>
       <h3>References</h3>
       <ol>
-        <li id="cite-1">Benjamin Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</li>
+        <li id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</li>
+        <li id="keir">Keir H. Lockeridge, Personal Communication, 2020.</li>
       </ol>
     </div>
   </div>

@@ -159,9 +159,23 @@
   </div> -->
   <div class="row">
     <div class="col-md-7" style="padding-bottom: 15px;">
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import-modal" href="#import-modal">
-        <span class="glyphicon glyphicon-import"></span> Import
-      </button>
+      <div class="row">
+        <div class="col-xs-8">
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#import-modal" href="#import-modal">
+            <span class="glyphicon glyphicon-import"></span> Import
+          </button>
+        </div>
+        <div class="col-xs-4 text-right">
+          <div class="input-group" style="">
+            <input id="random-number" class="form-control" type="number" value="4"/>
+            <span class="input-group-btn">
+              <button class="btn btn-default" onclick="location.href='/random/' + document.getElementById('random-number').value">Random Fractal</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
       <div id="import-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -180,6 +194,8 @@
           </div>
         </div>
       </div>
+
+
 
       <h3>
         Transformations and Weights
