@@ -72,7 +72,7 @@
 
 <div class="container" style="margin-bottom: 100px;">
   <div class="row">
-    <div class="col-md-12" id="LaTeX" spellcheck="false" contenteditable="false">
+    <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="true">
       <div hidden>
       \(
         \newcommand{\R}{\mathbb{R}}
@@ -148,7 +148,7 @@
       <theorem>
         Any Hutchinson operator $F:\K\to\K$ is a contraction mapping on $\K$ with respect to the Hausdorff metric.
       </theorem>
-      <proof collapse="true" open="true">
+      <proof collapse="true" open="false">
         Let $c_1, \dots, c_k$ be the contraction constants of the constractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has constraction constant $c=\max\{c_1,\dots, c_k\}.$
         <br><br>
         Take any $A,B\in\K$, write $r=h(A,B)$, and choose any point $x\in F(A)$. Then there exists some $j\in\{1,\dots,k\}$ and some $a\in A$ for which $x=f_j(a)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r$. Since $f_j$ is a contraction, we have
@@ -361,10 +361,38 @@
         \end{align*}
       </proof>
 
+      <section>Approximating an IFS Fractal Image</section>
+      Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a hutchinson operator $F$, what are the computational methods we can use to find the compact $A\subset \R^2$ for which $F(A)=A$.
+      <br><br>
+      To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $A_0\in \K$, the $n$th iteration of $F$ on $A_0$ (written $F^{(n)}(A_0)$) approaches $A$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:
+      <br><br>
+      <ol>
+        <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a list: $L=[A_0]$.</li>
+        <li>Apply each of the transformations used to build $F$ to each element in $L$.</li>
+        <li>Re-define $L$ to be the list of the resulting subsets.</li>
+        <li>Go to step 2, or stop.</li>
+      </ol>
+      <br>
+      After repeating this process a large number of times ("going to step 2 instead of stopping"), eventually we will be left with an image of our desired fractal. However, this process is computationally exhausting: suppose the hutchinson operator is built using $k$ contractions on $\R^2$. Then $F^{(n)}(A_0)$ is the union of $k^n$ subsets of $\R^2$. This exponential growth makes this algorithm very memory-inefficient, very quickly.
+      <br><br>
+      Luckily, there is an algorithm in linear time that is commonly used to generate an approximate image of a IFS fractal, called <em>The Chaos Game</em>. Instead of applying each transformation during every iteration, this algorithm uses a randomly chosen one. We outline the algorithm below.
+      <br><br>
+      <ol>
+        <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are ues to build $F$.</li>
+        <li>Choose some discrete probability distribution (called the "weights") $(p_1,\dots, p_k)$, where $\sum_{i=1}^k p_i = 1$ and $p_i\in(0,1]$ for any $i\in\{1, \dots, k\}$.</li>
+        <li>Let $L=[x_0]$ be a list containing any point $x_0\in\R^2$.</li>
+        <li>With probability $p_i$, let $f=f_i$.</li>
+        <li>Write $x_n$ for the last point added to $L$, and add the point $f(x_n)$ to $L$.</li>
+        <li>Go to step 4, or stop.</li>
+      </ol>
+      For a sufficiently large number of iterations, the set of all points in $L$ is an approximated image of $A$ to any arbitrary level of convergence. The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed.
+      <br><br>
+      See <a href="https://pdf.sciencedirectassets.com/271576/1-s2.0-S0097849300X00441/1-s2.0-S0097849302000924/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENz%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCrRlnD%2FkptOzsjxjBFZbgOImUzQaYc67OQ1vYP0WWHtAIgTxOweqT3BUr8KlMxWjOdbFtdAp9CPSdSrkCVYliAE%2B0qtAMIVRADGgwwNTkwMDM1NDY4NjUiDO3zZ2lX3TV%2Blv%2FZ9iqRA9NC4ynH2YipovAiF%2BfczqpPhAHR2DV4h4xKxWh9NqqtqHzCFllVBMNN7gljnn7zQg828YMuDJpMWso1Xe%2B0KRZ%2BkGfS2aMhi9huaWMRmsklyXpEPfcaoWJhsIRDK8WGq5EeMids%2BgVjCIGpkAPRLIe%2Bu%2BvqSPkOMMFyflOSSWWK8lf6WR0IYNKvZpn9qf33gbRaQ0XiHaITh%2FTHB8pOdOBXhIiMZT3s6rKogtq1IW7Q7WUum%2FcZeR%2Frl%2B6z31vvfDMMo1030suvTWJPYEL0RJyf%2FdrIwAyo5Isb%2FFTa3Cbdjvi7Z095LxVGR0bAOR978ikBIIhplQsB4xvXXnc1wc%2FPGADzxYewPBUMaux1jy1odl%2BnGMppR3nPp3A35YXuRiOE%2BMx%2B5cNObKb7Uvd46dxOO8CUkGiYVwtGiNZHbpF5U3bhdjPSfnP1Brjr1yBl5HJo1gaVCdiLQ8ZrRK2xDX0G9eG4yNU4peA1B7SuER0mSQElBkensFzQWuz7DCdkaY%2ByjiS7eMKNekTv1j0hOUYEMN3Z1%2F0FOusBlS1%2BWUWFY3%2BZPHHUEZcoESSLMvD%2BVe6bvWtQ3a2KNP%2FGkc4t9FsHasKJlJ%2F9LMR3THILt9E55d4O1%2FQ0WCgM2inf2v2OZ340CU4QikkGJrZqmyZ8dTttWdurB8KNIeG5POvJ%2BqPVRgTKlo5M2Lnbl7ohRZ5AhViwJUcEEElnzPHuHmtK78N%2BJJ5JWjGNGstqcYZtvL14GIL0jhyxDRABPi764%2B7W2qvHyMEfeeAo6zf2hviLROcHoQeXXPU%2BnzmmM8RXMDsfIjWRtf1M%2FkzuY10OhIk1uS0q0l3uPoGfAxUWaDrXhWwS1UWtZw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20201119T053531Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY4LFU5BOS%2F20201119%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=c44d2e2199af797ded9ec8023f98e2fa28a5ac006164ed01e972aacc9895695c&hash=0aefcaa872133496dcd74b2faceea04d1fb1accaf99c74223a2f34f13148aac9&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0097849302000924&tid=spdf-9bc9da9d-1e13-4438-9ea1-53a8d1c0f898&sid=084aca5438e6304be678bfc8c4b00fa69714gxrqa&type=client">
+        here
+      </a> for an explanation of why the chaos game produces the same fractal image as the method of "iterating figures".
 
-
-      <!-- <section>Fractal dimension</section> -->
-
+      <section>Fractal Dimension</section>
+      A stone thus far left unturned: does the "fractal" that is generated using an IFS indeed satisfy the definition given by Mandelbrot? In order to see that it in fact does we must first explore the idea of fractal dimension.
 
 
 
