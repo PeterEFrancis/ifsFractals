@@ -23,11 +23,13 @@
 
     br {
       user-select: none;
+      overflow: scroll;
     }
 
     td > div {
       overflow: scroll;
-      width: 300px;
+      width: 400px;
+      border-right: 2px dashed black;
     }
 
   </style>
@@ -59,7 +61,7 @@
   </nav>
 
 
-<div class="container" style="margin-bottom: 100px;">
+<div class="container-fluid" style="margin-bottom: 100px;">
   <div class="row">
     <div class="col-lg-12">
       <h1>Saved Playground Master List</h1>
@@ -125,7 +127,7 @@
 <script>
   $(document).ready( function () {
       $('#master_table').DataTable({
-        "paging":   false
+        // "paging":   false
       });
   } );
 </script>
