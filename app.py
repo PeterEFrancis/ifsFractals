@@ -153,24 +153,35 @@ def m(transformations, weights):
 def random(num):
     # create transformations
     transformations = ''
+    vars = '{'
     for i in range(num):
         b = round(r.random(),3)
         c = round(r.random(),3)
         f = ((1 - c**2) * (1 - b**2) / (c**2))**(1/2)
         a = round(r.random() * 2 * f - f, 3)
-        t = f'Translate({round(r.random(),3)},{round(r.random(),3)})'
-        t += f'Rotate({round(6.283185307179586 * r.random(),3)})'
-        t += f'XShear({a})'
-        t += f'XYScale({b},{c})'
+        theta = round(6.283185307179586 * r.random(),3)
+        h = round(r.random(),3)
+        k = round(r.random(),3)
+        v = [a, b, c, theta, h, k]
+        letter = 'abcdefghijklmnopqrstuvwxyz'[i]
+        replaced = r.randint(0,5)
+        replaced_val = v[replaced]
+        v[replaced] = letter
+        t = f'Translate({v[4]},{v[5]})'
+        t += f'Rotate({v[3]})'
+        t += f'XShear({v[0]})'
+        t += f'XYScale({v[1]},{v[2]})'
         transformations += t
         if i < num - 1:
             transformations += '&'
+        vars += '"' + letter + '":{"val":' + str(replaced_val) + ',"min":-1,"max":1,"step":0.1},'
+    vars = vars[:-1] + "}"
 
     name = save(
         title=f'random-{num}',
         transformations=transformations,
         weights=','.join('1' for _ in range(num)),
-        vars='{}',
+        vars=vars,
         zoom='auto',
         center='{"x":0,"y":0}',
         points="10000",
