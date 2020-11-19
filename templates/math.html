@@ -149,7 +149,7 @@
         Any Hutchinson operator $F:\K\to\K$ is a contraction mapping on $\K$ with respect to the Hausdorff metric.
       </theorem>
       <proof collapse="true" open="true">
-        Let $c_1, \dots, c_k$ be the contraction constants of the constractions $f_1, \dots, f_k:\R^2\to\R^2$. We will show that $F$ has constraction constant $c=\max\{c_1,\dots, c_k\}$.
+        Let $c_1, \dots, c_k$ be the contraction constants of the constractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has constraction constant $c=\max\{c_1,\dots, c_k\}.$
         <br><br>
         Take any $A,B\in\K$, write $r=h(A,B)$, and choose any point $x\in F(A)$. Then there exists some $j\in\{1,\dots,k\}$ and some $a\in A$ for which $x=f_j(a)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r$. Since $f_j$ is a contraction, we have
         $$|x - f_j(b)| = |f_j(a) - f_j(b)|\leq c_j|a-b|\leq cr.$$
@@ -229,7 +229,26 @@
         A $2\times 2$ matrix $A$ is a contraction if and only if the largest eigenvalue $\lambda_1$ of $A^TA$ is less than 1. In this case, $A$ has contraction constant $\sqrt{\lambda_1}$.
       </theorem>
       <proof collapse="true" open="false">
-        (from Keir)
+        (From <cite to="keir"></cite>) A $2\times 2$ matrix is a contraction if and only if there is some $0\leq k < 1$ such that for all $x,y\in\R^2$, $$|Ax-Ay|\leq k|x-y|;$$
+        equivalently, for all nonzero $v\in\R^2$,
+        $$|Av|\leq k|v|.$$
+        We can now see that $A$ is a contraction exactly when $$|Au|\leq k$$ for all unit vectors $u$. Since the quantity $|Au|$ is a continuous function of $u$ and $S^1$ is a compact subset of $\R^2$, the maximum value of $|Au|$ exists and is called the <em>operator norm</em> of $A$, denoted $M_A$. Certainly, if $M_A < 1$, $A$ is a contraction mapping with contraction constant $M_A$, and if $M_A\geq 1$, $A$ is not a contraction mapping. Now we will compute $M_A$.
+        <br><br>
+        Since $A^TA$ is a symmetric real matrix, it has real eigenvalues $\lambda_1\geq \lambda_2$ and is orthogonally diagonalizable:
+        $$A^TA = PDP^{-1},$$
+        where $D$ is the diagonal matrix $$\m{\lambda_1}{0}{0}{\lambda_2}$$ and $P=\begin{pmatrix}v_1 & v_2\end{pmatrix}$ is an orthogonal matrix whose columns are eigenvectors. Therefore, $P^{-1}=P^T$, so if we let $x=P^Tu$, we get
+        \begin{align*}
+          |A u|^{2} & = (A u) \cdot(A u) \\
+                    & = (A u)^{T}(A u) \\
+                    & = u^{T}\left(A^{T} A\right)u \\
+                    & = u^{T}PDP^{-1}u \\
+                    & = u^{T}PDP^Tu \\
+                    & = (u^{T}P)D(P^Tu) \\
+                    & = x^TDx \\
+                    & = x_1^2\lambda_1 + x_2^2\lambda_2.
+        \end{align*}
+        Since $P^T$ is an orthogonal matrix, it preserves the length of vectors, so $M_A^2$ is the maximum value of the expression $$x_1^2\lambda_1 + x_2^2\lambda_2$$ over all unit vectors $x=(x_1,x_2)$. Note further that $|Au|^2$ is non-negative, so we must have $\lambda_1\geq\lambda_2\geq 0$. The quantity $x_1^2\lambda_1 + x_2^2\lambda_2$ is maximized when $x_1=1$ and $x_2=0$. This proves that $$M_A = \sqrt{\lambda_1}.$$
+        Therefore, $A$ is a contraction mapping if and only if $\sqrt{\lambda_1} = M_A < 1$, if and only if $\lambda_1 < 1$.
       </proof>
 
 
@@ -302,7 +321,7 @@
 
       This result comes in very handy both conceptually and computationally. We can classify the arguments in the matrix decomposition shown in Theorem <ref to="factorizations"></ref> for invertible matrices that result in contraction mappings.
 
-      <theorem>
+      <theorem id="contraction-classification">
         Suppose $A$ is a $2\times 2$ invertible matrix, so $A$ can be written as
         $$A=\Rotate(\theta)\XShear(a)\XYScale(b,c)$$
         for some $a,b,c,\theta \in\R$. Then $A$ determines a contraction mapping if and only if $$a^2\lt\frac{(1-c^2)(1-b^2)}{c^2}.$$
@@ -352,11 +371,10 @@
 
 
       <hr>
-      <h3>References</h3>
-      <ol>
-        <li id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</li>
-        <li id="keir">Keir H. Lockeridge, Personal Communication, 2020.</li>
-      </ol>
+      <references>
+        <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
+        <item id="keir">Keir H. Lockeridge, Personal Communication, 2020.</item>
+      </references>
     </div>
   </div>
 </div>

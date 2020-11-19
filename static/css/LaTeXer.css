@@ -45,6 +45,9 @@
   margin-bottom: 2em;
 }
 
+.LaTeX cite {
+  font-style: normal;
+}
 
 @media print {
   .LaTeX .collapse {

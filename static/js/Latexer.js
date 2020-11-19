@@ -197,17 +197,7 @@ class LaTeXer {
       }
     }
 
-    // build references
-    // for (var i = 0; i < nodes.length; i++) {
-    //   if (nodes[i].tagName == "REF") {
-    //     var a = document.createElement('a');
-    //     var to = nodes[i].getAttribute('to');
-    //     a.href = "#" + to;
-    //     a.innerHTML = refs[to];
-    //     nodes[i].appendChild(a);
-    //   }
-    // }
-
+    // build refs
     // recursive search
     var stack = [this.container];
     while (stack.length > 0) {
@@ -261,6 +251,57 @@ class LaTeXer {
         this.container.replaceChild(div, nodes[i]);
       }
     }
+
+
+
+    // build references (citations)
+    var cites = {};
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].tagName == "REFERENCES") {
+        var items = nodes[i].childNodes;
+        var div = document.createElement('div');
+        var h3 = document.createElement('h3');
+        h3.appendChild(document.createTextNode('Refrences'));
+        div.appendChild(h3);
+        var ol = document.createElement('ol');
+        var cite_num = 1;
+        for (var j = 0; j < items.length; j++) {
+          if (items[j].tagName == "ITEM") {
+            var id = items[j].getAttribute('id') || 'cite-' + cite_num;
+            cites[id] = cite_num;
+            var li = document.createElement('li');
+            li.innerHTML = items[j].innerHTML;
+            li.setAttribute('id', id);
+            ol.appendChild(li);
+            cite_num++;
+          }
+        }
+        div.appendChild(ol);
+        this.container.replaceChild(div, nodes[i]);
+      }
+    }
+
+
+
+
+    // build cites
+    // recursive search
+    var stack = [this.container];
+    while (stack.length > 0) {
+      var node = stack.pop();
+      if (node.tagName == "CITE") {
+        var a = document.createElement('a');
+        var to = node.getAttribute('to');
+        a.href = "#" + to;
+        a.innerHTML = '[' + cites[to] + ']';
+        node.appendChild(a);
+      } else if (node.childNodes && node.childNodes.length != 0) {
+        for (var i = 0; i < node.childNodes.length; i++) {
+          stack.push(node.childNodes[i]);
+        }
+      }
+    }
+
 
 
     // apply style
