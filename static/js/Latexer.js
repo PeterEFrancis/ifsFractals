@@ -261,7 +261,7 @@ class LaTeXer {
         var items = nodes[i].childNodes;
         var div = document.createElement('div');
         var h3 = document.createElement('h3');
-        h3.appendChild(document.createTextNode('Refrences'));
+        h3.appendChild(document.createTextNode('References'));
         div.appendChild(h3);
         var ol = document.createElement('ol');
         var cite_num = 1;
