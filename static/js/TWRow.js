@@ -344,7 +344,7 @@ class TWRowGroup {
       weights.push(maxs[i] / s);
     }
     for (var i = 0; i < this.all_rows.length; i++) {
-      this.all_rows[i].set_weight(weights[i]);
+      this.all_rows[i].set_weight(round(weights[i],3));
     }
     this.onchange();
   }
