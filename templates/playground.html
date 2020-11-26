@@ -7,6 +7,15 @@
 
   <link rel="shortcut icon" href="/static/img/leaf.gif" type="image/gif">
 
+  <!-- redirect to mobile -->
+  <script language="javascript">
+    if (screen.width <= 600) {
+      if (confirm("Your device might not be suitable for the fractal playground.\n\nClick 'Cancel' to continue, and 'OK' to return to IFS-Fractal home.")) {
+        window.location.href = '/';
+      }
+    }
+  </script>
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -30,10 +39,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
+
+
   <style>
 
     body {
-      min-width: 250px;
+      min-width: 600px;
     }
 
     .navbar {
@@ -126,19 +137,11 @@
 </nav>
 
 <div class="container-fluid" style="max-width: 1500px;">
-  <div class="row" style="margin-bottom: 30px;">
-    <div class="col-md-9">
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-sm-8">
       <h1>Playground</h1>
-      <br>
-      Examples:
-      <a href="barnsley">Barnsley Fern</a> &middot;
-      <a href="serpinski">Serpinski Triangle</a> &middot;
-      <a href="vonkoch">Von Koch Cruve</a> &middot;
-      <a href="dragon">Dragon</a> &middot;
-      <a href="crab">Crab</a> &middot;
-      <a href="tree">Tree</a>
     </div>
-    <div class="col-sm-3 text-right">
+    <div class="col-sm-4 text-right">
       <div class="input-group" style="margin-top: 20px;">
         <input id="title" class="form-control" style="font-size: 1.75em; height:100%"/>
         <span class="input-group-btn">
@@ -150,6 +153,17 @@
     </div>
   </div>
 
+  <div class="row" style="margin-bottom: 30px;">
+    <div class="col-md-12">
+      Examples:
+      <a href="barnsley">Barnsley Fern</a> &middot;
+      <a href="serpinski">Serpinski Triangle</a> &middot;
+      <a href="vonkoch">Von Koch Cruve</a> &middot;
+      <a href="dragon">Dragon</a> &middot;
+      <a href="crab">Crab</a> &middot;
+      <a href="tree">Tree</a>
+    </div>
+  </div>
 
   <!-- <div class="row" style="margin-bottom: 40px;">
     <div class="col-md-6">
@@ -166,8 +180,8 @@
           </button>
         </div>
         <div class="col-xs-4 text-right">
-          <div class="input-group" style="">
-            <input id="random-number" class="form-control" type="number" value="4"/>
+          <div class="input-group">
+            <input id="random-number" class="form-control" value="4" style="padding-right:0px;"/>
             <span class="input-group-btn">
               <button class="btn btn-default" onclick="location.href='/random/' + document.getElementById('random-number').value">Random Fractal</button>
             </span>
@@ -196,13 +210,19 @@
       </div>
 
 
-
-      <h3>
-        Transformations and Weights
-        <a class="info-circ" data-toggle="modal" data-target="#transformations-modal" href="#transformations-modal">
-          <span class="glyphicon glyphicon-info-sign"></span>
-        </a>
-      </h3>
+      <div class="row">
+        <div class="col-xs-8">
+          <h3>
+            Transformations and Weights
+            <a class="info-circ" data-toggle="modal" data-target="#transformations-modal" href="#transformations-modal">
+              <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
+          </h3>
+        </div>
+        <div class="col-xs-4">
+          <button style="margin-top:20px;" class="btn btn-default btn-sm btn-block" onclick="tw_row_group.auto_distribute_weights(0.01);">Auto Distribute Weights</button>
+        </div>
+      </div>
       <div id="transformations-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
