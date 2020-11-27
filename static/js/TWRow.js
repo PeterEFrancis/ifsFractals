@@ -333,12 +333,12 @@ class TWRowGroup {
   }
 
   auto_distribute_weights(delta) {
-    var matrices = this.get_matrices();
+    const matrices = this.get_matrices();
     var maxs = [];
     for (var i = 0; i < matrices.length; i++) {
-      maxs.push(Math.max(delta, Math.abs(det(two_by_two(matrices[i])))))
+      maxs.push(Math.max(delta, Math.abs(det(two_by_two(matrices[i])))));
     }
-    var s = maxs.reduce((a, b) => a + b, 0);
+    const s = maxs.reduce((a, b) => a + b, 0);
     var weights = [];
     for (var i = 0; i < maxs.length; i++) {
       weights.push(maxs[i] / s);

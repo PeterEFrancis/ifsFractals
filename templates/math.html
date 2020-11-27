@@ -120,23 +120,23 @@
 
       <section>Existence of an IFS Fractal</section>
       In order to completely understand the type of fractal we are interested in, we must first build up to an existence theorem.</p>
-      We start simply: in the following definition, $X$ is a metric space with metric $d$.
+      We start simply: in the following definition, $X$ is a metric space with metric $d.$
       <definition id="contraction-mapping">
-        A function $f: X\to X$ is a <em>contraction mapping</em> if there is some $c\in(0,1)$ such that for all $x_1,x_2\in X$, $$d(f(x_1)-f(x_2))\leq cd(x_1-x_2).$$ The number $c$ is called the <em>contraction constant</em> of $f$.
+        A function $f: X\to X$ is a <em>contraction mapping</em> if there is some $c\in(0,1)$ such that for all $x_1,x_2\in X$, $$d(f(x_1)-f(x_2))\leq cd(x_1-x_2).$$ The number $c$ is called the <em>contraction constant</em> of $f.$
       </definition>
       The following theorem is stated without proof, and is a common result in an introductory Analysis course.
       <theorem id="contraction-mapping-principle" title="The contraction mapping principle">
         Suppose that $X$ is a complete metric space with metric $d$ and that $f:X\to X$ is a contraction mapping. Then
         <ul>
           <li>$f$ has a unique fixed point: there is a single $p\in X$ such that $f(p)=p$;</li>
-          <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>0$ converges to $p$.</li>
+          <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>0$ converges to $p.$</li>
         </ul>
       </theorem>
-      In order to use Theorem <ref to="contraction-mapping-principle"></ref>, we have to discuss the metric space $\K$, the set of nonempty compact subsets of $\R^2$. The metric on this space is called the Hausdorff Metric, which first requires the following definition.
+      In order to use Theorem <ref to="contraction-mapping-principle"></ref>, we have to discuss the metric space $\K$, the set of nonempty compact subsets of $\R^2.$ The metric on this space is called the Hausdorff Metric, which first requires the following definition.
       <definition id="r-collar">
         Given $A\subseteq \R^2$ and $r>0$, we define the <em>$r$-collar</em> of $A$ to be the set $$A_r=\{x\in\R^2\mid |x-a|\leq r\text{ for some $a\in A$}\}.$$
       </definition>
-      Intuitively, the name "collar" should invoke a sense that $A_r$ is the result of expanding the borders of $A$ by a distance $r$.
+      Intuitively, the name "collar" should invoke a sense that $A_r$ is the result of expanding the borders of $A$ by a distance $r.$
       <definition id="hausdorff-metric">
         We define the <em>Hausdorff Metric</em> on $\K$ by $$h(A,B)=\min\{r\geq 0 \mid A\subseteq B_r\text{ and } B\subseteq A_r\}.$$
       </definition>
@@ -159,7 +159,7 @@
       <proof collapse="true" open="false">
         Let $c_1, \dots, c_k$ be the contraction constants of the constractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has constraction constant $c=\max\{c_1,\dots, c_k\}.$
         <br><br>
-        Take any $A,B\in\K$, write $r=h(A,B)$, and choose any point $x\in F(A)$. Then there exists some $j\in\{1,\dots,k\}$ and some $a\in A$ for which $x=f_j(a)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r$. Since $f_j$ is a contraction, we have
+        Take any $A,B\in\K$, write $r=h(A,B)$, and choose any point $x\in F(A).$ Then there exists some $j\in\{1,\dots,k\}$ and some $a\in A$ for which $x=f_j(a)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r.$ Since $f_j$ is a contraction, we have
         $$|x - f_j(b)| = |f_j(a) - f_j(b)|\leq c_j|a-b|\leq cr.$$
         Clearly, $f_j(b)\in F(B)_{cr}$, so the inequality above shows that any point of $F(A)$ is within $cr$ of some point of $F(B)$:
         $$F(A)\subseteq F(B)_{cr}.$$
@@ -168,9 +168,9 @@
         $F$ is a contraction mapping.
       </proof>
 
-      Now Theorem <ref to="contraction-mapping-principle"></ref> tells us that any Hutchinson operator has a unique fixed point in $\K$. These fixed points (compact sets in $\R^2$) are the fractals that we will be studying. Specifically, the Hutchinson operators that we will focus our attention to are built using Affine Linear Transformations of $\R^2$.
+      Now Theorem <ref to="contraction-mapping-principle"></ref> tells us that any Hutchinson operator has a unique fixed point in $\K.$ These fixed points (compact sets in $\R^2$) are the fractals that we will be studying. Specifically, the Hutchinson operators that we will focus our attention to are built using Affine Linear Transformations of $\R^2.$
       <br><br>
-      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $A\in\K$, the iterative sequence $$A,\ F(A),\ F(F(A)),\ F(F(F(A))), \dots$$ converges to a unique fixed point $A_F$, where $F(A_F)=A_F$.
+      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $A\in\K$, the iterative sequence $$A,\ F(A),\ F(F(A)),\ F(F(F(A))), \dots$$ converges to a unique fixed point $A_F$, where $F(A_F)=A_F.$
 
 
 
@@ -180,13 +180,13 @@
           f: \R^2 & \to \R^2 \\
                 v & \mapsto Av+b
         \end{align*}
-      where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2$. Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3$. The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
+      where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2.$ Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3.$ The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
       $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(x) \\ f(y)\\ 1\end{bmatrix}.$$
       Compositions of affine linear transformations can therefore be seen as products of these $3\times 3$ matrices. Since every linear transformation uniquely corresponds to a function, we will interchangeably refer to the function and its $3\times 3$ standard matrix as the same object.
       <br><br>
       There are some "basic" matrices whose actions are naturally understood geometrically. To start, since we already know that $b$ is a translation vector, we can write $\text{Translate}(h,k)$ for the function with standard matrix $$\begin{pmatrix} 1 & 0 & h \\ 0 & 1 & k \\ 0 & 0 & 1 \end{pmatrix};$$ the function that maps
       $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}x+h \\ y+k\\ 1\end{bmatrix}.$$
-      We can narrow our focus to the action made by $A$. The following table shows the $A$ matrices for basic transformations.
+      We can narrow our focus to the action made by $A.$ The following table shows the $A$ matrices for basic transformations.
       <br>
       <table class="table-bordered" id="basic-transformations" caption="Basic Transformations">
        <thead>
@@ -220,13 +220,13 @@
            <td>$\XShear(t)$</td>
            <td>$\begin{pmatrix} 1 & t \\ 0 & 1 \end{pmatrix}$</td>
            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x+ty\\ y\end{bmatrix}$</td>
-           <td>Shear a vector in the $x$ direction with a slope of $t$.</td>
+           <td>Shear a vector in the $x$ direction with a slope of $t.$</td>
          </tr>
          <tr>
            <td>$\XShear(t)$</td>
            <td>$\begin{pmatrix} 1 & 0 \\ t & 1 \end{pmatrix}$</td>
            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\\ tx+y\end{bmatrix}$</td>
-           <td>Shear a vector in the $y$ direction with a slope of $t$.</td>
+           <td>Shear a vector in the $y$ direction with a slope of $t.$</td>
          </tr>
        </tbody>
       </table>
@@ -234,13 +234,13 @@
       Now we can ask the question: how can we tell when an affine linear transformation is a contraction mapping?
 
       <theorem id="operator-norm">
-        A $2\times 2$ matrix $A$ is a contraction if and only if the largest eigenvalue $\lambda_1$ of $A^TA$ is less than 1. In this case, $A$ has contraction constant $\sqrt{\lambda_1}$.
+        A $2\times 2$ matrix $A$ is a contraction if and only if the largest eigenvalue $\lambda_1$ of $A^TA$ is less than 1. In this case, $A$ has contraction constant $\sqrt{\lambda_1}.$
       </theorem>
       <proof collapse="true" open="false">
         (From <cite to="keir"></cite>) A $2\times 2$ matrix is a contraction if and only if there is some $0\leq k < 1$ such that for all $x,y\in\R^2$, $$|Ax-Ay|\leq k|x-y|;$$
         equivalently, for all nonzero $v\in\R^2$,
         $$|Av|\leq k|v|.$$
-        We can now see that $A$ is a contraction exactly when $$|Au|\leq k$$ for all unit vectors $u$. Since the quantity $|Au|$ is a continuous function of $u$ and $S^1$ is a compact subset of $\R^2$, the maximum value of $|Au|$ exists and is called the <em>operator norm</em> of $A$, denoted $M_A$. Certainly, if $M_A < 1$, $A$ is a contraction mapping with contraction constant $M_A$, and if $M_A\geq 1$, $A$ is not a contraction mapping. Now we will compute $M_A$.
+        We can now see that $A$ is a contraction exactly when $$|Au|\leq k$$ for all unit vectors $u.$ Since the quantity $|Au|$ is a continuous function of $u$ and $S^1$ is a compact subset of $\R^2$, the maximum value of $|Au|$ exists and is called the <em>operator norm</em> of $A$, denoted $M_A.$ Certainly, if $M_A < 1$, $A$ is a contraction mapping with contraction constant $M_A$, and if $M_A\geq 1$, $A$ is not a contraction mapping. Now we will compute $M_A.$
         <br><br>
         Since $A^TA$ is a symmetric real matrix, it has real eigenvalues $\lambda_1\geq \lambda_2$ and is orthogonally diagonalizable:
         $$A^TA = PDP^{-1},$$
@@ -255,8 +255,8 @@
                     & = x^TDx \\
                     & = x_1^2\lambda_1 + x_2^2\lambda_2.
         \end{align*}
-        Since $P^T$ is an orthogonal matrix, it preserves the length of vectors, so $M_A^2$ is the maximum value of the expression $$x_1^2\lambda_1 + x_2^2\lambda_2$$ over all unit vectors $x=(x_1,x_2)$. Note further that $|Au|^2$ is non-negative, so we must have $\lambda_1\geq\lambda_2\geq 0$. The quantity $x_1^2\lambda_1 + x_2^2\lambda_2$ is maximized when $x_1=1$ and $x_2=0$. This proves that $$M_A = \sqrt{\lambda_1}.$$
-        Therefore, $A$ is a contraction mapping if and only if $\sqrt{\lambda_1} = M_A < 1$, if and only if $\lambda_1 < 1$.
+        Since $P^T$ is an orthogonal matrix, it preserves the length of vectors, so $M_A^2$ is the maximum value of the expression $$x_1^2\lambda_1 + x_2^2\lambda_2$$ over all unit vectors $x=(x_1,x_2).$ Note further that $|Au|^2$ is non-negative, so we must have $\lambda_1\geq\lambda_2\geq 0.$ The quantity $x_1^2\lambda_1 + x_2^2\lambda_2$ is maximized when $x_1=1$ and $x_2=0.$ This proves that $$M_A = \sqrt{\lambda_1}.$$
+        Therefore, $A$ is a contraction mapping if and only if $\sqrt{\lambda_1} = M_A < 1$, if and only if $\lambda_1 < 1.$
       </proof>
 
 
@@ -299,7 +299,7 @@
           = & \ A.
         \end{align*}
 
-        In the second case, suppose that $A_1\neq 0$, so $A_2=\frac{|A_2|}{|A_1|}A_1$. Then,
+        In the second case, suppose that $A_1\neq 0$, so $A_2=\frac{|A_2|}{|A_1|}A_1.$ Then,
         \begin{align*}
             & \ \Rotate(\arg A_1)\ \XYScale(|A_1|,0)\ \XShear\left(\frac{|A_2|}{|A_1|}\right) \\
           = & \ \frac{1}{|A_1|}\m{A_{11}}{-A_{12}}{A_{12}}{A_{11}} \m{|A_1|}{0}{0}{0} \m{1}{\frac{|A_2|}{|A_1|}}{0}{1}\\
@@ -311,7 +311,7 @@
           = & \ A.
         \end{align*}
 
-        In the third case, suppose that $A_1=0$. If $A_2=0$, is is clear that
+        In the third case, suppose that $A_1=0.$ If $A_2=0$, is is clear that
         $$A=\m{0}{0}{0}{0} = \Scale(0).$$
         Otherwise, $A_2\neq 0$, so
         \begin{align*}
@@ -332,7 +332,7 @@
       <theorem id="contraction-classification">
         Suppose $A$ is a $2\times 2$ invertible matrix, so $A$ can be written as
         $$A=\Rotate(\theta)\XShear(a)\XYScale(b,c)$$
-        for some $a,b,c,\theta \in\R$. Then $A$ determines a contraction mapping if and only if $$a^2 < \frac{\min(2,1+b^2c^2)-(b^2+c^2)}{c^2}.$$
+        for some $a,b,c,\theta \in\R.$ Then $A$ determines a contraction mapping if and only if $$a^2 < \frac{\min(2,1+b^2c^2)-(b^2+c^2)}{c^2}.$$
       </theorem>
       <proof collapse="true" open="true">
         First notice that
@@ -356,7 +356,7 @@
           \implies & \lambda^2 - (b^2+c^2(a^2+1))\lambda + b^2c^2 = 0\\
           \implies & \lambda = \frac{b^2+c^2(a^2+1)\pm\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2 }}{2}.
         \end{align*}
-        The larger of these two eigenvalues is $\lambda_1 = \frac{b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2}}{2}$. Then we know by Theorem <ref to="operator-norm"></ref> that $A$ is a contraction if and only if $\lambda_1 < 1$. Well, if $b^2+c^2(1+a^2) < 2 \iff a^2 < \frac{2-b^2-c^2}{c^2}$,
+        The larger of these two eigenvalues is $\lambda_1 = \frac{b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2}}{2}.$ Then we know by Theorem <ref to="operator-norm"></ref> that $A$ is a contraction if and only if $\lambda_1 < 1.$ Well, if $b^2+c^2(1+a^2) < 2 \iff a^2 < \frac{2-b^2-c^2}{c^2}$,
         \begin{align*}
           \lambda_1 < 1 \iff & b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} < 2 \\
                         \iff & 2 - b^2+c^2(a^2+1) > \sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} \\
@@ -371,77 +371,79 @@
       </proof>
 
       <section>Approximating an IFS Fractal Image</section>
-      Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a hutchinson operator $F$, what are the computational methods we can use to find the compact $A\subset \R^2$ for which $F(A)=A$.
+      Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a hutchinson operator $F$, what are the computational methods we can use to find the compact $A\subset \R^2$ for which $F(A)=A.$
       <br><br>
       To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $A_0\in \K$, the $n$th iteration of $F$ on $A_0$ (written $F^{(n)}(A_0)$) approaches $A$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:
       <br><br>
       <ol>
-        <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a list: $L=[A_0]$.</li>
-        <li>Apply each of the transformations used to build $F$ to each element in $L$.</li>
+        <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a list: $L=[A_0].$</li>
+        <li>Apply each of the transformations used to build $F$ to each element in $L.$</li>
         <li>Re-define $L$ to be the list of the resulting subsets.</li>
         <li>Go to step 2, or stop.</li>
       </ol>
       <br>
-      After repeating this process a large number of times ("going to step 2 instead of stopping"), eventually we will be left with an image of our desired fractal. However, this process is computationally exhausting: suppose the hutchinson operator is built using $k$ contractions on $\R^2$. Then $F^{(n)}(A_0)$ is the union of $k^n$ subsets of $\R^2$. This exponential growth makes this algorithm very memory-inefficient, very quickly.
+      After repeating this process a large number of times ("going to step 2 instead of stopping"), eventually we will be left with an image of our desired fractal. However, this process is computationally exhausting: suppose the hutchinson operator is built using $k$ contractions on $\R^2.$ Then $F^{(n)}(A_0)$ is the union of $k^n$ subsets of $\R^2.$ This exponential growth makes this algorithm very memory-inefficient, very quickly.
       <br><br>
       Luckily, there is an algorithm in linear time that is commonly used to generate an approximate image of a IFS fractal, called <em>The Chaos Game</em>. Instead of applying each transformation during every iteration, this algorithm uses a randomly chosen one. We outline the algorithm below.
       <br><br>
       <ol>
-        <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are ues to build $F$.</li>
-        <li>Choose some discrete probability distribution (called the "weights") $(p_1,\dots, p_k)$, where $\sum_{i=1}^k p_i = 1$ and $p_i\in(0,1]$ for any $i\in\{1, \dots, k\}$.</li>
-        <li>Let $L=[x_0]$ be a list containing any point $x_0\in\R^2$.</li>
-        <li>With probability $p_i$, let $f=f_i$.</li>
-        <li>Write $x_n$ for the last point added to $L$, and add the point $f(x_n)$ to $L$.</li>
+        <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are ues to build $F.$</li>
+        <li>Choose some discrete probability distribution (called the "weights") $(p_1,\dots, p_k)$, where $\sum_{i=1}^k p_i = 1$ and $p_i\in(0,1]$ for any $i\in\{1, \dots, k\}.$</li>
+        <li>Let $L=[x_0]$ be a list containing any point $x_0\in\R^2.$</li>
+        <li>With probability $p_i$, let $f=f_i.$</li>
+        <li>Write $x_n$ for the last point added to $L$, and add the point $f(x_n)$ to $L.$</li>
         <li>Go to step 4, or stop.</li>
       </ol>
       For a sufficiently large number of iterations, the set of all points in $L$ is an approximated image of $A$ to any arbitrary level of convergence. The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed.
       <theorem id="chaos-game">
-        Given any point $x$ in the fixed point of a hutchinson operator and any $\e > 0$, any associated chaos game sequence will eventually contain a point that is within $\e$ of $x$.
+        Given any point $x$ in the fixed point of a Hutchinson operator and any $\e > 0$, the probability that any associated chaos game sequence will contain a point that is within $\e$ of $x$ is 1.
       </theorem>
       The following is common notation, where $B\subset\R$:
         $$\diam(B)=\sup\{|x-y|\mid x,y\in B\}.$$
       In the proof below, only $B\in\K$ are considered ($B$ is closed) so,
         $$\diam(B)=\max\{|x-y|\mid x,y\in B\}.$$
       <proof collapse="true" open="true">
-        Let $\e>0$ be given and suppose $F:\K\to\K$ is a hutchinson operator defined using contraction mappings $f_1,\dots,f_k:\R^2\to\R^2$ with contraction constants $c_1,\dots, c_k$. Write $X$ for the unique fixed point of $F$. Choose any point $r\in\R^2$, and any $x\in X$. Also, let $P=(p_1,\dots,p_k)$ be any discrete probability distribution with each $p_i>0$ and $\sum_{i=1}^kp_i=1$. Write $(g_n)$ for any sequence of points generated by the chaos game using $F$ and $P$, based at $r$. That is, let $(t_n)$ be an infinite sequence of randomly distributed (according to $P$) integers from the set $\N_k = \{1,\dots,k\}$, and
+        Let $\e>0$ be given and suppose $F:\K\to\K$ is a hutchinson operator defined using contraction mappings $f_1,\dots,f_k:\R^2\to\R^2$ with contraction constants $c_1,\dots, c_k.$ Write $X$ for the unique fixed point of $F.$ Choose any point $r\in\R^2$, and any $x\in X.$ Also, let $P=(p_1,\dots,p_k)$ be any discrete probability distribution with each $p_i>0$ and $\sum_{i=1}^kp_i=1.$ Write $(g_n)$ for any sequence of points generated by the chaos game using $F$ and $P$, based at $r.$ That is, let $(t_n)$ be an infinite sequence of randomly distributed (according to $P$) integers from the set $\N_k = \{1,\dots,k\}$, and
         $$(g_n)=((f_{t_n}\circ\dots\circ f_{t_{1}})(r) \mid n\in\N).$$
-        We will show that we can find some $N\in\N$ for which $|g_N - x| \leq \e$.
+        We will show that we can find some $N\in\N$ for which $|g_N - x| < \e.$
         <br><br>
         Choose any point $x_0\in X$ and consider the sequence
         $$(h_n)=((f_{t_n}\circ\dots\circ f_{t_{1}})(x_0) \mid n\in\N).$$
         Since $x_0$ is a member of the fixed set $X$, every term of $(h_n)$ is also in $X$, and since each $f_i$ is a contraction mapping,
         $$|g_{n+1}-h_{n+1}| \leq c_{t_n+1}|g_n-h_n| < |g_n - h_n|.$$
         Therefore, we can choose $N_1\in\N$ large enough so that $$|g_n-h_n| < \frac{\e}{2}$$
-        for all $n\in\N$ with $n\geq N_1$. Now recognize that
+        for all $n\in\N$ with $n\geq N_1.$ Now recognize that
         $$X = F(X) = f_1(X)\cup \dots \cup f_k(X),$$
-        so there must be some $s_1\in\N_k$ for which $x\in f_{s_1}(X)$. Similarly,
+        so there must be some $s_1\in\N_k$ for which $x\in f_{s_1}(X).$ Similarly,
         \begin{align*}
           f_{s_1}(X) & = f_{s_1}(f_1(X)\cup \dots \cup f_k(X)) \\
                      & = f_{s_1}(f_1(X))\cup \dots \cup f_{s_1}(f_k(X)),
         \end{align*}
-        there is some $s_2\in\N_k$ for which $x\in f_{s_1}(f_{s_2}(X))$. Continue this process, defining an infinite sequence $(s_n)$, and then use this sequence to build another:
+        so there is some $s_2\in\N_k$ for which $x\in f_{s_1}(f_{s_2}(X)).$ Continue this process, defining an infinite sequence $(s_n)$, and then use this sequence to build another:
         $$(A_n) = ((f_{s_1}\circ \dots \circ f_{s_n})(X)\mid n\in\N).$$
         Clearly, for any $n\in\N$, $x\in A_n$, and since each $f_i$ is a contraction mapping with contraction constant $c_i$,
         $$\diam(A_{n+1})\leq c_i\diam(A_n)<\diam(A_n).$$
-        In particular, we can choose $m\in\N$ large enough so that $\diam(A_{m})<\frac{\e}{2}$.
+        In particular, we can choose $m\in\N$ large enough so that $\diam(A_{m})<\frac{\e}{2}.$
         <br><br>
-        Since the sequence $(t_n)$ is random, it is guaranteed that the fininte sequence $s_{m}, \dots, s_{1}$ eventually appears as a continuous subseqence of $(t_n)$ after the $N_1$st term. That is, there is some $N\in\N$ with $N > N_1$, for which
+        Since the sequence $(t_n)$ is random, there is a probability of 1 that the fininte sequence $s_{m}, \dots, s_{1}$ eventually appears as a continuous subseqence of $(t_n)$ after the $N_1$st term. That is, there is some $N\in\N$ with $N > N_1$, for which
         $$t_{N - \ell + 1} = s_{1 + \ell - 1}$$
-        for all $\ell\in\N_{m}$. Then if we let $T\in\N$ be such that $s_m = t_T$, we know that $h_{t_{T-1}}\in X$ (if $T=1$, then $h_{t_0}=x_0\in X$), so
+        for all $\ell\in\N_{m}.$ Then we know that $h_{N-m}\in X$ (if $N=m$, we can write $h_0=x_0\in X$), so
         \begin{align*}
           h_{N} & = (f_{t_N}\circ\dots\circ f_{1})(x_0) \\
-                & = (f_{s_1}\circ\dots\circ f_{s_m}\circ f_{t_{T-1}}\dots\circ f_{t_1})(x_0) \\
-                & = (f_{s_1}\circ\dots\circ f_{s_m})(h_{t_{T-1}}) \\
+                & = (f_{s_1}\circ\dots\circ f_{s_m}\circ f_{t_{N-m}}\dots\circ f_{t_1})(x_0) \\
+                & = (f_{s_1}\circ\dots\circ f_{s_m})(h_{N-m}) \\
                 & \in A_m.
         \end{align*}
         Therefore,
-        $$|g_N - x| \leq |g_N - h_N| + |h_N - x| = \e.$$
+        $$|g_N - x| \leq |g_N - h_N| + |h_N - x| < \e.$$
       </proof>
+
+      It is important to note in the proof above, that for all $n\in\N$ with $n\geq N_1$, $|g_n-h_n|<\frac\e2$, but we only found a <em>specific</em> $N>N_1$ for which $|g_N-x| < \e.$ This leaves the question: are the points in $(g_n)$ just dense everywhere (which would be uninteresting), or do they stay close to $X$? The answer is the latter, since $(h_n)\subset X$, and for $n\geq N_1$, $(g_n)$ and $(h_n)$ stay arbitrarily close.
 
       <!-- Recall that $h_{N_1}\in X$, so
       $$h_{N_3 + N_2 - 1}= (f_{s_{1}}\circ\dots\circ f_{s_{N_2}} \circ\dots\circ f_{t_{N_1+1}})(h_{N_1}) = (f_{t_{N_3+N_2 - 1}}\circ\dots\circ f_{t_{N_1+1}})(h_{N_1}) \in A_{N_3}$$
 
-      Since $\{r\}$ is compact, we can find (by the contraction mapping principle) some $n_1\in\N$ large enough for which there is a point $y\in F^{(n_1)}(r)$ that is within $\gamma(\e)$ of some point $x_1\in X$. We can write $y = (f_{t_1}\circ\dots\circ f_{t_{n_1}})(r)$ for some $t_1,\dots,t_{n_1}\in\{1,\dots,k\}$. Notice that the probability that the composition $f_{t_1}\circ\dots\circ f_{t_{n_1}}$ appears in some term of $(c_n)$ is $$p_{t_1}\cdot\dots\cdot p_{t_{n_1}} > 0,$$
+      Since $\{r\}$ is compact, we can find (by the contraction mapping principle) some $n_1\in\N$ large enough for which there is a point $y\in F^{(n_1)}(r)$ that is within $\gamma(\e)$ of some point $x_1\in X.$ We can write $y = (f_{t_1}\circ\dots\circ f_{t_{n_1}})(r)$ for some $t_1,\dots,t_{n_1}\in\{1,\dots,k\}.$ Notice that the probability that the composition $f_{t_1}\circ\dots\circ f_{t_{n_1}}$ appears in some term of $(c_n)$ is $$p_{t_1}\cdot\dots\cdot p_{t_{n_1}} > 0,$$
       so if we take $N_1$ large enough, the -->
 
       <section>Fractal Dimension</section>
@@ -454,7 +456,7 @@
       <hr>
       <references>
         <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
-        <item id="keir">Keir H. Lockeridge, Personal Communication, 2020.</item>
+        <item id="keir">Keir H. Lockridge, Personal Communication, 2020.</item>
         <item id="fractals-for-theclassroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
       </references>
     </div>
