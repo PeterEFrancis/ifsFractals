@@ -158,7 +158,7 @@ def random(num):
         b = round(r.random(),3)
         c = round(r.random(),3)
         f = ((1 - c**2) * (1 - b**2) / (c**2))**(1/2)
-        a = round(r.random() * 2 * f - f, 3)
+        a = round(r.random() * 1.9 * f - f * 0.8, 3)
         theta = round(6.283185307179586 * r.random(),3)
         h = round(r.random(),3)
         k = round(r.random(),3)
@@ -177,7 +177,8 @@ def random(num):
         vars += '"' + letter + '":{"val":' + str(replaced_val) + ',"min":-1,"max":1,"step":0.1},'
     vars = vars[:-1] + "}"
 
-    name = save(
+    playground = Playground(
+        name = get_new_name(),
         title=f'random-{num}',
         transformations=transformations,
         weights=','.join('1' for _ in range(num)),
@@ -187,7 +188,7 @@ def random(num):
         points="10000",
         color="#000000"
     )
-    return redirect('/playground/' + name)
+    return render_template('playground.html', playground=playground)
 
 
 
