@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.color-cell {
+  width: 10px;
+}
+
 .guppy-container {
   width: 75%;
 }

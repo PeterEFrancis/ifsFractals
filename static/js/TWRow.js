@@ -26,6 +26,11 @@ class TWRow {
     // create physical row
     this.tr = document.createElement('tr');
       this.tr.setAttribute('id', 'TW-row-' + id);
+      var color_td = document.createElement('td');
+          color_td.style.backgroundColor = '#' + this.group.color_function(id);
+          color_td.classList.add('color-cell');
+        this.tr.appendChild(color_td);
+
       var guppy_container = document.createElement('td');
         guppy_container.classList.add("guppy-container");
         var div = document.createElement('div');
@@ -80,6 +85,9 @@ class TWRow {
       this.guppy.engine.add_symbol(func, SYMBOLS[func]);
     }
 
+    this.guppy.import_text('Scale(0.5)');
+    this.guppy.engine.end();
+    this.guppy.render(true);
 
   }
 
@@ -221,7 +229,7 @@ class TWRow {
 
 class TWRowGroup {
 
-  constructor(table_container, parser) {
+  constructor(table_container, parser, color_function) {
     this.table_container = table_container;
     this.table = document.createElement('table');
     this.table_container.appendChild(this.table);
@@ -229,6 +237,7 @@ class TWRowGroup {
     this.all_rows = [];
     this.parser = parser;
     this.onchange = function() {};
+    this.color_function = color_function;
   }
 
   add_row() {

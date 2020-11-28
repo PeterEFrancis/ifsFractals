@@ -436,6 +436,36 @@
 
 <script>
 
+    const colors = [
+      'C10020', // Vivid Red
+      'FF6800', // Vivid Orange
+      'FFB300', // Vivid Yellow
+      '007D34', // Vivid Green
+      '00538A', // Strong Blue
+      '803E75', // Strong Purple
+      'A6BDD7', // Very Light Blue
+      'CEA262', // Grayish Yellow
+      '817066', // Medium Gray
+      'F6768E', // Strong Purplish Pink
+      'FF7A5C', // Strong Yellowish Pink
+      '53377A', // Strong Violet
+      'FF8E00', // Vivid Orange Yellow
+      'B32851', // Strong Purplish Red
+      'F4C800', // Vivid Greenish Yellow
+      '7F180D', // Strong Reddish Brown
+      '93AA00', // Vivid Yellowish Green
+      '593315', // Deep Yellowish Brown
+      'F13A13', // Vivid Reddish Orange
+      '232C16'  // Dark Olive Green
+    ];
+
+    function color_function(i) {
+      if (i < colors.length) {
+        return colors[i];
+      }
+      return "000000";
+    }
+
     var canvas = document.getElementById('fractal');
     canvas.width = 1000;
     canvas.height = 1000;
@@ -463,7 +493,7 @@
     var parser = new Parser(variable_group);
 
     // create transformation-weight row group
-    var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser);
+    var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser, color_function);
 
     // create generatorPane
     var generator_pane = new GeneratorPane(document.getElementById('generator'));
@@ -484,29 +514,6 @@
       document.getElementById('save-button').disabled = false;
       document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
-
-    const colors = [
-      'C10020', // Vivid Red
-      'FF6800', // Vivid Orange
-      'FFB300', // Vivid Yellow
-      '007D34', // Vivid Green
-      '00538A', // Strong Blue
-      '803E75', // Strong Purple
-      'A6BDD7', // Very Light Blue
-      'CEA262', // Grayish Yellow
-      '817066', // Medium Gray
-      'F6768E', // Strong Purplish Pink
-      'FF7A5C', // Strong Yellowish Pink
-      '53377A', // Strong Violet
-      'FF8E00', // Vivid Orange Yellow
-      'B32851', // Strong Purplish Red
-      'F4C800', // Vivid Greenish Yellow
-      '7F180D', // Strong Reddish Brown
-      '93AA00', // Vivid Yellowish Green
-      '593315', // Deep Yellowish Brown
-      'F13A13', // Vivid Reddish Orange
-      '232C16'  // Dark Olive Green
-    ];
 
 
 
@@ -562,7 +569,7 @@
           var tr = document.createElement('tr');
           // color
           var color_td = document.createElement('td');
-          color_td.style.backgroundColor = '#' + (colors[i] || "000000");
+          color_td.style.backgroundColor = '#' + (color_function(i) || "000000");
           tr.appendChild(color_td);
           // matrix
           var matrix_td = document.createElement('td');

@@ -192,6 +192,11 @@ def random(num):
 
 
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
 
  #  _       _ _   _       _ _
  # (_)_ __ (_) |_(_) __ _| (_)_______
