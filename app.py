@@ -158,7 +158,7 @@ def random(num):
         b = round(r.random(),3)
         c = round(r.random(),3)
         f = ((1 - c**2) * (1 - b**2) / (c**2))**(1/2)
-        a = round(r.random() * 1.9 * f - f * 0.8, 3)
+        a = round((r.random() - 0.5) * 0.9 * f, 3)
         theta = round(6.283185307179586 * r.random(),3)
         h = round(r.random(),3)
         k = round(r.random(),3)
