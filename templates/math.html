@@ -91,6 +91,7 @@
         \newcommand{\K}{\mathcal{K}}
         \newcommand{\e}{\varepsilon}
         \newcommand{\diam}{\operatorname{diam}}
+        \newcommand{\Trace}{\operatorname{Trace}}
         \renewcommand{\mid}{\ : \ }
       \)
       </div>
@@ -326,12 +327,33 @@
       </proof>
 
 
-      This result comes in very handy both conceptually and computationally. We can classify the arguments in the matrix decomposition shown in Theorem <ref to="factorizations"></ref> for invertible matrices that result in contraction mappings.
+      The next result comes in very handy both conceptually and computationally. We can classify the arguments in the matrix decomposition shown in Theorem <ref to="factorizations"></ref> for invertible matrices that result in contraction mappings. First, a useful lemma:
 
+      <lemma id="eigenvalues-of-a-symmetric-matrix">
+        The largest eigenvalue of a real $2\times 2$ symmetric matrix $$P=\begin{pmatrix}\alpha & \beta \\ \beta & \gamma\end{pmatrix}$$ is less than 1 if and only if $\Trace(P) < \min(2, 1 + \det(P))$.
+      </lemma>
+      <proof collapse="true" open="false">
+        Since $P$ is real and symmetric, it has real eigenvalues. We can find the eigenvalues of $P$ with a charactaristic polynomial:
+        \begin{align*}
+               & 0 = \det(P-\lambda I) \\
+          \iff & 0 = \lambda^2 - (\gamma + \alpha)\lambda + (\alpha\gamma - \beta^2) \\
+          \iff & \lambda = \frac{(\gamma+\alpha)\pm\sqrt{(\gamma+\alpha)^2-4(\alpha\gamma - \beta^2)}}{2} \\
+          \iff & \lambda = \frac{\Trace(P)^2\pm\sqrt{\Trace(P)-4\det(P)}}{2} \\
+        \end{align*}
+        Then the largest eiegenvalue of $P$ is $\lambda_1 = \frac{\Trace(P)+\sqrt{\Trace(P)-4\det(P)}}{2}$, so
+        \begin{align*}
+          \lambda_1 < 1 \iff & \Trace(P)+\sqrt{\Trace(P)^2-4\det(P)} < 2 \\
+                        \iff & \sqrt{\Trace(P)^2-4\det(P)} < 2 - \Trace(P) \\
+                        \iff & \Trace(P)^2-4\det(P) < (2 - \Trace(P))^2 \quad\text{and}\quad\Trace(P) < 2 \\
+                        \iff & \Trace(P)^2-4\det(P) < 4 - 4\Trace(P) + \Trace(P)^2\quad\text{and}\quad\Trace(P) < 2 \\
+                        \iff & \Trace(P) < \det(P) + 1\quad\text{and}\quad\Trace(P) < 2 \\
+                        \iff & \Trace(P) < \min(2, 1 + \det(P)). \\
+        \end{align*}
+      </proof>
       <theorem id="contraction-classification">
         Suppose $A$ is a $2\times 2$ invertible matrix, so $A$ can be written as
         $$A=\Rotate(\theta)\XShear(a)\XYScale(b,c)$$
-        for some $a,b,c,\theta \in\R.$ Then $A$ determines a contraction mapping if and only if $$a^2 < \frac{\min(2,1+b^2c^2)-(b^2+c^2)}{c^2}.$$
+        for some $a,b,c,\theta \in\R.$ Then $A$ determines a contraction mapping if and only if $$b^2 < 1, \quad c^2 < 1, \quad\text{and}\quad a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.$$
       </theorem>
       <proof collapse="true" open="true">
         First notice that
@@ -347,7 +369,21 @@
                & = \m{b}{ab}{abc}{c(1+a^2)}\m{b}{0}{0}{c} \\
                & = \m{b^2}{abc}{abc}{c^2(1+a^2)}. \\
         \end{align*}
-        We can use the characteristic polynomial for $A^TA$ to find its eigenvalues $\lambda$:
+        By Theorem <ref to="operator-norm"></ref>, $A$ is a contraction if and only if the largest eigenvalue of $A^TA$ is less than 1, which is true by Lemma <ref to="eigenvalues-of-a-symmetric-matrix"></ref> if and only if
+        \begin{align*}
+               & \Trace(A^TA) < \min(2, 1 + \det(A^TA)) \\
+          \iff & b^2 + c^2(1 + a^2) < \min(2, 1 + b^2c^2(1+a^2) - (abc)^2) \\
+          \iff & b^2 + c^2 + c^2a^2 < \min(2, 1 + b^2c^2) \\
+          \iff & a^2 < \min\left(\frac{2-(b^2+c^2)}{c^2},\frac{(1-b^2)(1-c^2)}{c^2}\right).
+        \end{align*}
+        From this, we see that $b^2+c^2 < 2$, for if not, $a^2 < 0$. Furthermore, if we suppose indirectly that $c^2 \geq 1$, then we must either have that $b^2 > 1$ which contradicts that $b^2+c^2 < 2$, or $b^2 \leq 1$, contradicting that $a^2 < 0$. Then $c^2 < 1$, which implies for similar reasons that $b^2 < 1$ as well. Thus with these restrictions,
+        $$\frac{2-(b^2+c^2)}{c^2} > \frac{1+b^2c^2-(b^2+c^2)}{c^2} = \frac{(1-b^2)(1-c^2)}{c^2},$$
+        so
+        $$a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.$$
+
+
+
+        <!-- We can use the characteristic polynomial for $A^TA$ to find its eigenvalues $\lambda$:
         \begin{align*}
                    & \det(A^TA - \lambda I) = 0 \\
           \implies & \det \m{b^2 - \lambda}{abc}{abc}{c^2(1+a^2) - \lambda} = 0 \\
@@ -355,7 +391,7 @@
           \implies & \lambda^2 - (b^2+c^2(a^2+1))\lambda + b^2c^2 = 0\\
           \implies & \lambda = \frac{b^2+c^2(a^2+1)\pm\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2 }}{2}.
         \end{align*}
-        The larger of these two eigenvalues is $\lambda_1 = \frac{b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2}}{2}.$ Then we know by Theorem <ref to="operator-norm"></ref> that $A$ is a contraction if and only if $\lambda_1 < 1.$ Well, if $b^2+c^2(1+a^2) < 2 \iff a^2 < \frac{2-b^2-c^2}{c^2}$,
+        The larger of these two eigenvalues is $\lambda_1 = \frac{b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2}}{2}.$ Then we know  Well, if $b^2+c^2(1+a^2) < 2 \iff a^2 < \frac{2-b^2-c^2}{c^2}$,
         \begin{align*}
           \lambda_1 < 1 \iff & b^2+c^2(a^2+1)+\sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} < 2 \\
                         \iff & 2 - b^2+c^2(a^2+1) > \sqrt{(b^2+c^2(a^2+1))^2 - 4b^2c^2} \\
@@ -366,7 +402,8 @@
                         \iff & a^2 < \frac{b^2c^2+1-b^2 - c^2}{c^2}. \\
         \end{align*}
         Then $\lambda_1< 1$ if and only if
-        $$a^2 < \min\left(\frac{b^2c^2+1-b^2 - c^2}{c^2}, \frac{2-b^2-c^2}{c^2}\right)=\frac{\min(2,1+b^2c^2)-(b^2+c^2)}{c^2}.$$
+        $$a^2 < \min\left(\frac{b^2c^2+1-b^2 - c^2}{c^2}, \frac{2-b^2-c^2}{c^2}\right).$$ -->
+
       </proof>
 
       <section>Approximating an IFS Fractal Image</section>
@@ -401,7 +438,7 @@
         $$\diam(B)=\sup\{|x-y|\mid x,y\in B\}.$$
       In the proof below, only $B\in\K$ are considered ($B$ is closed) so,
         $$\diam(B)=\max\{|x-y|\mid x,y\in B\}.$$
-      <proof collapse="true" open="true">
+      <proof collapse="true" open="false">
         Let $\e>0$ be given and suppose $F:\K\to\K$ is a hutchinson operator defined using contraction mappings $f_1,\dots,f_k:\R^2\to\R^2$ with contraction constants $c_1,\dots, c_k.$ Write $X$ for the unique fixed point of $F.$ Choose any point $r\in\R^2$, and any $x\in X.$ Also, let $P=(p_1,\dots,p_k)$ be any discrete probability distribution with each $p_i>0$ and $\sum_{i=1}^kp_i=1.$ Write $(g_n)$ for any sequence of points generated by the chaos game using $F$ and $P$, based at $r.$ That is, let $(t_n)$ be an infinite sequence of randomly distributed (according to $P$) integers from the set $\N_k = \{1,\dots,k\}$, and
         $$(g_n)=((f_{t_n}\circ\dots\circ f_{t_{1}})(r) \mid n\in\N).$$
         We will show that we can find some $N\in\N$ for which $|g_N - x| < \e.$

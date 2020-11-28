@@ -1,7 +1,8 @@
 class GeneratorPane {
-  constructor(canvas) {
+  constructor(canvas, color_function) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext("2d");
+    this.color_function = color_function;
   }
 
 
@@ -41,7 +42,7 @@ class GeneratorPane {
   }
 
 
-  update(tw) {
+  update(tw, ids) {
     // 1. find the corner points (and L) for each box that will be drawn
     // 2. use the corner points to figure the bounds (with 1.2 padding)
     // 3. convert the corner points to canvas coordinates
@@ -100,13 +101,14 @@ class GeneratorPane {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     var origin = this.get_canvas_point({x:0, y:0});
+    this.ctx.fillStyle = "black";
     this.ctx.fillRect(origin.x - 5, origin.y - 5, 10, 10);
 
     this.plot_box(identity, "grey");
 
     for (var i = 0; i < transformed_boxes.length; i++) {
       this.plot_box(transformed_boxes[i], "black");
-      this.fill_box(transformed_boxes[i], '#' + colors[i]);
+      this.fill_box(transformed_boxes[i], '#' + this.color_function(ids[i]));
     }
 
 

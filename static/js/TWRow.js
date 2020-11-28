@@ -306,6 +306,14 @@ class TWRowGroup {
     return {transformations: transformations, weights: weights};
   }
 
+  get_ids() {
+    var ids = [];
+    for (var i = 0; i < this.all_rows.length; i++) {
+      ids.push(this.all_rows[i].id);
+    }
+    return ids;
+  }
+
   get_matrices() {
     var matrices = [];
     for (var i in this.all_rows) {

@@ -494,7 +494,7 @@
     var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser, color_function);
 
     // create generatorPane
-    var generator_pane = new GeneratorPane(document.getElementById('generator'));
+    var generator_pane = new GeneratorPane(document.getElementById('generator'), color_function);
 
     // create fractal object
     var fractal;
@@ -563,11 +563,12 @@
         const matrices = tw_row_group.get_matrices();
         const weights = tw_row_group.get_weights();
         const factorizations = tw_row_group.get_factorizations();
+        const ids = tw_row_group.get_ids();
         for (var i = 0; i < weights.length; i++) {
           var tr = document.createElement('tr');
           // color
           var color_td = document.createElement('td');
-          color_td.style.backgroundColor = '#' + (color_function(i) || "000000");
+          color_td.style.backgroundColor = '#' + color_function(ids[i]);
           tr.appendChild(color_td);
           // matrix
           var matrix_td = document.createElement('td');
@@ -629,7 +630,7 @@
         }
 
         // update the generator
-        generator_pane.update(tw);
+        generator_pane.update(tw, ids);
 
 
         clear_error();
@@ -680,10 +681,16 @@
         v.set_step(f_info.vars[var_name].step);
       }
 
+      // fractal = new Fractal(cart, );
+
       try {
         fractal = new Fractal(cart, tw_row_group.get_TW()); // (the actual function objects and weight numbers need to be generated)
         clear_error();
       } catch(e) {
+        fractal = new Fractal(cart, {
+          transformations: [Scale(0.5), Scale(0.5)],
+          weights: [1,1]
+        })
         report_error(e);
       }
 
