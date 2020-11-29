@@ -77,11 +77,12 @@
 
 <div class="container" style="margin-bottom: 100px;">
   <div class="row">
-    <div class="col-md-12" id="LaTeX" spellcheck="false" contenteditable="false">
+    <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="false">
       <div hidden>
       \(
         \newcommand{\R}{\mathbb{R}}
         \newcommand{\N}{\mathbb{N}}
+        \newcommand{\Translate}{\operatorname{Translate}}
         \newcommand{\Rotate}{\operatorname{Rotate}}
         \newcommand{\Scale}{\operatorname{Scale}}
         \newcommand{\XYScale}{\operatorname{XYScale}}
@@ -89,6 +90,7 @@
         \newcommand{\YShear}{\operatorname{YShear}}
         \newcommand{\m}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
         \newcommand{\K}{\mathcal{K}}
+        \newcommand{\C}{\mathcal{C}}
         \newcommand{\e}{\varepsilon}
         \newcommand{\diam}{\operatorname{diam}}
         \newcommand{\Trace}{\operatorname{Trace}}
@@ -133,11 +135,11 @@
       </theorem>
       In order to use Theorem <ref to="contraction-mapping-principle"></ref>, we have to discuss the metric space $\K$, the set of nonempty compact subsets of $\R^2.$ The metric on this space is called the Hausdorff Metric, which first requires the following definition.
       <definition id="r-collar">
-        Given $A\subseteq \R^2$ and $r>0$, we define the <em>$r$-collar</em> of $A$ to be the set $$A_r=\{x\in\R^2\mid |x-a|\leq r\text{ for some $a\in A$}\}.$$
+        Given $U\subseteq \R^2$ and $r>0$, we define the <em>$r$-collar</em> of $U$ to be the set $$U_r=\{x\in\R^2\mid |x-u|\leq r\text{ for some $u\in U$}\}.$$
       </definition>
-      Intuitively, the name "collar" should invoke a sense that $A_r$ is the result of expanding the borders of $A$ by a distance $r.$
+      Intuitively, the name "collar" should invoke a sense that $U_r$ is the result of expanding the borders of $U$ by a distance $r.$
       <definition id="hausdorff-metric">
-        We define the <em>Hausdorff Metric</em> on $\K$ by $$h(A,B)=\min\{r\geq 0 \mid A\subseteq B_r\text{ and } B\subseteq A_r\}.$$
+        We define the <em>Hausdorff Metric</em> on $\K$ by $$h(U,V)=\min\{r\geq 0 \mid U\subseteq V_r\text{ and } V\subseteq U_r\}.$$
       </definition>
       In other words, the Hausdorff "distance" between two sets is the smallest amount one needs to expand either so each resulting collar contains the other.
       <theorem>
@@ -148,7 +150,7 @@
         Suppose that $f_1, f_2, \dots, f_k:\R^2\to \R^2$ are contraction mappings. Then the function
         \begin{align*}
           F : \K & \to \K \\
-               A & \mapsto f_1(A)\cup f_2(A)\cup \dots \cup f_k(A)
+               U & \mapsto f_1(U)\cup f_2(U)\cup \dots \cup f_k(U)
         \end{align*}
         is called a <em>Hutchinson Operator</em>.
       </definition>
@@ -156,20 +158,20 @@
         Any Hutchinson operator $F:\K\to\K$ is a contraction mapping on $\K$ with respect to the Hausdorff metric.
       </theorem>
       <proof collapse="true" open="false">
-        Let $c_1, \dots, c_k$ be the contraction constants of the constractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has constraction constant $c=\max\{c_1,\dots, c_k\}.$
+        Let $c_1, \dots, c_k$ be the contraction constants of the contractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has contraction constant $c=\max\{c_1,\dots, c_k\}.$
         <br><br>
-        Take any $A,B\in\K$, write $r=h(A,B)$, and choose any point $x\in F(A).$ Then there exists some $j\in\{1,\dots,k\}$ and some $a\in A$ for which $x=f_j(a)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r.$ Since $f_j$ is a contraction, we have
-        $$|x - f_j(b)| = |f_j(a) - f_j(b)|\leq c_j|a-b|\leq cr.$$
-        Clearly, $f_j(b)\in F(B)_{cr}$, so the inequality above shows that any point of $F(A)$ is within $cr$ of some point of $F(B)$:
-        $$F(A)\subseteq F(B)_{cr}.$$
-        It can be symmetrically established that $$F(B)\subseteq F(A)_{cr}.$$ Therefore,
-        $$h(F(A),F(B))\leq cr = c\cdot h(A,B);$$
+        Take any $U,B\in\K$, write $r=h(U,V)$, and choose any point $x\in F(U).$ Then there exists some $j\in\{1,\dots,k\}$ and some $u\in U$ for which $x=f_j(u)$, so by the definition of the Hausdorff metric, there is some $b\in B$ for which $|a-b|\lt r.$ Since $f_j$ is a contraction, we have
+        $$|x - f_j(v)| = |f_j(u) - f_j(b)|\leq c_j|a-b|\leq cr.$$
+        Clearly, $f_j(v)\in F(V)_{cr}$, so the inequality above shows that any point of $F(U)$ is within $cr$ of some point of $F(V)$:
+        $$F(U)\subseteq F(V)_{cr}.$$
+        It can be symmetrically established that $$F(V)\subseteq F(U)_{cr}.$$ Therefore,
+        $$h(F(U),F(V))\leq cr = c\cdot h(U,V);$$
         $F$ is a contraction mapping.
       </proof>
 
       Now Theorem <ref to="contraction-mapping-principle"></ref> tells us that any Hutchinson operator has a unique fixed point in $\K.$ These fixed points (compact sets in $\R^2$) are the fractals that we will be studying. Specifically, the Hutchinson operators that we will focus our attention to are built using Affine Linear Transformations of $\R^2.$
       <br><br>
-      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $A\in\K$, the iterative sequence $$A,\ F(A),\ F(F(A)),\ F(F(F(A))), \dots$$ converges to a unique fixed point $X$, where $F(X)=X.$
+      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $A\in\K$, the iterative sequence $$A,\ F(A),\ F(F(A)),\ F(F(F(A))),\ \dots$$ converges to a unique fixed point $X$, where $F(X)=X.$
 
 
 
@@ -380,8 +382,6 @@
         so
         $$a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.$$
 
-
-
         <!-- We can use the characteristic polynomial for $A^TA$ to find its eigenvalues $\lambda$:
         \begin{align*}
                    & \det(A^TA - \lambda I) = 0 \\
@@ -405,15 +405,31 @@
 
       </proof>
 
+      Theorem <ref to="contraction-classification"></ref> implies that there is a bijection between the set $\C$ of linear and invertible contraction mappings on $\R^2$ and a strict subset of $\R^6$. In particular, if we let
+      $$E = \{(w,x,y)\mid 0 < x^2,y^2 < 1, w^2y^2 < (1-x^2)(1-y^2)\},$$
+      then the function
+      $$\Phi : \R^2 \times S^1 \times E\to \C$$
+      that maps $(h,k,\theta, w, x, y)$ to $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$ is a bijection.
+
+      <theorem id="path-connected-space">
+        The set $\C$ is path connected.
+      </theorem>
+      <!-- <proof collapse="true" open="true">
+
+      </proof> -->
+
+
+
+
       <section>Approximating an IFS Fractal Image</section>
       Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a hutchinson operator $F$, what are the computational methods we can use to find the compact $A\subset \R^2$ for which $F(A)=A.$
       <br><br>
       To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $A_0\in \K$, the $n$th iteration of $F$ on $A_0$ (written $F^{(n)}(A_0)$) approaches $A$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:
       <br><br>
       <ol>
-        <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a list: $L=[A_0].$</li>
-        <li>Apply each of the transformations used to build $F$ to each element in $L.$</li>
-        <li>Re-define $L$ to be the list of the resulting subsets.</li>
+        <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a set: $L=\{A_0\}.$</li>
+        <li>Apply each of the transformations used to build $F$ to each element of $L.$</li>
+        <li>Re-define $L$ to be the set of the resulting subsets.</li>
         <li>Go to step 2, or stop.</li>
       </ol>
       <br>
@@ -422,14 +438,14 @@
       Luckily, there is an algorithm in linear time that is commonly used to generate an approximate image of a IFS fractal, called <em>The Chaos Game</em>. Instead of applying each transformation during every iteration, this algorithm uses a randomly chosen one. We outline the algorithm below.
       <br><br>
       <ol>
-        <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are ues to build $F.$</li>
-        <li>Choose some discrete probability distribution (called the "weights") $(p_1,\dots, p_k)$, where $\sum_{i=1}^k p_i = 1$ and $p_i\in(0,1]$ for any $i\in\{1, \dots, k\}.$</li>
-        <li>Let $L=[x_0]$ be a list containing any point $x_0\in\R^2.$</li>
+        <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are used to build $F.$</li>
+        <li>Choose some discrete probability distribution (called the "weights") $P=(p_1,\dots, p_k)$, where $\sum P = 1$ and $p_i\in(0,1]$ for each $i\in\{1, \dots, k\}.$</li>
+        <li>Begin defining a sequence $(g_n)$ with $g_0=x_0$, any point in $R^2$, and let $n=1$.</li>
         <li>With probability $p_i$, let $f=f_i.$</li>
-        <li>Write $x_n$ for the last point added to $L$, and add the point $f(x_n)$ to $L.$</li>
+        <li>Define $g_{n}=f(g_{n-1})$ and increment $n$.</li>
         <li>Go to step 4, or stop.</li>
       </ol>
-      For a sufficiently large number of iterations, the set of all points in $L$ is an approximated image of $A$ to any arbitrary level of convergence. The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed.
+      For a sufficiently large number of iterations, points in $(g_n)$ converge to the fixed point of $F$. Of course, this requires proof.
       <theorem id="chaos-game">
         Given any point $x$ in the fixed point of a Hutchinson operator and any $\e > 0$, the probability that any associated chaos game sequence will contain a point that is within $\e$ of $x$ is 1.
       </theorem>
@@ -460,7 +476,7 @@
         $$\diam(A_{n+1})\leq c_i\diam(A_n)<\diam(A_n).$$
         In particular, we can choose $m\in\N$ large enough so that $\diam(A_{m})<\frac{\e}{2}.$
         <br><br>
-        Since the sequence $(t_n)$ is random, there is a probability of 1 that the fininte sequence $s_{m}, \dots, s_{1}$ eventually appears as a continuous subseqence of $(t_n)$ after the $N_1$st term. That is, there is some $N\in\N$ with $N > N_1$, for which
+        Since the sequence $(t_n)$ is random, there is a probability of 1 (by the infinite monkey Theorem proven in <cite to="monkey"></cite>) that the fininte sequence $s_{m}, \dots, s_{1}$ eventually appears as a continuous subseqence of $(t_n)$ after the $N_1$st term. That is, there is some $N\in\N$ with $N > N_1$, for which
         $$t_{N - \ell + 1} = s_{1 + \ell - 1}$$
         for all $\ell\in\N_{m}.$ Then we know that $h_{N-m}\in X$ (if $N=m$, we can write $h_0=x_0\in X$), so
         \begin{align*}
@@ -474,6 +490,10 @@
       </proof>
 
       It is important to note in the proof above, that for all $n\in\N$ with $n\geq N_1$, $|g_n-h_n|<\frac\e2$, but we only found a <em>specific</em> $N>N_1$ for which $|g_N-x| < \e.$ This leaves the question: are the points in $(g_n)$ just dense everywhere (which would be uninteresting), or do they stay close to $X$? The answer is the latter, since $(h_n)\subset X$, and for $n\geq N_1$, $(g_n)$ and $(h_n)$ stay arbitrarily close.
+      <br><br>
+      The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed. It is currently an open problem to determine the "best" way to choose $P$, but <cite to="fractals-for-theclassroom"></cite> suggests defining
+      $$p_i=\frac{\max(\delta, |\det A_i|}{\sum_{j=1}^k\max(\delta, |\det A_j|)},$$
+      where $\delta$ is some small positive number, and $A_i$ is the real $2\times 2$ matrix associated with contraction mapping $f_i$. This formula makes intuitive sense, since $|\det A_i|$ the area of the the image of the unit square under $f_i$. In the <a href="playground">playground</a>, we use $\delta = 0.01$ to for "Auto Distribute Weights" in order to account for noninvertible transformations whose associated matrices have 0 determinants.
 
       <!-- Recall that $h_{N_1}\in X$, so
       $$h_{N_3 + N_2 - 1}= (f_{s_{1}}\circ\dots\circ f_{s_{N_2}} \circ\dots\circ f_{t_{N_1+1}})(h_{N_1}) = (f_{t_{N_3+N_2 - 1}}\circ\dots\circ f_{t_{N_1+1}})(h_{N_1}) \in A_{N_3}$$
@@ -493,6 +513,7 @@
         <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
         <item id="keir">Keir H. Lockridge, Personal Communication, 2020.</item>
         <item id="fractals-for-theclassroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
+        <item id="monkey">Richard E. Isaac, <em>The Pleasures of Probability</em>, Springer 1995.</item>
       </references>
     </div>
   </div>
