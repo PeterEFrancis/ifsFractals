@@ -106,17 +106,16 @@
 
 
       <section id="intro">Introduction</section>
-      The word <strong>fractal</strong> has gotten much abuse: its definition is often misquoted or changed, and although many people seem to have an intuitive understanding of basic "fractal-like" shapes, many people do not know that fractals do not have to be self-similar. We will use the following definition (given by Benoit Mandelbrot in 1975):
+      The word <strong>fractal</strong> has gotten much abuse: its definition is often misquoted or changed, and although many people seem to have an intuitive understanding of basic "fractal-like" shapes, many people do not know that fractals do not have to be self-similar. The fractals that we are concerned with, however, are fixed points of linear contraction mappings on compact subsets of the plane, and these fractals <em>are</em> decidedly self-similar.
+      <br><br>
+      Here, we will discuss the existence of these IFS fractals as well as classify the affine linear transformations that can determine them. We will also discuss the ways that fractal images are generated on this site.
+
+
+      <!-- We will use the following definition (given by Benoit Mandelbrot in 1975):
       <definition id="fractal">
         A <em>fractal</em> is a subset of the plane $\R^2$ whose Hausdorff–Besicovitch dimension is strictly greater than its topological dimension.
       </definition>
-      The idea of fractal dimension will be explored below. The fractals that we are concerned with, however, are fixed points of linear contraction mappings from the plane to itself, and these fractals <em>are</em> decidedly self-similar.
-
-
-
-
-
-
+      The idea of fractal dimension will be explored below. -->
 
       <section>Existence of an IFS Fractal</section>
       In order to completely understand the type of fractal we are interested in, we must first build up to an existence theorem.</p>
@@ -355,7 +354,7 @@
         $$A=\Rotate(\theta)\XShear(a)\XYScale(b,c)$$
         for some $a,b,c,\theta \in\R.$ Then $A$ determines a contraction mapping if and only if $$b^2 < 1, \quad c^2 < 1, \quad\text{and}\quad a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.$$
       </theorem>
-      <proof collapse="true" open="true">
+      <proof collapse="true" open="false">
         First notice that
         \begin{align*}
           A^T & = \XYScale(b,c)^T\XShear(a)^T\Rotate(\theta)^T\\
@@ -482,8 +481,8 @@
       Since $\{r\}$ is compact, we can find (by the contraction mapping principle) some $n_1\in\N$ large enough for which there is a point $y\in F^{(n_1)}(r)$ that is within $\gamma(\e)$ of some point $x_1\in X.$ We can write $y = (f_{t_1}\circ\dots\circ f_{t_{n_1}})(r)$ for some $t_1,\dots,t_{n_1}\in\{1,\dots,k\}.$ Notice that the probability that the composition $f_{t_1}\circ\dots\circ f_{t_{n_1}}$ appears in some term of $(c_n)$ is $$p_{t_1}\cdot\dots\cdot p_{t_{n_1}} > 0,$$
       so if we take $N_1$ large enough, the -->
 
-      <section>Fractal Dimension</section>
-      A stone thus far left unturned: does the "fractal" that is generated using an IFS indeed satisfy the definition given by Mandelbrot? In order to see that it in fact does we must first explore the idea of fractal dimension.
+      <!-- <section>Fractal Dimension</section>
+      A stone thus far left unturned: does the "fractal" that is generated using an IFS indeed satisfy the definition given by Mandelbrot? In order to see that it in fact does we must first explore the idea of fractal dimension. -->
 
 
 

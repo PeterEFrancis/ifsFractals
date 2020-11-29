@@ -2,12 +2,13 @@
 
 This is a web app for experimenting with and creating fractals that are fixed points of iterated function systems (ifs).
 
+<!--
 The goals and sections are outlined below.
 
 #### About
 Provide a rich info hub for all things ifs, including links to other resources and papers, and a detailed explanation of all of the parts of the website.
 
-<!-- #### Playground
+#### Playground
 An interactive page where users can explicitly write transformations and specify fractal image properties such as the number of points to be used, and then view the fractal produced in real-time (with a play/pause and a zoom feature). Also included will be the ability to define variables and sliders for those variables to see how the fractal produced is affected. An upload and download section will make it easy for users to share images and data related to their fractals.
 
 #### Transformation Maker
