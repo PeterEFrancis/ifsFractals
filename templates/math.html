@@ -171,7 +171,7 @@
 
       Now Theorem <ref to="contraction-mapping-principle"></ref> tells us that any Hutchinson operator has a unique fixed point in $\K.$ These fixed points (compact sets in $\R^2$) are the fractals that we will be studying. Specifically, the Hutchinson operators that we will focus our attention to are built using Affine Linear Transformations of $\R^2.$
       <br><br>
-      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $A\in\K$, the iterative sequence $$A,\ F(A),\ F(F(A)),\ F(F(F(A))),\ \dots$$ converges to a unique fixed point $X$, where $F(X)=X.$
+      Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $U\in\K$, the iterative sequence $$U,\ F(U),\ F(F(U)),\ F(F(F(U))),\ \dots$$ converges to a unique fixed point $X$, where $F(X)=X.$
 
 
 
@@ -408,7 +408,7 @@
       Theorem <ref to="contraction-classification"></ref> implies that there is a bijection between the set $\C$ of linear and invertible contraction mappings on $\R^2$ and a strict subset of $\R^6$. In particular, if we let
       $$E = \{(w,x,y)\mid 0 < x^2,y^2 < 1, w^2y^2 < (1-x^2)(1-y^2)\},$$
       then the function
-      $$\Phi : \R^2 \times S^1 \times E\to \C$$
+      $$\Phi : \R^2 \times [0,2\pi) \times E\to \C$$
       that maps $(h,k,\theta, w, x, y)$ to $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$ is a bijection.
 
       <theorem id="path-connected-space">
