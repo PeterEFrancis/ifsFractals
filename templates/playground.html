@@ -670,7 +670,7 @@
       }
 
       for (var var_name in f_info.vars) {
-        var v = variable_group.add_next_variable();
+        var v = variable_group.add_variable(var_name);
         v.set_min(f_info.vars[var_name].min);
         v.set_max(f_info.vars[var_name].max);
         v.set_value(f_info.vars[var_name].val);
@@ -758,7 +758,6 @@
         success: function(response){
           if (response.success == 'true') {
             var curr = window.location.href;
-            console.log(curr.indexOf('/'));
             var link = curr.substring(0,curr.indexOf('/')) + '/playground/' + response.name;
             window.location = link;
           } else {
@@ -779,7 +778,6 @@
       try {
         var text = document.getElementById('import-matrices-lines').value.trim().replaceAll('\n',',');
         var lines = eval("[" + text + "]");
-        console.log(lines);
 
         // clear current rows
         tw_row_group.delete_all();
