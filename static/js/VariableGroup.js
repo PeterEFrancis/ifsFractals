@@ -179,7 +179,6 @@ class VariableSlider {
     } else {
       m = Number(m);
       if (m >= this.get_max()) {
-        console.log(this.get_max() - this.get_min() + m);
         this.set_max(this.get_max() - this.get_min() + m);
         this.set_min(m)
       } else {
