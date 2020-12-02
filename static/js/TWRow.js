@@ -196,12 +196,10 @@ class TWRowGroup {
 
     for (var i = 0; i < this.all_rows.length; i++) {
       var w = this.all_rows[i].get_weight();
-      if (w != 0) {
-        var t = this.all_rows[i].get_transformation();
-        if (t != null) {
-          weights.push(w);
-          transformations.push(t);
-        }
+      var t = this.all_rows[i].get_transformation();
+      if (t != null) {
+        weights.push(w);
+        transformations.push(t);
       }
     }
 
