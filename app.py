@@ -246,7 +246,7 @@ def random(num):
 
     playground = Playground(
         name = get_new_name(),
-        title=f'random-{num}',
+        title='',
         transformations=transformations,
         weights=','.join('1' for _ in range(num)),
         vars=vars,

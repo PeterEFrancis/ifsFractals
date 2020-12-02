@@ -143,7 +143,7 @@
     </div>
     <div class="col-sm-4 text-right">
       <div class="input-group" style="margin-top: 20px;">
-        <input id="title" class="form-control" style="font-size: 1.75em; height:100%"/>
+        <input id="title" class="form-control" style="font-size: 1.75em; height:100%" value='' placeholder="Playground title" oninput="document.getElementById('save-button').disabled= this.value=='';"/>
         <span class="input-group-btn">
           <button id="save-button" class="btn btn-primary" onclick="save()">
             <span class="glyphicon glyphicon-floppy-save" style="font-size:1.75em;"></span>
@@ -505,7 +505,7 @@
     }
     function clear_error() {
       // document.getElementById('save-button').style.display = "inline-block";
-      document.getElementById('save-button').disabled = false;
+      document.getElementById('save-button').disabled = document.getElementById('title').value == "";
       document.getElementById('fractal-error').innerHTML = '&nbsp';
     }
 
@@ -655,6 +655,7 @@
 
       // place title
       document.getElementById('title').value = f_info.title;
+      document.getElementById('save-button').disabled = f_info.title != "";
 
       // clear current rows
       tw_row_group.delete_all();
@@ -817,8 +818,9 @@
       points: Number({{playground.points}}),
       color: {{playground.color|tojson}}
     };
-    set_fractal(DEFAULT);
 
+
+    set_fractal(DEFAULT);
 
 </script>
 
