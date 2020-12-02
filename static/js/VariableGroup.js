@@ -13,9 +13,7 @@ class VariableSlider {
 
     // error handling
     this.errors = ["min value must be an number",
-                   "cannot set min to be greater than or equal to max",
                    "max value must be an number",
-                   "cannot set max to be less than or equal to min",
                    "variable value must be a number",
                    "step value must be a number"
                   ];
@@ -178,16 +176,20 @@ class VariableSlider {
       this.set_min(this.slider.min);
     } else if (isNaN(m)) {
       this.set_error(0);
-    } else if (m >= this.slider.max) {
-      this.set_error(1);
     } else {
-      this.remove_error(0);
-      this.remove_error(1);
-      if (m > this.get_value()) {
-        this.set_value(m);
+      m = Number(m);
+      if (m >= this.get_max()) {
+        console.log(this.get_max() - this.get_min() + m);
+        this.set_max(this.get_max() - this.get_min() + m);
+        this.set_min(m)
+      } else {
+        this.remove_error(0);
+        if (m > this.get_value()) {
+          this.set_value(m);
+        }
+        this.slider.min = Number(m);
+        this.lower_bound_input.value = Number(m);
       }
-      this.slider.min = Number(m);
-      this.lower_bound_input.value = Number(m);
     }
   }
 
@@ -199,12 +201,12 @@ class VariableSlider {
     if (m == "") {
       this.set_max(this.slider.max);
     } else if (isNaN(m)) {
-      this.set_error(2);
-    } else if (m <= this.slider.min) {
-      this.set_error(3);
+      this.set_error(1);
+    } else if (m <= this.get_min()) {
+      this.set_min(m - (this.get_max() - this.get_min()))
+      this.set_max(m);
     } else {
-      this.remove_error(2);
-      this.remove_error(3);
+      this.remove_error(1);
       if (m < this.get_value()) {
         this.set_value(m);
       }
@@ -219,9 +221,9 @@ class VariableSlider {
 
   set_value(val) {
     if (isNaN(val)) {
-      this.set_error(4);
+      this.set_error(2);
     } else {
-      this.remove_error(4);
+      this.remove_error(2);
       if (val < this.get_min()) {
         this.set_min(val);
       }
@@ -235,9 +237,9 @@ class VariableSlider {
 
   set_step(s) {
     if (isNaN(s)) {
-      this.set_error(5);
+      this.set_error(3);
     } else {
-      this.remove_error(5);
+      this.remove_error(3);
       this.slider.step = Number(s);
       this.step_input.value = Number(s);
     }
