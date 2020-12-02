@@ -248,7 +248,7 @@ class VariableSlider {
   }
 
   get_value() {
-    return this.slider.value;
+    return this.name_input.value;
   }
 
   delete() {

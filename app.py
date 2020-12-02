@@ -184,18 +184,24 @@ def random(num):
     transformations = ''
     vars = '{'
     for i in range(num):
-        b = round(r.random(),3)
-        c = round(r.random(),3)
+        b = round(r.random(),2)
+        c = 0
+        while c == 0:
+            c = round(r.random(),2)
         f = ((1 - c**2) * (1 - b**2) / (c**2))**(1/2)
-        a = round((r.random() - 0.5) * 0.9 * f, 3)
-        theta = round(6.283185307179586 * r.random(),3)
-        h = round(r.random(),3)
-        k = round(r.random(),3)
+        a = round((r.random() - 0.5) * 2 * f, 3)
+        while a**2 * c**2 >= (1 - b**2) * (1 - c**2):
+            a -= 0.01 * (1 if a > 0 else -1)
+        theta = round(6.283185307179586 * r.random(),2)
+        h = round(r.random(),2)
+        k = round(r.random(),2)
         v = [a, b, c, theta, h, k]
-        letter = 'abcdefghijklmnopqrstuvwxyz'[i]
-        replaced = r.randint(0,5)
-        replaced_val = v[replaced]
-        v[replaced] = letter
+        if i < 26:
+            letter = 'abcdefghijklmnopqrstuvwxyz'[i]
+            replaced = r.randint(0,5)
+            replaced_val = v[replaced]
+            v[replaced] = letter
+            vars += '"' + letter + '":{"val":' + str(replaced_val) + ',"min":-1,"max":1,"step":0.1},'
         t = f'Translate({v[4]},{v[5]})'
         t += f'Rotate({v[3]})'
         t += f'XShear({v[0]})'
@@ -203,7 +209,6 @@ def random(num):
         transformations += t
         if i < num - 1:
             transformations += '&'
-        vars += '"' + letter + '":{"val":' + str(replaced_val) + ',"min":-1,"max":1,"step":0.1},'
     vars = vars[:-1] + "}"
 
     playground = Playground(
@@ -218,6 +223,7 @@ def random(num):
         color="#000000"
     )
     return render_template('playground.html', playground=playground)
+
 
 
 
