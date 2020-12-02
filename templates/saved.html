@@ -15,6 +15,23 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
 
+  <!-- MathJs -->
+  <script src="/static/js/math.js"></script>
+
+
+  <!-- classes -->
+  <script src="/static/js/Cartesian.js"></script>
+  <script src="/static/js/Fractal.js"></script>
+
+  <!-- auxilliary -->
+  <script src="/static/js/transformations.js"></script>
+  <script src="/static/js/letter_transformations.js"></script>
+  <script src="/static/js/factor_transformation.js"></script>
+  <script src="/static/js/helper.js"></script>
+  <script src="/static/js/example_fractal_info.js"></script>
+
+
+
   <style>
 
     body {
@@ -31,10 +48,15 @@
       overflow: scroll;
     }
 
-    td > div {
-      overflow: scroll;
-      width: 400px;
-      border-right: 2px dashed black;
+    canvas {
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    .tw-table td {
+      border: 1px solid black;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
     }
 
   </style>
@@ -73,10 +95,8 @@
       <table class="table" id="master_table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Title</th>
-            <th>Transformations</th>
-            <th>Weights</th>
+            <th>Title (Name)</th>
+            <th>Transformations and Weights</th>
             <th>vars</th>
             <th>zoom</th>
             <th>center</th>
@@ -85,31 +105,52 @@
           </tr>
         </thead>
         <tbody>
+
+
           {% for playground in all %}
+
             <tr>
-              <td><a href="/playground/{{playground.name}}">{{ playground.name }}</a></td>
-              <td>{{ playground.title }}</td>
-              <td>
-                <div>
-                  {% for t in playground.transformations.split('&') %}
-                    {{ t }}
-                    <br>
-                  {% endfor %}
-                </div>
+              <td class="text-center">
+                {{ playground.title }}<br>
+                <a href="/playground/{{playground.name}}">{{ playground.name }}</a>
+                <br>
+                <button class="btn btn-default btn-xs" style="margin-top: 5px;" onclick="preview('{{playground.title}}','{{playground.name}}','{{playground.vars}}','{{playground.transformations}}','{{playground.weights}}','{{playground.color}}')">Preview</button>
               </td>
               <td>
+                <table id="{{playground.name}}-tw" class="table tw-table" style="margin-bottom: 0px;"></table>
+                <script>
+                  var table = document.getElementById('{{playground.name}}-tw');
+                  var i = 0;
+                </script>
+                {% for t in playground.transformations.split('&') %}
+                  <script>
+                    var tr = document.createElement('tr');
+                    table.appendChild(tr);
+                    tr.setAttribute('id','{{playground.name}}-tw-row-' + i);
+                    var t_td = document.createElement('td');
+                    tr.appendChild(t_td);
+                    t_td.appendChild(document.createTextNode(split_into_list('{{t}}').join("")));
+                    i++;
+                  </script>
+                {% endfor %}
+                <script>
+                  var i = 0;
+                </script>
                 {% for w in playground.weights.split(',') %}
-                  {{ w }}
-                  <br>
+                  <script>
+                    var tr = document.getElementById('{{playground.name}}-tw-row-' + i);
+                    var w_td = document.createElement('td');
+                    w_td.appendChild(document.createTextNode('{{w}}'))
+                    tr.appendChild(w_td);
+                    i++;
+                  </script>
                 {% endfor %}
               </td>
               <td id="{{playground.name}}-vars"></td>
               <script>
                 var vars = JSON.parse({{playground.vars|tojson}});
-                console.log(vars);
                 for (var v in vars) {
-                  console.log(v);
-                  document.getElementById("{{playground.name}}-vars").innerHTML += v + " = " + vars[v].val + " &isin; (" + vars[v].min + ", " + vars[v].max +  ")<br>";
+                  document.getElementById("{{playground.name}}-vars").innerHTML += v + "=" + vars[v].val + "&isin;[" + vars[v].min + "," + vars[v].max +  "]<br>";
                 }
               </script>
               <td>{{ playground.zoom }}</td>
@@ -127,14 +168,68 @@
 </div>
 
 
+<div class="modal fade" id="preview" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Playground "<span id="preview-title"></span>" (<span id="preview-name"></span>)</h4>
+      </div>
+      <div class="modal-body" id="preview-body">
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
+
+
 
 <script>
   $(document).ready( function () {
       $('#master_table').DataTable({
-        // "paging":   false
+
       });
-  } );
+  });
+
+  function preview(title, name, variables, transformations, weights, color) {
+
+    var canvas = document.getElementById('canvas');
+
+    document.getElementById('preview-title').innerHTML = title;
+    document.getElementById('preview-name').innerHTML = name;
+
+    const vars = JSON.parse(variables);
+
+    var vals = {};
+    for (var i in vars) {
+      vals[i] = vars[i].val;
+    }
+    const transformation_list = transformations.split('&');
+    const weights_list = weights.split(',');
+    var tw = {
+      transformations: [],
+      weights: []
+    };
+    for (var i = 0; i < transformation_list.length; i++) {
+      tw.transformations.push(string_to_transformation(transformation_list[i], vals));
+    }
+    for (var i = 0; i < weights_list.length; i++) {
+      tw.weights.push(parse(weights_list[i], vals));
+    }
+    var cart = new Cartesian(canvas);
+    cart.set_color(color);
+    var fractal = new Fractal(cart, tw);
+    fractal.set_max_number_of_points(10000);
+    cart.set_with_bounds(fractal.get_bounds(), 0.9);
+
+    $("#preview").modal();
+  }
+
+
+
 </script>
 
 </html>

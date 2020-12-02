@@ -91,25 +91,31 @@ function compose(ts) {
 
 function split_into_list(functions_string) {
   functions_string = functions_string.replaceAll(' ', "").replaceAll("\n","");
-  var open_count = 0;
-  var closed_count = 0;
-  for (var i = 1; i < functions_string.length; i++) {
-    if (functions_string[i] == '(') {
-      open_count++;
-    } else if (functions_string[i] == ')') {
-      closed_count++;
-    }
-    if (open_count != 0 && open_count == closed_count) {
-      var first;
-      if (functions_string[1] != "(") {
-        // base case -- only two functions are composed
-        first = [functions_string.substring(1, i + 1)];
-      } else {
-        // recursively split (find the next set of parenthesis)
-        first = [...split_into_list(functions_string.substring(1, i + 1))];
+
+  if (functions_string[0] != "(") {
+    // only one function
+    return [functions_string];
+  } else {
+    var open_count = 0;
+    var closed_count = 0;
+    for (var i = 1; i < functions_string.length; i++) {
+      if (functions_string[i] == '(') {
+        open_count++;
+      } else if (functions_string[i] == ')') {
+        closed_count++;
       }
-      return [...first,
-              functions_string.substring(i + 2, functions_string.length - 1)];
+      if (open_count != 0 && open_count == closed_count) {
+        var first;
+        if (functions_string[1] != "(") {
+          // base case -- only two functions are composed
+          first = [functions_string.substring(1, i + 1)];
+        } else {
+          // recursively split (find the next set of parenthesis)
+          first = [...split_into_list(functions_string.substring(1, i + 1))];
+        }
+        return [...first,
+                functions_string.substring(i + 2, functions_string.length - 1)];
+      }
     }
   }
 }
@@ -129,17 +135,11 @@ function get_arg_map(f_list) {
 function string_to_transformation(entire_string, vals) {
 
   try {
-    // split functions
-    var functions_string_list;
-    if (entire_string[0] != "(") {
-      // only one function
-      functions_string_list = [entire_string];
-    } else {
-      functions_string_list = split_into_list(entire_string);
-    }
+    functions_string_list = split_into_list(entire_string);
   } catch(e) {
     throw "[ERROR: transformations.js] there was an error discerning which transformations you are trying to compose. " + e;
   }
+
 
   try {
     // create a list of ["function_name", [args]]
