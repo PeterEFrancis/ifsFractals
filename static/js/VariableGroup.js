@@ -173,7 +173,6 @@ class VariableSlider {
     }
   }
 
-
   set_min(m) {
     if (m == "") {
       this.set_min(this.slider.min);
@@ -308,7 +307,6 @@ class VariableGroup {
     }
   }
 
-
   get_values() {
     var vars = {};
     for (var v in this.variables) {
@@ -316,7 +314,6 @@ class VariableGroup {
     }
     return vars;
   }
-
 
   get_values_and_bounds() {
     var vars = {};

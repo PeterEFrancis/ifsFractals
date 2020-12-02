@@ -50,6 +50,19 @@ class Playground(db.Model):
         self.points = points
         self.color = color
 
+    def to_json(self):
+        return jsonify({
+            "name": self.name,
+            "title": self.title,
+            "transformations": self.transformations,
+            "weights": self.weights,
+            "vars": self.vars,
+            "zoom": self.zoom,
+            "center": self.center,
+            "points": self.points,
+            "color": self.color
+        })
+
 
 def is_a_playground_name(name):
     return len(list(db.session.query(Playground).filter(Playground.name == name))) != 0
@@ -78,6 +91,7 @@ def save(title, transformations, weights, vars, zoom, center, points, color):
     return name
 
 
+
 @app.route('/save_playground', methods=['POST'])
 def save_playground():
     if request.method == 'POST':
@@ -92,6 +106,21 @@ def save_playground():
         name = save(title, transformations, weights, vars, zoom, center, points, color)
         return jsonify({'success':'true', 'name':name})
     return 'Access Denied'
+
+
+
+
+
+@app.route('/db/<string:name>', methods=['POST'])
+def database(name):
+    if request.method == 'POST':
+        if is_a_playground_name(name):
+            return db.session.query(Playground).filter(Playground.name == name)[0].to_json()
+        return ""
+    return 'Access Denied'
+
+
+
 
 
 
@@ -199,33 +228,44 @@ def test():
 
 
 
- #  _       _ _   _       _ _
- # (_)_ __ (_) |_(_) __ _| (_)_______
- # | | '_ \| | __| |/ _` | | |_  / _ \
- # | | | | | | |_| | (_| | | |/ /  __/
- # |_|_| |_|_|\__|_|\__,_|_|_/___\___|
+ #            _           _
+ #   __ _  __| |_ __ ___ (_)_ __
+ #  / _` |/ _` | '_ ` _ \| | '_ \
+ # | (_| | (_| | | | | | | | | | |
+ #  \__,_|\__,_|_| |_| |_|_|_| |_|
 
 
-# @app.route('/initialize')
-def initialize():
+
+
+def drop_and_create():
     db.drop_all()
     db.create_all()
+
+
+def delete(name):
+    db.session.query(Playground).filter(Playground.name == name).delete()
+    db.session.commit()
+
+@app.route('/initialize_examples')
+def initialize_examples():
     directory = 'static/examples/'
     for filename in os.listdir(directory):
         with open(os.path.join(directory, filename)) as f:
+            delete(filename)
             info = eval(f.read().replace('\n','').replace(' ',''))
-            playground = Playground(
-                name = filename,
-                title = info['title'],
-                transformations = info['transformations'],
-                weights = info['weights'],
-                vars = info['vars'],
-                zoom = info['zoom'],
-                center = info['center'],
-                points = info['points'],
-                color = info['color']
+            db.session.add(
+                Playground(
+                    name = filename,
+                    title = info['title'],
+                    transformations = info['transformations'],
+                    weights = info['weights'],
+                    vars = info['vars'],
+                    zoom = info['zoom'],
+                    center = info['center'],
+                    points = info['points'],
+                    color = info['color']
+                )
             )
-            db.session.add(playground)
             db.session.commit()
     return 'done'
 

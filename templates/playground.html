@@ -156,12 +156,12 @@
   <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-12">
       Examples:
-      <a href="barnsley">Barnsley Fern</a> &middot;
-      <a href="serpinski">Serpinski Triangle</a> &middot;
-      <a href="vonkoch">Von Koch Cruve</a> &middot;
-      <a href="dragon">Dragon</a> &middot;
-      <a href="crab">Crab</a> &middot;
-      <a href="tree">Tree</a>
+      <a href="\playground\barnsley">Barnsley Fern</a> &middot;
+      <a href="\playground\serpinski">Serpinski Triangle</a> &middot;
+      <a href="\playground\vonkoch">Von Koch Cruve</a> &middot;
+      <a href="\playground\dragon">Dragon</a> &middot;
+      <a href="\playground\crab">Crab</a> &middot;
+      <a href="\playground\tree">Tree</a>
     </div>
   </div>
 
@@ -419,7 +419,6 @@
 <script src="/static/js/Cartesian.js"></script>
 <script src="/static/js/VariableGroup.js"></script>
 <script src="/static/js/Fractal.js"></script>
-<script src="/static/js/Parser.js"></script>
 <script src="/static/js/TWRow.js"></script>
 <script src="/static/js/GeneratorPane.js"></script>
 
@@ -487,11 +486,8 @@
     // create variable group
     var variable_group = new VariableGroup(document.getElementById('variable-row-container'));
 
-    // create math parser
-    var parser = new Parser(variable_group);
-
     // create transformation-weight row group
-    var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), parser, color_function);
+    var tw_row_group = new TWRowGroup(document.getElementById('TW-container'), variable_group, color_function);
 
     // create generatorPane
     var generator_pane = new GeneratorPane(document.getElementById('generator'), color_function);

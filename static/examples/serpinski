@@ -1,9 +1,9 @@
 {
   "title":"serpinski",
   "transformations":"
-    Scale(1/2)&
-    Translate(1/4,1/2)Scale(a)&
-    Translate(1/2, 0)Scale(a)
+    Scale((1 / 2))&
+    (Translate((1 / 4),(1 / 2)) * Scale(a))&
+    (Translate((1 / 2),0) * Scale(a))
   ",
   "weights":"1,1,1",
   "vars":'{

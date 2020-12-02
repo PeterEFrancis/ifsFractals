@@ -1,8 +1,7 @@
 {
   "title":"dragon",
   "transformations":"
-    Rotate(a*pi)Scale(1/squareroot(2))&
-    Translate(1,0)Rotate(5pi/4)Scale(1/squareroot(2))
+    (Rotate((a * pi)) * Scale((1 / squareroot(2))))&((Translate(1,0) * Rotate(((5 * pi) / 4))) * Scale((1 / squareroot(2))))
   ",
   "weights":"1,1",
   "vars":'{

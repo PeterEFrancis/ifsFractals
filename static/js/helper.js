@@ -98,3 +98,25 @@ function find_zero_binary(x1, x2, f, accuracy) {
 
   return search(x1, x2);
 }
+
+
+
+
+// PARSING
+
+
+// requires mathjs
+
+
+function replace_all(string, a, b) {
+  while (string.includes(a)) {
+    string = string.replace(a,b);
+  }
+  return string;
+}
+
+function parse(string, vals) {
+  string = replace_all(string, 'neg', '(-1)');
+  string = replace_all(string, 'squareroot', 'sqrt');
+  return Number(math.evaluate(string, vals));
+}

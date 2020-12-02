@@ -1,26 +1,13 @@
 
-// https://guppy.js.org/site/api/guppy-js/2.0.0-rc.1/Guppy.html#.add_global_symbol
-const SYMBOLS = {
-  "Scale": {"output": {"latex":"\\text{Scale}\\left({$1}\\right)", "text":"Scale($1)"}, "attrs": { "type":"Scale", "group":"function"}},
-  "XScale": {"output": {"latex":"\\text{XScale}\\left({$1}\\right)", "text":"XScale($1)"}, "attrs": { "type":"XScale", "group":"function"}},
-  "YScale": {"output": {"latex":"\\text{YScale}\\left({$1}\\right)", "text":"YScale($1)"}, "attrs": { "type":"YScale", "group":"function"}},
-  "XYScale": {"output": {"latex":"\\text{XYScale}\\left({$1}, {$2}\\right)", "text":"XYScale($1)"}, "attrs": { "type":"XYScale", "group":"function"}},
-  "Translate": {"output": {"latex":"\\text{Translate}\\left({$1}, {$2}\\right)", "text":"Translate($1, $2)"}, "attrs": { "type":"Translate", "group":"function"}},
-  "Rotate": {"output": {"latex":"\\text{Rotate}\\left({$1}\\right)", "text":"Rotate($1)"}, "attrs": { "type":"Rotate", "group":"function"}},
-  "XShear": {"output": {"latex":"\\text{XShear}\\left({$1}\\right)", "text":"XShear($1)"}, "attrs": { "type":"XShear", "group":"function"}},
-  "YShear": {"output": {"latex":"\\text{YShear}\\left({$1}\\right)", "text":"YShear($1)"}, "attrs": { "type":"YShear", "group":"function"}},
-  "M": {"output": {"latex":"\\text{M}\\left({$1}, {$2}, {$3}, {$4}, {$5}, {$6}\\right)", "text":"M($1, $2, $3, $4, $5, $6)"}, "attrs": { "type":"M", "group":"function"}},
-}
 
 class TWRow {
 
-  constructor(id, row_container, parser, group) {
+  constructor(id, row_container, group) {
 
     this.id = id;
 
     var ths = this;
 
-    this.parser = parser;
     this.group = group;
 
     // create physical row
@@ -104,45 +91,11 @@ class TWRow {
   }
 
   get_weight() {
-    return this.parser.parse(this.weight.value);
+    return parse(this.weight.value, this.group.variable_group.get_values());
   }
 
   set_weight(num) {
     this.weight.value = num;
-  }
-
-  split_into_list(functions_string) {
-    var open_count = 0;
-    var closed_count = 0;
-    for (var i = 1; i < functions_string.length; i++) {
-      if (functions_string[i] == '(') {
-        open_count++;
-      } else if (functions_string[i] == ')') {
-        closed_count++;
-      }
-      if (open_count != 0 && open_count == closed_count) {
-        var first;
-        if (functions_string[1] != "(") {
-          // base case -- only two functions are composed
-          first = [functions_string.substring(1, i + 1)];
-        } else {
-          // recursively split (find the next set of parenthesis)
-          first = [...this.split_into_list(functions_string.substring(1, i + 1))];
-        }
-        return [...first,
-                functions_string.substring(i + 4, functions_string.length - 1)];
-      }
-    }
-  }
-
-  get_arg_map(f_list) {
-    var arg_map = [];
-    for (var i = 0; i < f_list.length; i++) {
-      var o_paren = f_list[i].indexOf("(");
-      arg_map.push([f_list[i].substring(0, o_paren),
-                    f_list[i].substring(o_paren + 1, f_list[i].length - 1).split(",")]);
-    }
-    return arg_map;
   }
 
   get_transformation() {
@@ -158,61 +111,11 @@ class TWRow {
       }
     }
 
-
     if (entire_string == "") {
       return null;
     }
 
-
-    try {
-      // split functions
-      var functions_string_list;
-      if (entire_string[0] != "(") {
-        // only one function
-        functions_string_list = [entire_string];
-      } else {
-        functions_string_list = this.split_into_list(entire_string);
-      }
-    } catch(e) {
-      throw "[ERROR: TWRow.js] there was an error dicerning which transformations you are trying to compose";
-    }
-
-    try {
-      // create a list of ["function_name", [args]]
-      var arg_map = this.get_arg_map(functions_string_list);
-    } catch(e) {
-      throw "[ERROR: TWRow.js] there was an error understanding a transformation argument";
-    }
-
-
-    try {
-      // parse arg lists
-      var parsed_arg_map = [];
-      for (var i = 0; i < arg_map.length; i++) {
-        var new_list = [];
-        for (var j = 0; j < arg_map[i][1].length; j++) {
-          new_list.push(this.parser.parse(arg_map[i][1][j]));
-        }
-        parsed_arg_map.push([arg_map[i][0], new_list]);
-      }
-    } catch(e) {
-      throw "[ERROR: TWROW.js] there was an error parsing an argument";
-    }
-
-
-    try {
-      // get list of functions (evaluate meta functions)
-      var functions = [];
-      for (var i = 0; i < parsed_arg_map.length; i++) {
-        functions.push(eval(parsed_arg_map[i][0])(...parsed_arg_map[i][1]));
-      }
-    } catch(e) {
-      throw "[ERROR: TWRow.js] there was an error evaluating a function";
-    }
-
-    // compose and return
-    return compose(functions);
-
+    return string_to_transformation(entire_string, this.group.variable_group.get_values());
   }
 
   get_matrix() {
@@ -229,13 +132,13 @@ class TWRow {
 
 class TWRowGroup {
 
-  constructor(table_container, parser, color_function) {
+  constructor(table_container, variable_group, color_function) {
     this.table_container = table_container;
     this.table = document.createElement('table');
     this.table_container.appendChild(this.table);
     this.table.style.width = "100%";
     this.all_rows = [];
-    this.parser = parser;
+    this.variable_group = variable_group;
     this.onchange = function() {};
     this.color_function = color_function;
   }
@@ -258,7 +161,7 @@ class TWRowGroup {
       }
     }
     // create and place a new row
-    var new_row = new TWRow(id, this.table, this.parser, this);
+    var new_row = new TWRow(id, this.table, this);
     this.all_rows.push(new_row);
     // this.table.appendChild(new_row.tr); <--- this is now done in TWRow -- thanks a lot, Guppy :(
     this.onchange();

@@ -11,6 +11,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+  <!-- MathJs -->
+  <script src="/static/js/math.js"></script>
 
   <style>
 
@@ -25,6 +27,15 @@
 
     br {
       user-select: none;
+    }
+
+    canvas {
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    canvas:hover {
+      cursor: pointer;
     }
 
   </style>
@@ -70,6 +81,107 @@
     </div>
   </div>
 </div>
+<div class="container" style="margin-top: 100px; margin-bottom: 100px;" id="gallery-container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1>Gallery</h1>
+    </div>
+  </div>
+</div>
+
+<p class="text-center" style="font-size:">&copy; <a href="https://PeterEFrancis.com" style="text-decoration: underline">Peter E. Francis</a> 2020</p>
+
+
+<!-- classes -->
+<script src="/static/js/Cartesian.js"></script>
+<script src="/static/js/Fractal.js"></script>
+
+<!-- auxilliary -->
+<script src="/static/js/transformations.js"></script>
+<script src="/static/js/letter_transformations.js"></script>
+<script src="/static/js/factor_transformation.js"></script>
+<script src="/static/js/helper.js"></script>
+<script src="/static/js/example_fractal_info.js"></script>
+
+
+<script>
+
+  var gallery_names = [
+    'barnsley',
+    'crab',
+    'serpinski',
+    'vonkoch',
+    'dragon',
+    'tree'
+  ];
+
+
+  for (var i = 0; i < gallery_names.length; i++) {
+
+    var last_row;
+
+    // create DOM canvas
+    if (i % 3 == 0) {
+      // create new row
+      var row = document.createElement('div');
+      row.style.marginTop = "30px";
+      row.classList.add('row');
+      last_row = row;
+      document.getElementById('gallery-container').appendChild(last_row);
+    }
+
+    const col = document.createElement('div');
+    col.classList.add('col-md-4');
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1000;
+    col.appendChild(canvas);
+    last_row.appendChild(col);
+
+    // fractal stuff
+    $.ajax({
+      url: 'db/' + gallery_names[i] ,
+      data: "",
+      type: 'POST',
+      cache: false,
+      success: function(txt) {
+        const vars = JSON.parse(txt.vars);
+        canvas.onclick = function() {
+          window.location.href = 'playground/' + txt.name;
+        }
+        var vals = {};
+        for (var i in vars) {
+          vals[i] = vars[i].val;
+        }
+        const transformation_list = txt.transformations.split('&');
+        const weights_list = txt.weights.split(',');
+        var tw = {
+          transformations: [],
+          weights: []
+        };
+        for (var i = 0; i < transformation_list.length; i++) {
+          tw.transformations.push(string_to_transformation(transformation_list[i], vals));
+        }
+        for (var i = 0; i < weights_list.length; i++) {
+          tw.weights.push(parse(weights_list[i], vals));
+        }
+        var cart = new Cartesian(canvas);
+        cart.set_color(txt.color);
+        var fractal = new Fractal(cart, tw);
+        fractal.set_max_number_of_points(300000);
+        cart.set_with_bounds(fractal.get_bounds(), 0.9);
+
+      },
+      error: function(error){
+        console.log(error);
+      },
+    });
+
+
+  }
+
+
+</script>
+
 
 
 </body>
