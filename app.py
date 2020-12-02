@@ -110,7 +110,6 @@ def save_playground():
 
 
 
-
 @app.route('/db/<string:name>', methods=['POST'])
 def database(name):
     if request.method == 'POST':
@@ -120,6 +119,40 @@ def database(name):
     return 'Access Denied'
 
 
+
+def drop_and_create():
+    db.drop_all()
+    db.create_all()
+
+
+def delete_playground(name):
+    db.session.query(Playground).filter(Playground.name == name).delete()
+    db.session.commit()
+
+
+
+@app.route('/initialize_examples')
+def initialize_examples():
+    directory = 'static/examples/'
+    for filename in os.listdir(directory):
+        delete_playground(filename)
+        with open(os.path.join(directory, filename)) as f:
+            info = eval(f.read().replace('\n','').replace(' ',''))
+            db.session.add(
+                Playground(
+                    name = filename,
+                    title = info['title'],
+                    transformations = info['transformations'],
+                    weights = info['weights'],
+                    vars = info['vars'],
+                    zoom = info['zoom'],
+                    center = info['center'],
+                    points = info['points'],
+                    color = info['color']
+                )
+            )
+            db.session.commit()
+    return 'done'
 
 
 
@@ -241,39 +274,26 @@ def test():
  #  \__,_|\__,_|_| |_| |_|_|_| |_|
 
 
+# @app.route('/admin')
+# def admin():
+#     return render_template('admin.html')
 
 
-def drop_and_create():
-    db.drop_all()
-    db.create_all()
 
 
-def delete(name):
-    db.session.query(Playground).filter(Playground.name == name).delete()
-    db.session.commit()
+@app.route('/delete', methods=['POST'])
+def delete():
+    if request.method == 'POST':
+        if request.form['password'] == 'ILoveFractals':
+            names = request.form['names'].split(',')
+            for name in names:
+                delete_playground(name)
+            return jsonify({"success":"true"})
+        else:
+            return jsonify({"success":"false", "error":"incorrect password"})
+    else:
+        return 'Access Denied'
 
-@app.route('/initialize_examples')
-def initialize_examples():
-    directory = 'static/examples/'
-    for filename in os.listdir(directory):
-        with open(os.path.join(directory, filename)) as f:
-            delete(filename)
-            info = eval(f.read().replace('\n','').replace(' ',''))
-            db.session.add(
-                Playground(
-                    name = filename,
-                    title = info['title'],
-                    transformations = info['transformations'],
-                    weights = info['weights'],
-                    vars = info['vars'],
-                    zoom = info['zoom'],
-                    center = info['center'],
-                    points = info['points'],
-                    color = info['color']
-                )
-            )
-            db.session.commit()
-    return 'done'
 
 
  #   __ _ _ __  _ __    _ __ _   _ _ __

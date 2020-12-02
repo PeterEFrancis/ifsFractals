@@ -95,6 +95,11 @@
       <table class="table" id="master_table">
         <thead>
           <tr>
+            <th style="padding-left: 10px;">
+              <button class="btn btn-xs btn-danger" onclick="delete_playgrounds()">
+                <span class="glyphicon glyphicon-trash" style="padding-right: 1px;"></span>
+              </button>
+            </th>
             <th>Title (Name)</th>
             <th>Transformations and Weights</th>
             <th>vars</th>
@@ -110,6 +115,9 @@
           {% for playground in all %}
 
             <tr>
+              <td style="width: 20px !important;">
+                <input class="form-control" type="checkbox" name="select" title="{{playground.title}}" value="{{playground.name}}" style="width: 15px; height: 15px; margin-left: 5px;"></input>
+              </td>
               <td class="text-center">
                 {{ playground.title }}<br>
                 <a href="/playground/{{playground.name}}">{{ playground.name }}</a>
@@ -165,6 +173,9 @@
       </table>
     </div>
   </div>
+  <div class="row" style="margin-top: 100px;">
+
+  </div>
 </div>
 
 
@@ -183,6 +194,31 @@
 </div>
 
 
+<div class="modal fade" id="delete-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delete Playgrounds</h4>
+      </div>
+      <div class="modal-body" id="delete-modal-body">
+        <p>Enter the admin password to delete the following playgrounds:</p>
+        <br>
+        <blockquote id="list-to-delete" style="font-family: monospace; font-size: 1em;"></blockquote>
+        <br>
+        <div class="input-group" style="width:100%">
+          <input id="password" name="password" type="password" class="form-control" placeholder="password"/>
+          <span class="input-group-btn">
+            <button type="button" onclick="confirm_delete()" class="btn btn-default btn-danger">Delete</button>
+          </span>
+        </div>
+        <p id="delete-error" style="color: red; margin-top: 10px; margin-bottom: 0px;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 
 
@@ -190,7 +226,11 @@
 <script>
   $(document).ready( function () {
       $('#master_table').DataTable({
-
+        "columnDefs": [ {
+          "targets": 0,
+          "orderable": false
+        } ],
+        "order": [[ 1, 'asc' ]]
       });
   });
 
@@ -227,6 +267,59 @@
 
     $("#preview").modal();
   }
+
+
+  var names_to_delete;
+
+
+  function delete_playgrounds() {
+
+    const checkboxes = document.getElementsByName('select');
+    names_to_delete = [];
+    var titles = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        names_to_delete.push(checkboxes[i].value);
+        titles.push(checkboxes[i].getAttribute('title'));
+      }
+    }
+    if (names_to_delete.length > 0) {
+      var string_list = "";
+      for (var i = 0; i < names_to_delete.length; i++) {
+        string_list = string_list + titles[i] + " (" + names_to_delete[i] + "), ";
+      }
+      document.getElementById('list-to-delete').innerHTML = string_list.substring(0,string_list.length - 2);
+
+      $("#delete-modal").modal();
+    }
+
+  }
+
+
+
+  function confirm_delete() {
+    $.ajax({
+      url: '/delete' ,
+      data: {
+        password: document.getElementById('password').value,
+        names: names_to_delete.join(",")
+      },
+      type: 'POST',
+      cache: false,
+      success: function(response) {
+        if (response.success == "true") {
+          location.reload(true);
+        } else {
+          document.getElementById('delete-error').innerHTML = response.error;
+        }
+      },
+      error: function(error){
+        console.log(error);
+      },
+    });
+
+  }
+
 
 
 
