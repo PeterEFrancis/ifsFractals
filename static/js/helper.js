@@ -101,6 +101,23 @@ function find_zero_binary(x1, x2, f, accuracy) {
 
 
 
+function get_auto_distribute_weights(matrices, delta) {
+  var maxs = [];
+  for (var i = 0; i < matrices.length; i++) {
+    maxs.push(Math.max(delta, Math.abs(det(two_by_two(matrices[i])))));
+  }
+  const s = maxs.reduce((a, b) => a + b, 0);
+  var weights = [];
+  for (var i = 0; i < maxs.length; i++) {
+    weights.push(maxs[i] / s);
+  }
+  return weights;
+}
+
+
+
+
+
 
 // PARSING
 

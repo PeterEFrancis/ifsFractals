@@ -53,8 +53,6 @@ class Fractal {
     } else {
       throw "[ERROR: Fractal.js] the transformations listed [" + which_not_c_maps + "] are not a contraction mappings";
     }
-
-
   }
 
   opNorm(T) {

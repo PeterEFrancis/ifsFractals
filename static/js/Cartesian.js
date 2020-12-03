@@ -144,7 +144,8 @@ class Cartesian {
   }
 
 
-  set_with_bounds(bounds, padding) {
+
+  get_auto_center_and_zoom(bounds, padding) {
     // zoom out and center, so all of the bounds are included, with an optional padding
 
     // center at center of bounds
@@ -152,7 +153,6 @@ class Cartesian {
       x: (bounds.ub_x + bounds.lb_x) / 2,
       y: (bounds.ub_y + bounds.lb_y) / 2
     };
-    this.center_at(new_center);
 
     // look through distances from center to bounds (plus possible padding)
     var effective_bounds = {};
@@ -170,7 +170,12 @@ class Cartesian {
       // padding then specifies a zoom multiplier
       new_zoom = new_zoom * padding;
     }
-    this.zoom_to(new_zoom);
+
+    return {
+      zoom: new_zoom,
+      center: new_center
+    }
+
   }
 
   download() {
