@@ -169,7 +169,7 @@
         var fractal = new Fractal(cart, tw);
         fractal.set_max_number_of_points(100000);
         cart.set_with_bounds(fractal.get_bounds(), 0.9);
-
+        cart.redraw_points();
       },
       error: function(error){
         console.log(error);

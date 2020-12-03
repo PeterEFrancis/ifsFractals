@@ -178,6 +178,14 @@ class Cartesian {
 
   }
 
+  set_with_bounds(bounds, padding) {
+    const zc = this.get_auto_center_and_zoom(bounds, padding);
+    this.zoom = zc.zoom;
+    this.center = zc.center;
+  }
+
+
+
   download() {
     var link = document.createElement('a');
     link.download = 'ifs-fractals.png';
