@@ -196,7 +196,14 @@ def playground_saved(s):
 
 @app.route('/word-fractals')
 def word_fractals():
-    return render_template('word-fractals.html')
+    return render_template('word-fractals.html', word='Fractal')
+
+
+@app.route('/word-fractals/<string:word>')
+def word_fractals_specific(word):
+    return render_template('word-fractals.html', word=word)
+
+
 
 
 @app.route('/saved')

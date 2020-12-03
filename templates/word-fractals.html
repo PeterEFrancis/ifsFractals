@@ -16,12 +16,12 @@
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 
   <!-- Guppy -->
-  <link rel="stylesheet" href="static/guppy/guppy-default.min.css">
-  <script type="text/javascript" src="static/guppy/guppy.min.js"></script>
+  <link rel="stylesheet" href="/static/guppy/guppy-default.min.css">
+  <script type="text/javascript" src="/static/guppy/guppy.min.js"></script>
 
   <!-- Class styles -->
-  <link rel="stylesheet" href="static/css/variableSlider.css">
-  <link rel="stylesheet" href="static/css/TWRow.css">
+  <link rel="stylesheet" href="/static/css/variableSlider.css">
+  <link rel="stylesheet" href="/static/css/TWRow.css">
 
   <!-- MathJs -->
   <script src="/static/js/math.js"></script>
@@ -85,7 +85,7 @@
   <div class="row">
     <div class="col-md-6" style="padding-bottom: 15px;">
       <h3>Word</h3>
-      <input id="word-input" type="text" class="form-control" value="Fractal" onchange="update();"></input>
+      <input id="word-input" type="text" class="form-control" value="{{word}}" onchange="update();"></input>
       <br>
       <input id="color" type="color" style="width: 100%; height: 3em;" oninput="cart.set_color(this.value)"></input>
       <br>
@@ -131,14 +131,14 @@
 </div>
 
 <!-- classes -->
-<script src="static/js/Cartesian.js"></script>
-<script src="static/js/Fractal.js"></script>
+<script src="/static/js/Cartesian.js"></script>
+<script src="/static/js/Fractal.js"></script>
 
 <!-- auxilliary -->
-<script src="static/js/transformations.js"></script>
-<script src="static/js/factor_transformation.js"></script>
-<script src="static/js/letter_transformations.js"></script>
-<script src="static/js/helper.js"></script>
+<script src="/static/js/transformations.js"></script>
+<script src="/static/js/factor_transformation.js"></script>
+<script src="/static/js/letter_transformations.js"></script>
+<script src="/static/js/helper.js"></script>
 
 
 
@@ -177,6 +177,7 @@
         const tw = get_word_tw(document.getElementById('word-input').value);
         fractal.set_TW(tw);
         cart.set_with_bounds(fractal.get_bounds(), 0.9);
+        cart.redraw_points();
         clear_error();
       } catch (e) {
         report_error(e);
