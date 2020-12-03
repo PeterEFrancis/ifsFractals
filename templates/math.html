@@ -91,6 +91,7 @@
         \newcommand{\m}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
         \newcommand{\K}{\mathcal{K}}
         \newcommand{\C}{\mathcal{C}}
+        \newcommand{\T}{\mathcal{T}}
         \newcommand{\e}{\varepsilon}
         \newcommand{\diam}{\operatorname{diam}}
         \newcommand{\Trace}{\operatorname{Trace}}
@@ -405,18 +406,31 @@
 
       </proof>
 
-      Theorem <ref to="contraction-classification"></ref> implies that there is a bijection between the set $\C$ of linear and invertible contraction mappings on $\R^2$ and a strict subset of $\R^6$. In particular, if we let
-      $$E = \{(w,x,y)\mid 0 < x^2,y^2 < 1, w^2y^2 < (1-x^2)(1-y^2)\},$$
-      then the function
+      If we let
+      $$E = \{(w,x,y)\in\R^3\mid 0 < x^2,y^2 < 1, w^2y^2 < (1-x^2)(1-y^2)\},$$
+      Theorem <ref to="contraction-classification"></ref> implies that the function
       $$\Phi : \R^2 \times [0,2\pi) \times E\to \C$$
-      that maps $(h,k,\theta, w, x, y)$ to $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$ is a bijection.
-
+      that maps the 6-tuple of real numbers $(h,k,\theta, w, x, y)$ to the transformation $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$
+      is a surjection.
       <theorem id="path-connected-space">
-        The set $\C$ is path connected.
+        The set $\T = \R^2 \times [0,2\pi) \times E$ is path connected.
       </theorem>
-      <!-- <proof collapse="true" open="true">
+      <proof collapse="true" open="true">
+        The set $\R^2\times [0,2\pi)$ is clearly is path connected, so to prove our theorem we just must show that $E$ is path connected.
+        It is easy to see that $E$ is path connected, since there is a straight-line path from any point $(a,b,c)\in E$ to the point $(0,b,c)$; for any $t\in [0,a)$
+        $$t^2 < a^2<\frac{(1-b^2)(1-c^2)}{c^2}.$$
+        In other words, there is a path from any point in $E$, to the subset of $E$
+        $$\{(0,b,c)\in E \mid 0 < (1-b^2)(1-c^2)\}= (\{0\}\times(-1,-1)^2)\setminus \{(0,0,0)\},$$
+        which itself is clearly path connected, so we are done.
+         <!-- For ease of notation, for any paths $f_1,f_2:I\to E$, with $f_1(1)-f_2(0)$, let $f_1*f_2:I\to E$ denote the path in $E$ given by
+        $$(f_1*f_2)(t)=\begin{cases}f_1(2t) & t \leq 1/2\\ f_2(2t - 1) & t\geq 1/2. \end{cases}$$
+        Now, given any $(a,b,c)\in E$, let $f:I\to E$ be the path given by
+        $$$$ -->
 
-      </proof> -->
+      </proof>
+      Since each transformation in $\C$ is associated with at least one 6-tuple in $\T$, Theorem <ref to="path-connected-space"></ref> implies that given any two contraction mappings $f_1,f_2:\R^2\to\R^2$, there are paths $\hat{h},\hat{k},\hat{\theta}, \hat{w}, \hat{x}, \hat{y} : I \to \R$ so that
+      $$T(t)=\Phi\left(\hat{h}(t),\hat{k}(t),\hat{\theta}(t), \hat{w}(t), \hat{x}(t), \hat{y}(t)\right) = \begin{cases}f_1 & t=0\\ f_2 & t = 1\end{cases}$$
+      with $T(t)\in\C$ as well for any $t\in I$.
 
 
 
