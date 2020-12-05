@@ -109,7 +109,7 @@ function get_auto_distribute_weights(matrices, delta) {
   const s = maxs.reduce((a, b) => a + b, 0);
   var weights = [];
   for (var i = 0; i < maxs.length; i++) {
-    weights.push(maxs[i] / s);
+    weights.push(round(maxs[i] / s, 3));
   }
   return weights;
 }

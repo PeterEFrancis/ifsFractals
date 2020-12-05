@@ -177,7 +177,7 @@
         const tw = get_word_tw(document.getElementById('word-input').value);
         fractal.set_TW(tw);
         cart.set_with_bounds(fractal.get_bounds(), 0.9);
-        cart.redraw_points();
+        fractal.plot();
         clear_error();
       } catch (e) {
         report_error(e);

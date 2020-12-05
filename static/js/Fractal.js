@@ -48,7 +48,7 @@ class Fractal {
       }
       this.running_weights.shift();
 
-      this.plot_fractal();
+      // this.plot();
 
     } else {
       throw "[ERROR: Fractal.js] the transformations listed [" + which_not_c_maps + "] are not a contraction mappings";
@@ -87,7 +87,7 @@ class Fractal {
     } else {
       this.max_number_of_points = num;
 
-      this.plot_fractal();
+      // this.plot();
 
     }
   }
@@ -107,7 +107,7 @@ class Fractal {
     return this.tw.transformations[this.get_transformation_number()](p);
   }
 
-  plot_fractal() {
+  plot() {
     this.cartesian.clear();
     // chaos game
     var p = {x: 1, y: 1};
@@ -181,7 +181,7 @@ class Fractal {
     canvas.height = 1500;
 
     cart.set_with_bounds(fract.get_bounds());
-    fract.plot_fractal();
+    fract.plot();
 
     const num_dark_1 = fract.count_dark_pixels();
 

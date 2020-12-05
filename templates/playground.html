@@ -361,7 +361,7 @@
         <div class="col-xs-6">
           <div class="input-group">
             <span class="input-group-addon">Points to Plot</span>
-            <input id="points" type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
+            <input id="points" type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value); fractal.plot();" value="10000"/>
           </div>
         </div>
         <div class="col-xs-6">
@@ -577,18 +577,23 @@
       try {
 
         var tw = tw_row_group.get_TW();
-
-        if (auto_center_lock) {
-          cart.set_with_bounds(fractal.get_bounds(), 0.9);
-        }
+        fractal.set_TW(tw);
 
         if (auto_distribute_lock) {
           tw.weights = get_auto_distribute_weights(tw_row_group.get_matrices(), 0.01);
           for (var i = 0; i < tw_row_group.all_rows.length; i++) {
             tw_row_group.all_rows[i].set_weight(tw.weights[i]);
           }
+          // needs to be set again for the weight
+          fractal.set_TW(tw);
         }
-        fractal.set_TW(tw);
+
+        if (auto_center_lock) {
+          cart.set_with_bounds(fractal.get_bounds(), 0.9);
+        }
+
+
+        fractal.plot();
 
 
         // update raw transformations list
@@ -715,7 +720,7 @@
         v.set_min(f_info.vars[var_name].min);
         v.set_max(f_info.vars[var_name].max);
         v.set_value(f_info.vars[var_name].val);
-        v.set_step(f_info.vars[var_name].step);
+        v.set_step(f_info.vars[var_name].step);0
       }
 
       // fractal = new Fractal(cart, );
