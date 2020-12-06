@@ -81,13 +81,23 @@ class LaTeXer {
                     var col2 = document.createElement('div');
                     col2.classList.add('col-xs-6', 'text-right');
                       var a = document.createElement('a');
-                        a.setAttribute('data-toggle','collapse');
-                        a.setAttribute('href','#proof-' + String(proof_number));
+                        // a.setAttribute('data-toggle','collapse');
+                        // a.setAttribute('href','#proof-' + String(proof_number));
                         a.style.border="0px";
                         a.style.color = "grey";
                         var span = document.createElement('span');
                         span.classList.add('glyphicon', 'glyphicon-collapse-' + (open ? 'up' : 'down'));
-                        span.setAttribute('onclick',"if(this.classList.contains('glyphicon-collapse-down')) {this.classList.remove('glyphicon-collapse-down'); this.classList.add('glyphicon-collapse-up');} else {this.classList.add('glyphicon-collapse-down'); this.classList.remove('glyphicon-collapse-up');}")
+                        const pn = proof_number;
+                        span.onclick = function() {
+                          $('#proof-' + pn).collapse('toggle');
+                          if (this.classList.contains('glyphicon-collapse-down')){
+                            this.classList.remove('glyphicon-collapse-down');
+                            this.classList.add('glyphicon-collapse-up');
+                          } else {
+                            this.classList.add('glyphicon-collapse-down');
+                            this.classList.remove('glyphicon-collapse-up');
+                          }
+                        }
                 var panel_collapse = document.createElement('div');
                 panel_collapse.classList.add('panel-collapse', 'collapse');
                 panel_collapse.setAttribute('id', 'proof-' + String(proof_number));

@@ -854,7 +854,7 @@
 
     // set default fractal
     var DEFAULT = {
-      title: {{playground.title|tojson}},
+      title: "", //{{playground.title|tojson}},
       transformations: {{playground.transformations|tojson}}.split('&'),
       weights: {{playground.weights|tojson}}.split(','),
       vars: JSON.parse({{playground.vars|tojson}}),

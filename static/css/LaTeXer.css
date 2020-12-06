@@ -64,4 +64,10 @@
     border: 0px;
   }
 
+  .LaTeX .glyphicon-collapse-down, .LaTeX .glyphicon-collapse-up{
+    display: none;
+  }
+
+
+
 }
