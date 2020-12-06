@@ -97,10 +97,10 @@
       <br>
       <div class="input-group">
         <span class="input-group-addon">Zoom</span>
-        <input type="text" class="form-control" onchange="cart.zoom_to(this.value)" id="zoom" value="50"/>
+        <input type="text" class="form-control" onchange="cart.zoom_to(this.value); fractal.plot();" id="zoom" value="50"/>
       </div>
       <br>
-      <button class="btn btn-default btn-lg btn-block" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9)">Auto Center</button>
+      <button class="btn btn-default btn-lg btn-block" onclick="cart.set_with_bounds(fractal.get_bounds(), 0.9);fractal.plot();">Auto Center</button>
     </div>
     <div class="col-md-6">
       <canvas id="fractal"></canvas>
