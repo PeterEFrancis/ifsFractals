@@ -87,12 +87,12 @@
       <h3>Word</h3>
       <input id="word-input" type="text" class="form-control" value="{{word}}" onchange="update();"></input>
       <br>
-      <input id="color" type="color" style="width: 100%; height: 3em;" oninput="cart.set_color(this.value)"></input>
+      <input id="color" type="color" style="width: 100%; height: 3em;" oninput="cart.set_color(this.value); fractal.plot();"></input>
       <br>
       <br>
       <div class="input-group">
         <span class="input-group-addon">Max Number of Points to Plot</span>
-        <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value)" value="10000"/>
+        <input type="text" class="form-control" onchange="fractal.set_max_number_of_points(this.value); fractal.plot();" value="10000"/>
       </div>
       <br>
       <div class="input-group">
