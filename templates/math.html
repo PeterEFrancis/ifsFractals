@@ -445,7 +445,7 @@
       $$T(t)=\Phi\left(\hat{h}(t),\hat{k}(t),\hat{\theta}(t), \hat{w}(t), \hat{x}(t), \hat{y}(t)\right) = \begin{cases}f_1 & t=0\\ f_2 & t = 1\end{cases}$$
       with $T(t)\in\C$ as well for any $t\in I$. -->
 
-      <section>Approximating an IFS Fractal Image</section>
+      <section id="approximating-an-ifs-fractal-image">Approximating an IFS Fractal Image</section>
       Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a Hutchinson operator $F$, what are the computational methods we can use to find the compact $X\subset \R^2$ for which $F(X)=X?$
       <br><br>
       To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $X_0\in \K$, the $n$th iteration of $F$ on $X_0$ (written $F^{(n)}(X_0)$) approaches $X$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:

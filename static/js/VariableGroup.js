@@ -1,9 +1,6 @@
 
 class VariableSlider {
 
-  // a = [ 2 ]                                            (trash)
-  // [ lb ] ----------o---------------- [ ub ]     step: [ step ]
-
 
   constructor(name, group) {
     this.name = name;
@@ -17,7 +14,7 @@ class VariableSlider {
                    "variable value must be a number",
                    "step value must be a number"
                   ];
-    this.current_errors = [0,0,0,0,0,0];
+    this.current_errors = [0,0,0,0];
 
     // create elements
     var row = document.createElement('div');

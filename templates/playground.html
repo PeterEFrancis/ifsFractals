@@ -22,6 +22,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']]
+      }
+    });
+  </script>
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
 
   <!-- Guppy -->
@@ -220,13 +227,6 @@
           </h3>
         </div>
         <div class="col-xs-4">
-          <div class="btn-group" style="width: 100%; margin-top:20px;">
-            <button class="btn btn-default btn-sm" onclick="autodistribute();" style="width: calc(100% - 35px)">Auto Distribute Weights</button>
-            <button id="auto-distribute-lock" class="btn btn-default btn-sm" onclick="toggle_auto_distribute_lock();" style="width:35px;">
-              <i class="fa fa-unlock" id="auto-distribute-lock-icon"></i>
-            </button>
-          </div>
-
         </div>
       </div>
       <div id="transformations-modal" class="modal fade" role="dialog">
@@ -286,13 +286,53 @@
         </div>
       </div>
       <div id="TW-container" style="width: 100%"></div>
-      <button type="button" class="btn btn-default" onclick="tw_row_group.add_row();" style="margin-top: 20px;">
-        <span class="glyphicon glyphicon-plus"></span>
-      </button>
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-2">
+          <button type="button" class="btn btn-default btn-sm" onclick="tw_row_group.add_row();">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </div>
+        <div class="col-xs-10 text-right">
+          <button class="btn btn-default btn-sm" onclick="equalize_weights();">Equalize Weights</button>
+          <div class="btn-group">
+            <button class="btn btn-default btn-sm" onclick="autodistribute();" style="width: calc(100% - 35px)">Auto Distribute Weights</button>
+            <button id="auto-distribute-lock" class="btn btn-default btn-sm" onclick="toggle_auto_distribute_lock();" style="width:35px;">
+              <i class="fa fa-unlock" id="auto-distribute-lock-icon"></i>
+            </button>
+          </div>
+          <a class="info-circ" data-toggle="modal" data-target="#weights-modal" href="#transformations-modal" style="margin: 0px 12px 0px 12px;">
+            <span class="glyphicon glyphicon-info-sign"></span>
+          </a>
+        </div>
+      </div>
+
+
+      <div id="weights-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Equalize and Autodistribute Weights</h4>
+            </div>
+            <div class="modal-body">
+              <h5>Equilize Weights</h5>
+              The "Equilize Weigths" button will set each weight to $1/n$, where $n$ is the number of transformations.
+              <h5>Auto Distribute Weigts</h5>
+              The "Auto Distribute Weights" button will set the weight $p_i$ for the $i$th transformation using the standard matrix $A_i$ and the value $\delta = 0.01$:
+              $$p_i=\frac{\max(\delta, |\det A_i|)}{\sum_{j=1}^k\max(\delta, |\det A_j|)}.$$
+              The lock button, when enabled, will automatically distribute the weights after any change is made.
+              <br>
+              For more information on the weights and what they are used for, see <a href="/math#approximating-an-ifs-fractal-image">here</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
       <h3 style="margin-top: 60px;">Variable Sliders</h3>
       <div id="variable-row-container" style="width: 100%"></div>
-      <button type="button" class="btn btn-default" onclick="variable_group.add_next_variable();">
+      <button type="button" class="btn btn-default btn-sm" onclick="variable_group.add_next_variable();">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
 
@@ -572,6 +612,11 @@
       auto_distribute_lock = curr;
     }
 
+
+    function equalize_weights() {
+      tw_row_group.equalize_weights();
+      update();
+    }
 
     function update() {
       try {

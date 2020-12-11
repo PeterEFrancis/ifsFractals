@@ -94,8 +94,8 @@ class TWRow {
     return parse(this.weight.value, this.group.variable_group.get_values());
   }
 
-  set_weight(num) {
-    this.weight.value = num;
+  set_weight(weight) { // weight is a parsable string
+    this.weight.value = weight;
   }
 
   get_transformation() {
@@ -247,6 +247,12 @@ class TWRowGroup {
     const l = this.all_rows.length;
     for (var i = 0; i < l; i++) {
       this.all_rows[0].delete();
+    }
+  }
+
+  equalize_weights() {
+    for (var i = 0; i < this.all_rows.length; i++) {
+      this.all_rows[i].set_weight('1/' + this.all_rows.length);
     }
   }
 
