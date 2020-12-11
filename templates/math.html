@@ -187,8 +187,8 @@
           f: \R^2 & \to \R^2 \\
                 v & \mapsto Av+b
         \end{align*}
-      where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2.$ Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. It is interesting to note that an affine linear transformation in $\R^2$ can be thought of as a linear transformation in $\R^2\times\{1\}\subseteq \R^3.$ The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
-      $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f\begin{bmatrix}x \\ y\end{bmatrix}\\ 1\end{bmatrix}.$$
+      where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2.$ Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. We can identify the the plane $\R^2$ with the plane $\R^2\times\{1\}\subseteq \R^3$, and so define these transformations with a single matrix.  The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
+      $$\begin{bmatrix}v\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(v)\\ 1\end{bmatrix}.$$
       Compositions of affine linear transformations can therefore be seen as products of these $3\times 3$ matrices. Since every affine linear transformation uniquely corresponds to a $3\times 3$ matrix, we will interchangeably refer to the function and its $3\times 3$ standard matrix as the same object.
       <br><br>
       There are some "basic" matrices whose actions are naturally understood geometrically. To start, since we already know that $b$ is a translation vector, we can write $\text{Translate}(h,k)$ for the function with standard matrix $$\begin{pmatrix} 1 & 0 & h \\ 0 & 1 & k \\ 0 & 0 & 1 \end{pmatrix};$$ the function that maps
@@ -227,13 +227,13 @@
            <td>$\XShear(t)$</td>
            <td>$\begin{pmatrix} 1 & t \\ 0 & 1 \end{pmatrix}$</td>
            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x+ty\\ y\end{bmatrix}$</td>
-           <td>Shear a vector in the $x$ direction with a slope of $t.$</td>
+           <td>Shear a vector in the $x$ direction with a shear parameter $t.$</td>
          </tr>
          <tr>
-           <td>$\XShear(t)$</td>
+           <td>$\YShear(t)$</td>
            <td>$\begin{pmatrix} 1 & 0 \\ t & 1 \end{pmatrix}$</td>
            <td>$\begin{bmatrix}x\\ y\end{bmatrix}\mapsto \begin{bmatrix}x\\ tx+y\end{bmatrix}$</td>
-           <td>Shear a vector in the $y$ direction with a slope of $t.$</td>
+           <td>Shear a vector in the $y$ direction with a shear parameter $t.$</td>
          </tr>
        </tbody>
       </table>
@@ -244,7 +244,7 @@
         A $2\times 2$ matrix $A$ is a contraction if and only if the largest eigenvalue $\lambda_1$ of $A^TA$ is less than 1. In this case, $A$ has contraction constant $\sqrt{\lambda_1}.$
       </theorem>
       <proof collapse="true" open="false">
-        (From <cite to="keir"></cite>) A $2\times 2$ matrix is a contraction if and only if there is some $0\leq k < 1$ such that for all $x,y\in\R^2$, $$|Ax-Ay|\leq k|x-y|;$$
+        (From <cite to="keir"></cite>) A $2\times 2$ matrix is a contraction if and only if there is some $0\leq k < 1$ such that, for all $x,y\in\R^2$, $$|Ax-Ay|\leq k|x-y|;$$
         equivalently, for all nonzero $v\in\R^2$,
         $$|Av|\leq k|v|.$$
         We can now see that $A$ is a contraction exactly when $$|Au|\leq k$$ for all unit vectors $u.$ Since the quantity $|Au|$ is a continuous function of $u$ and $S^1$ is a compact subset of $\R^2$, the maximum value of $|Au|$ exists and is called the <em>operator norm</em> of $A$, denoted $M_A.$ Certainly, if $M_A < 1$, $A$ is a contraction mapping with contraction constant $M_A$, and if $M_A\geq 1$, $A$ is not a contraction mapping. Now we will compute $M_A.$
@@ -515,8 +515,10 @@
 
       It is important to note in the proof above, that for all $n\in\N$ with $n\geq N_1$, $|g_n-h_n|<\frac\e2$, but we only found a <em>specific</em> $N>N_1$ for which $|g_N-x| < \e.$ This leaves the question: are the points in $(g_n)$ just dense everywhere (which would be uninteresting), or do they stay close to $X$? The answer is the latter, since $(h_n)\subset X$, and for $n\geq N_1$, $(g_n)$ and $(h_n)$ stay arbitrarily close.
       <br><br>
-      The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed. It is currently an open problem to determine the "best" way to choose $P$, but <cite to="fractals-for-theclassroom"></cite> suggests defining
-      $$p_i=\frac{\max(\delta, |\det A_i|}{\sum_{j=1}^k\max(\delta, |\det A_j|)},$$
+      The proof also explains intuitively that the more contraction mappings that are used to defined a Hutchinson Operator, the longer the chaos game might take to converge: the more transformations used, the longer the sequence $(s_n)$ might be, the larger $N$ must be.
+      <br><br>
+      The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed. It is currently an open problem to determine the "best" way to choose $P$, but <cite to="fractals-for-the-classroom"></cite> suggests defining
+      $$p_i=\frac{\max(\delta, |\det A_i|)}{\sum_{j=1}^k\max(\delta, |\det A_j|)},$$
       where $\delta$ is some small positive number, and $A_i$ is the real $2\times 2$ matrix associated with contraction mapping $f_i$. This formula makes intuitive sense, since $|\det A_i|$ the area of the the image of the unit square under $f_i$. In the <a href="/playground">playground</a>, we use $\delta = 0.01$ for our "Auto Distribute Weights" feature in order to account for noninvertible transformations whose associated matrices have determinant 0.
 
       <!-- Recall that $h_{N_1}\in X$, so
@@ -536,7 +538,7 @@
       <references>
         <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
         <item id="keir">Keir H. Lockridge, Personal Communication, 2020.</item>
-        <item id="fractals-for-theclassroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
+        <item id="fractals-for-the-classroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
         <item id="monkey">Richard E. Isaac, <em>The Pleasures of Probability</em>, Springer 1995.</item>
       </references>
     </div>
