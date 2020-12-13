@@ -58,10 +58,13 @@
         For $k\geq 2$, the shortest superpermutation (see <a href="https://en.wikipedia.org/wiki/Superpermutation#Lower_bounds,_or_the_Haruhi_problem" target="_blank">here</a>) of $\{1,\dots,k\}$ has length at least $$z(k)=k!+(k-1)!+(k-2)!+(k-3),$$ $H(P,k,l)=T(k,k,l)=0$ if $l < z(k)$.<!-- and $2 \leq k\leq d$.-->
       </li>
       <li>
-        $H((\alpha, 1-\alpha), 1, 2)=2\alpha(1-\alpha)$.
+        The only 2-length sequences in $\{1,2\}$ that contain both 1 and 2 are $(1,2)$ and $(2,1)$. The probability that a sequence in $\{1,2\}$ is one of these two is $$H((\alpha, 1-\alpha), 1, 2)=\alpha(1-\alpha) + (1-\alpha)\alpha = 2\alpha(1-\alpha).$$
       </li>
       <li>
         For all $l\in\N$ with $l \geq 3$, $$H((\alpha, 1-\alpha), 1,l)=\alpha(1-\alpha)\left(3+\sum_{i=2}^{l - 2}\alpha^i+(1-\alpha)^i\right).$$
+        PROOF. Induct on $l\geq 3$, and notice that
+        $$H((\alpha, 1-\alpha), 1, l) = H((\alpha, 1-\alpha), 1, l) + \alpha^l(1-\alpha) + (1-\alpha)^l\alpha$$
+        since an $(l+1)$-length sequence that contains both $1$ and $2$ does so in the first $l$ terms, is $(1,\dots,1,2)$, or is $(2,\dots, 2,1)$.
       </li>
     </ol>
     <hr>
