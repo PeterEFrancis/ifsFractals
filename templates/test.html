@@ -13,6 +13,9 @@
       br {
         user-select: none;
       }
+      .disabled {
+        color: lightgrey;
+      }
     </style>
   </head>
   <body style="margin: 30px auto 100px auto; max-width: 600px;">
@@ -57,14 +60,27 @@
       <li>
         For $k\geq 2$, the shortest superpermutation (see <a href="https://en.wikipedia.org/wiki/Superpermutation#Lower_bounds,_or_the_Haruhi_problem" target="_blank">here</a>) of $\{1,\dots,k\}$ has length at least $$z(k)=k!+(k-1)!+(k-2)!+(k-3),$$ $H(P,k,l)=T(k,k,l)=0$ if $l < z(k)$.<!-- and $2 \leq k\leq d$.-->
       </li>
-      <li>
+      <li class="disabled">
         The only 2-length sequences in $\{1,2\}$ that contain both 1 and 2 are $(1,2)$ and $(2,1)$. The probability that a sequence in $\{1,2\}$ is one of these two is $$H((\alpha, 1-\alpha), 1, 2)=\alpha(1-\alpha) + (1-\alpha)\alpha = 2\alpha(1-\alpha).$$
       </li>
-      <li>
+      <li class="disabled">
         For all $l\in\N$ with $l \geq 3$, $$H((\alpha, 1-\alpha), 1,l)=\alpha(1-\alpha)\left(3+\sum_{i=2}^{l - 2}\alpha^i+(1-\alpha)^i\right).$$
         PROOF. Induct on $l\geq 3$, and notice that
         $$H((\alpha, 1-\alpha), 1, l) = H((\alpha, 1-\alpha), 1, l) + \alpha^l(1-\alpha) + (1-\alpha)^l\alpha$$
         since an $(l+1)$-length sequence that contains both $1$ and $2$ does so in the first $l$ terms, is $(1,\dots,1,2)$, or is $(2,\dots, 2,1)$.
+      </li>
+      <li>
+        When $l < k$, it is not possible that all elements of $\{1,\dots,k\}$ appear in an $l$-length sequence of $\{1,\dots,k\}$, so for any $P$, $H(P,1,l)=0$.
+      </li>
+      <li>
+        (Gen. 3) (Case where $l=k$). For any $P$,
+        $$H(P,1,k)=k!\prod P.$$
+        PROOF. There are $k!$ ways to order the elements of $\{1,\dots,k\}$; there are $k!$ $k$-length sequences that contain all elements of $\{1,\dots,k\}$. Each sequence has probability of $\prod P$ of occuring.
+      </li>
+      <li>
+        (Gen. 4) (Case where $l>k$). For any $P$,
+        $$H(P,1,l)=H(P,1,l-1)+\sum_{i=1}^{l-1}H(P\setminus(p_i),1,l-1)\cdot p_i.$$
+        PROOF. When $l>k$, an $l$-length sequence that contains every element of $\{1,\dots,k\}$ does so in the first $l-1$ terms (with probability $H(P,1,l-1)$), or requires the last term. In the second case, for any $i\in\{1,\dots,k\}$, the sequence is missing only $i$ from the first $l-1$ terms with probability $H(P\setminus(p_i), 1, l-1)$, and contains $i$ as the last term with probability $p_i$.
       </li>
     </ol>
     <hr>
