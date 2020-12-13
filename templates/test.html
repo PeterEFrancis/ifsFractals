@@ -41,6 +41,7 @@
     <p>Let $k\geq 2$ and suppose $P=(p_1,\dots, p_k)$ is some discrete probability distribution, meaning $p_i\in(0,1)$ and $\sum P =1$.</p>
     <p>Define a random sequence $(r_i)$ with $r_i\in[0,1]$ chosen uniformly for each $i\in\N$.</p>
     <p>Define the sequence $$(t_n)=\left(m\mid \sum_{i=1}^{m-1}p_i < r_n < \sum_{i=1}^m p_i\right).$$</p>
+    In other words, $(t_n)$ is a sequence created by randomly choosing successive elements from $\{1,\dots,k\}$: choose the number $i\in\{1,\dots,k\}$ with probability $p_i$.
     <blockquote>
       <strong>Question:</strong> What is the probability $H(P,d,l)$ that every $d$-length sequence in $\{1,\dots,k\}$ appears as a continuous subsequence of the first $l$ terms of $(t_n)$?
     </blockquote>
@@ -50,8 +51,18 @@
     <p>Since the number of $d$-length sequences in $\{1,\dots,k\}$ is $k^d$, when $P=\left(\frac{1}{k},\dots,\frac{1}{k}\right)$, $$H(P,d,l)=\frac{T(k,d,l)}{k^d}.$$</p>
     <h3>Some values:</h3>
     <ol>
-      <li>Clearly, since $k\geq 2$, the number of $d$-length sequences in $\{1,\dots,k\}$ is at least $2 > 1$. So, if $l\leq d$, then any $l$-length sequence can contain at most 1 $d$-length subsequence, which implies that $T(k,d,l)=0$.</li>
-      <li>For $k\geq 2$, the shortest superpermutation (see <a href="https://en.wikipedia.org/wiki/Superpermutation#Lower_bounds,_or_the_Haruhi_problem" target="_blank">here</a>) of $\{1,\dots,k\}$ has length at least $$z(k)=k!+(k-1)!+(k-2)!+(k-3),$$ $H(P,k,l)=T(k,k,l)=0$ if $l < z(k)$.<!-- and $2 \leq k\leq d$.--></li>
+      <li>
+        Clearly, since $k\geq 2$, the number of $d$-length sequences in $\{1,\dots,k\}$ is at least $2 > 1$. So, if $l\leq d$, then any $l$-length sequence can contain at most 1 $d$-length subsequence, which implies that $T(k,d,l)=0$.
+      </li>
+      <li>
+        For $k\geq 2$, the shortest superpermutation (see <a href="https://en.wikipedia.org/wiki/Superpermutation#Lower_bounds,_or_the_Haruhi_problem" target="_blank">here</a>) of $\{1,\dots,k\}$ has length at least $$z(k)=k!+(k-1)!+(k-2)!+(k-3),$$ $H(P,k,l)=T(k,k,l)=0$ if $l < z(k)$.<!-- and $2 \leq k\leq d$.-->
+      </li>
+      <li>
+        $H((\alpha, 1-\alpha), 1, 2)=2\alpha(1-\alpha)$.
+      </li>
+      <li>
+        For all $l\in\N$ with $l \geq 3$, $$H((\alpha, 1-\alpha), 1,l)=\alpha(1-\alpha)\left(3+\sum_{i=2}^{l - 2}\alpha^i+(1-\alpha)^i\right).$$
+      </li>
     </ol>
     <hr>
     <h2 id="estimation">Estimate $H(P,d,l)$</h2>
