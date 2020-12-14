@@ -273,6 +273,12 @@ def test():
     return render_template('test.html')
 
 
+@app.route('/comb')
+def test():
+    return render_template('comb.html')
+
+
+
 
  #            _           _
  #   __ _  __| |_ __ ___ (_)_ __
