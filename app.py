@@ -274,7 +274,7 @@ def test():
 
 
 @app.route('/comb')
-def test():
+def comb():
     return render_template('comb.html')
 
 
