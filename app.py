@@ -9,8 +9,8 @@ import time
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ifs-fractals'
-heroku = Heroku(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ifs-fractals'
+# heroku = Heroku(app)
 
 
 
@@ -317,4 +317,4 @@ def delete():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8001, debug=True)
