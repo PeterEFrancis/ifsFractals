@@ -7,10 +7,13 @@ import html
 import os
 import time
 
+import hashlib
+
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ifs-fractals'
-# heroku = Heroku(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/ifs-fractals'
+heroku = Heroku(app)
 
 
 
@@ -292,12 +295,14 @@ def comb():
 #     return render_template('admin.html')
 
 
+def SHA1(string):
+    return hashlib.sha1(string.encode()).hexdigest()
 
 
 @app.route('/delete', methods=['POST'])
 def delete():
     if request.method == 'POST':
-        if request.form['password'] == 'ILoveFractals':
+        if SHA1(request.form['password']) == '2b8483c9b3baeb2bcb22e13eb33baaf3ef4e33d5':
             names = request.form['names'].split(',')
             for name in names:
                 delete_playground(name)
