@@ -125,14 +125,16 @@
     if (i % 3 == 0) {
       // create new row
       var row = document.createElement('div');
-      row.style.marginTop = "30px";
+      row.style.marginTop = i == 0 ? "30px" : "0px";
       row.classList.add('row');
       last_row = row;
       document.getElementById('gallery-container').appendChild(last_row);
     }
 
+
     const col = document.createElement('div');
-    col.classList.add('col-sm-4');
+    col.classList.add('col-xs-4');
+    col.style.padding = "4px";
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = 1000;
     col.appendChild(canvas);

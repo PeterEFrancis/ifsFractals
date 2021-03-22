@@ -38,6 +38,7 @@
   <!-- Class styles -->
   <link rel="stylesheet" href="/static/css/variableSlider.css">
   <link rel="stylesheet" href="/static/css/TWRow.css">
+  <link rel="stylesheet" href="/static/css/Cartesian.css">
 
   <!-- MathJs -->
   <script src="/static/js/math.js"></script>
@@ -101,17 +102,16 @@
       user-select: none;
     }
 
-    #cursorText{
-      position: absolute;
-      background-color: white;
-    }
-
     a:hover {
       cursor: pointer;
     }
 
     .info-circ {
       font-size: .75em;
+    }
+
+    button {
+      outline: 0px;
     }
 
   </style>
@@ -516,18 +516,7 @@
     cart.on_zoom_change = function () {
       document.getElementById('zoom').value = cart.zoom;
     };
-    var curTxt = document.createElement('div');
-    curTxt.id="cursorText";
-    document.body.appendChild(curTxt);
-    cart.on_mouse_over = function() {
-      var depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
-      curTxt.innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
-      curTxt.style.left = (event.pageX + 10) + "px";
-      curTxt.style.top = event.pageY + "px";
-    };
-    cart.on_mouse_out = function() {
-      curTxt.innerHTML = "";
-    }
+
 
     // create variable group
     var variable_group = new VariableGroup(document.getElementById('variable-row-container'));
@@ -911,6 +900,11 @@
 
 
     set_fractal(DEFAULT);
+
+
+
+
+
 
 </script>
 

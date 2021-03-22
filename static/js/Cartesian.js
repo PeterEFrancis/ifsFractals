@@ -8,44 +8,60 @@ class Cartesian {
     this.zoom = 50; // image / real
     this.save = true;
     this.on_zoom_change = function() {};
-    this.on_mouse_over = function() {};
-    this.on_mouse_out = function() {};
     this.center = {x:0, y:0};
     this.points = [];
     this.clear();
     this.hover = {x: null, y: null};
     this.mousedown = false;
     this.mousedown_loc = {};
-    var cart = this;
-    this.canvas.addEventListener('mousedown', function(e) {
+
+
+    const cart = this;
+
+    const curTxt = document.createElement('div');
+    curTxt.id="cursorText";
+    document.body.appendChild(curTxt);
+
+    this.canvas.onmousedown = function(e) {
       cart.mousedown = true;
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
       var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
       cart.mousedown_loc = cart.get_real_point(user_x, user_y);
-    });
-    this.canvas.addEventListener('mouseup', function(e) {
+    }
+    this.canvas.addEventListener('mousedown', this.canvas.onmousedown);
+    this.canvas.onmouseup = function(e) {
       cart.mousedown = false;
-    });
-    this.canvas.addEventListener('mouseout', function() {
+    }
+    this.canvas.addEventListener('mouseup', this.canvas.onmouseup);
+    this.canvas.onmouseout = function(e) {
       cart.hover = {x:null, y:null};
       cart.mousedown = false;
-      cart.on_mouse_out();
-    });
-    this.canvas.addEventListener('mousemove', function(e) {
+      curTxt.innerHTML = "";
+    }
+    this.canvas.addEventListener('mouseout', this.canvas.onmouseout);
+    this.canvas.onmousemove = function(e) {
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
       var user_y = (e.clientY - rect.top) * (cart.canvas.height / cart.canvas.clientHeight);
       if (cart.mousedown) {
         var rp = cart.get_real_point(user_x, user_y);
-        cart.center_at({x:cart.center.x - (rp.x - cart.mousedown_loc.x),
-                        y:cart.center.y - (rp.y - cart.mousedown_loc.y)});
+        cart.center_at({
+          x:cart.center.x - (rp.x - cart.mousedown_loc.x),
+          y:cart.center.y - (rp.y - cart.mousedown_loc.y)
+        });
       } else {
         cart.hover = cart.get_real_point(user_x, user_y);
       }
-      cart.on_mouse_over();
-    });
-    this.canvas.addEventListener('dblclick', function(e) {
+      // hover point
+      let depth = Math.pow(10, Math.round(Math.log(cart.zoom) / Math.log(10)) - 1);
+      curTxt.innerHTML = "(" + (Math.round(cart.hover.x * depth) / depth) + ", " + (Math.round(cart.hover.y * depth) / depth) + ")";
+      curTxt.style.left = (event.pageX + 10) + "px";
+      curTxt.style.top = event.pageY + "px";
+
+    }
+    this.canvas.addEventListener('mousemove', this.canvas.onmousemove);
+    this.canvas.ondblclick = function(e) {
       // recenter
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
@@ -57,8 +73,9 @@ class Cartesian {
       });
       // zoom 2x
       cart.zoom_to(cart.zoom * 2);
-    });
-    this.canvas.addEventListener('contextmenu', function(e) {
+    };
+    this.canvas.addEventListener('dblclick', this.canvas.ondblclick);
+    this.canvas.oncontextmenu = function(e) {
       e.preventDefault();
       var rect = canvas.getBoundingClientRect();
       var user_x = (e.clientX - rect.left) * (cart.canvas.width / cart.canvas.clientWidth);
@@ -69,7 +86,8 @@ class Cartesian {
         y: clicked_point.y + (cart.center.y - clicked_point.y) * 2
       });
       cart.zoom_to(cart.zoom / 2);
-    });
+    }
+    this.canvas.addEventListener('contextmenu', this.canvas.oncontextmenu);
   }
 
   draw_origin() {

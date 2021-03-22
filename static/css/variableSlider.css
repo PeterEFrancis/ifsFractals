@@ -84,3 +84,11 @@
 .variable-separator {
   margin-top: 0px;
 }
+
+
+.ani-btn {
+  /* font-size: 1em; */
+  display: block;
+  /* border: 1px solid grey !important; */
+  outline: 0 !important;
+}

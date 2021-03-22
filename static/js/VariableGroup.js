@@ -7,37 +7,43 @@ class VariableSlider {
     this.group = group;
     this.variable_container = document.createElement('div');
 
+    this.ani_id;
+    this.ani_playing = false;
+    this.ani_dir = 1;
 
     // error handling
-    this.errors = ["min value must be an number",
-                   "max value must be an number",
-                   "variable value must be a number",
-                   "step value must be a number"
-                  ];
+    this.errors = [
+      "min value must be an number",
+      "max value must be an number",
+      "variable value must be a number",
+      "step value must be a number"
+    ];
     this.current_errors = [0,0,0,0];
 
     // create elements
-    var row = document.createElement('div');
-      var name_col = document.createElement('div');
-        var name_input_group = document.createElement('div');
-          var name_addon = document.createElement('span');
+    let row = document.createElement('div');
+      let name_col = document.createElement('div');
+        let name_input_group = document.createElement('div');
+          let name_addon = document.createElement('span');
           this.name_input = document.createElement('input');
-      var slider_col = document.createElement('div');
-        var slider_row = document.createElement('div');
-          var slider_input_col = document.createElement('div');
+      let slider_col = document.createElement('div');
+        let slider_row = document.createElement('div');
+          let slider_input_col = document.createElement('div');
             this.slider = document.createElement('input');
-        var bounds_row = document.createElement('div');
-      var lower_bound_col = document.createElement('div');
+        let bounds_row = document.createElement('div');
+      let lower_bound_col = document.createElement('div');
         this.lower_bound_input = document.createElement('input');
-      var step_col = document.createElement('div');
-        var step_label = document.createElement('label');
-          var step_span = document.createElement('span');
+      let step_col = document.createElement('div');
+        let step_label = document.createElement('label');
+          let step_span = document.createElement('span');
           this.step_input = document.createElement('input');
-      var upper_bound_col = document.createElement('div');
+      let btn_col = document.createElement('div');
+        this.ani_btn = document.createElement('button');
+      let upper_bound_col = document.createElement('div');
         this.upper_bound_input = document.createElement('input');
-      var trash_col = document.createElement('div');
-        var trash_link = document.createElement('a');
-          var trash_icon = document.createElement('span');
+      let trash_col = document.createElement('div');
+        let trash_link = document.createElement('a');
+          let trash_icon = document.createElement('span');
       this.error = document.createElement('p');
 
 
@@ -58,6 +64,8 @@ class VariableSlider {
             step_col.appendChild(step_label);
               step_label.appendChild(step_span);
               step_label.appendChild(this.step_input);
+          bounds_row.appendChild(btn_col);
+            btn_col.appendChild(this.ani_btn);
           bounds_row.appendChild(upper_bound_col);
             upper_bound_col.appendChild(this.upper_bound_input);
       row.appendChild(trash_col);
@@ -91,10 +99,13 @@ class VariableSlider {
             this.lower_bound_input.classList.add('form-control');
             this.lower_bound_input.classList.add('bound');
             // this.lower_bound_input.setAttribute('type', 'number');
-          step_col.classList.add('col-xs-8', 'step-col');
+          step_col.classList.add('col-xs-5', 'step-col');
             step_label.classList.add('step-label');
               this.step_input.classList.add('step-input')
               // this.step_input.setAttribute('type', 'number');
+          btn_col.classList.add('col-xs-3');
+            this.ani_btn.classList.add('btn', 'btn-xs', 'ani-btn', 'btn-default');
+            this.ani_btn.innerHTML = '<span class="glyphicon glyphicon-play"></span>';
           upper_bound_col.classList.add('col-xs-2');
             this.upper_bound_input.classList.add('form-control');
             this.upper_bound_input.classList.add('bound');
@@ -120,7 +131,7 @@ class VariableSlider {
 
 
     // make elements active
-    var vars = this;
+    const vars = this;
     trash_link.onclick = function() {
       vars.delete();
     }
@@ -141,8 +152,16 @@ class VariableSlider {
     this.step_input.onchange = function() {
       vars.set_step(vars.step_input.value);
     }
-
+    this.ani_btn.onclick = function() {
+      if (vars.ani_playing) {
+        vars.stop_ani();
+      } else {
+        vars.start_ani();
+      }
+    }
   }
+
+
 
   set_error(num) {
     this.current_errors[num] = 1;
@@ -246,13 +265,36 @@ class VariableSlider {
   }
 
   get_value() {
-    return this.name_input.value;
+    return Number(this.name_input.value);
   }
 
   delete() {
     this.group.delete(this.name);
   }
 
+  start_ani() {
+    this.ani_playing = true;
+    this.ani_btn.innerHTML = '<span class="glyphicon glyphicon-pause"></span>';
+    const t = this;
+    this.ani_id = setInterval(function() {
+      let new_val = t.get_value() + t.get_step() * t.ani_dir;
+      if (new_val > t.get_max()) {
+        t.ani_dir = -1;
+      } else if (new_val < t.get_min()) {
+        t.ani_dir = 1;
+      }
+      let depth = Math.pow(10, Math.round(-Math.log(t.get_step())));
+      new_val = Math.round((t.get_value() + t.get_step() * t.ani_dir) * depth) / depth;
+      t.set_value(new_val);
+      t.group.onchange();
+    }, 50);
+  }
+
+  stop_ani() {
+    clearInterval(this.ani_id);
+    this.ani_playing = false;
+    this.ani_btn.innerHTML = '<span class="glyphicon glyphicon-play"></span>';
+  }
 
 }
 
