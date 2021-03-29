@@ -40,7 +40,11 @@ class TWRow {
             }
           };
         weight_container.appendChild(this.weight);
+      weight_container.onclick = function() {
+        ths.weight.focus();
+      }
       this.tr.appendChild(weight_container);
+
 
       var trash_container = document.createElement('td');
         trash_container.classList.add("trash-container");

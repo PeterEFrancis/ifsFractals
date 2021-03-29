@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>IFS Fractals</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="static/img/leaf.gif" type="image/gif">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- MathJax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- HTMLTeX -->
+    <script src="https://PeterEFrancis.com/HTMLTeX/HTMLTeX.js"></script>
+    <link rel="stylesheet" href="https://PeterEFrancis.com/HTMLTeX/HTMLTeX.css">
+
+    <style>
+
+      body {
+        min-width: 250px;
+      }
+
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+
+      br {
+        user-select: none;
+      }
+
+      div {
+        overflow: scroll;
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+{{navbar|safe}}
+
+  <div class="container" style="margin-bottom: 100px;">
+    <div class="row">
+      <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="false">
+        <div hidden>
+        \(
+          \newcommand{\R}{\mathbb{R}}
+          \newcommand{\N}{\mathbb{N}}
+          \newcommand{\Translate}{\operatorname{Translate}}
+          \newcommand{\Rotate}{\operatorname{Rotate}}
+          \newcommand{\Scale}{\operatorname{Scale}}
+          \newcommand{\XYScale}{\operatorname{XYScale}}
+          \newcommand{\YScale}{\operatorname{YScale}}
+          \newcommand{\XShear}{\operatorname{XShear}}
+          \newcommand{\YShear}{\operatorname{YShear}}
+          \newcommand{\m}[4]{\begin{pmatrix}#1 & #2 \\ #3 & #4\end{pmatrix}}
+          \newcommand{\K}{\mathcal{K}}
+          \newcommand{\C}{\mathcal{C}}
+          \newcommand{\T}{\mathcal{T}}
+          \newcommand{\e}{\varepsilon}
+          \newcommand{\diam}{\operatorname{diam}}
+          \newcommand{\dim}{\operatorname{dim}}
+          \newcommand{\Trace}{\operatorname{Trace}}
+          \renewcommand{\mid}{\ : \ }
+        \)
+        </div>
+
+
+        <h1>Dimension</h1>
+        <hr>
+        <b>Notations:</b>
+        <ul>
+          <li>$X$: a metric space with metric $d_X$</li>
+          <li>$S\subset X$</li>
+          <li>$B_\e(p)$: open ball of radius $\e$ centered at point $p$</li>
+          <li>$N_\e(S)$: the number of boxes of side length $\e$ required to cover $S$</li>
+        </ul>
+
+        <section>Hausdorf Dimension</section>
+          <a href="https://en.wikipedia.org/wiki/Hausdorff_dimension#Hausdorff_content" class='highlight'>(See Wikipedia)</a><br>
+
+          <definition>
+            For any $q\in[0,\infty)$, we define the <b>unlimilted Hausdorff content</b> of $S$ to be
+            $$C_H^q(S)=\inf\left\{\sum_{i}r_i^q\mid \text{there is a cover of $S$ by open balls with radii $r_i>0$}\right\}.$$
+          </definition>
+
+          <definition>
+            For $q\geq 0$, the <b>$q$-dimensional Hausdorf measure</b> of $S$ to be
+            $$ \mathcal{H}^{q}(S)=\lim_{\e \to 0} \inf \left\{\sum_{i} r_{i}^{q}\mid \text { there is a cover of } S \text { by balls with radii } 0 < r_{i} < \e\right\}.$$
+          </definition>
+
+          <definition>
+            The <b>Hausdorff dimension</b> of $S$ is defined by
+            $$\dim_{\mathrm{H}}(S)=\inf \left\{q \geq 0\mid \mathcal{H}^{d}(S)=0\right\}.$$
+            If we let $Q=\{q\geq 0 \mid \mathcal{H}^q(S)=\infty\}$, then
+            $$\dim_{\mathrm{H}}(S)=\begin{cases} 0 & |Q|=0\\ \sup Q & \text{otherwise}.\end{cases}$$
+          </definition>
+
+          Related to inductive dimension: if $S$ is non-empty, then $\dim_\text{Haus}(S) \geq \dim_\text{ind}(S)$. Moreover,
+          $$\inf_{R\cong S} \dim_\text{Haus}(R) = \dim_\text{ind}(S).$$
+
+          If $I$ is countable and $S=\bigcup_{i\in I} S_i$, then
+          $$\dim_\text{Haus}(S)=\sup_{i\in I}\dim_\text{Haus}(S_i).$$
+
+          If $X$ and $Y$ are non-empty metric spaces, then
+          $$\dim_\text{Haus}(X\times Y)\geq \dim_\text{Haus}(X)+\dim_\text{Haus}(Y).$$
+
+
+        <section>Minkowskiw-Bouligand (Box-Counting) Dimension</section>
+          <a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension" class='highlight'>(See Wikipedia)</a><br>
+
+          <definition>
+            The Minkowski–Bouligand (box-counting) dimension of $S$ is defined to be the limit
+            $$\dim_\text{box}(S)=\lim_{\e\to\infty}\frac{\log N_\e(S)}{\log(1/\e)}.$$
+            If the above limit does not exist, one may still take the limit superior and limit inferior, which respectively define the <b>upper box dimension</b> and <b>lower box dimension</b>, denoted $\dim_\text{lowerbox}$ and $\dim_\text{upperbox}$.
+          </definition>
+
+          Related to Hausdorff: $\dim_\text{Haus}\leq \dim_\text{lowerbox}\leq \dim_\text{upperbox}$. It is possible that both inequalities are strict.
+
+
+        <section>Menger-Urysohn (Inductive) Dimension</section>
+        (From Hurewicz and Wallman)<br>
+        Assume that $S$ is seperable.
+
+        <definition>
+          The space $S$ has ind demension 0 at $p\in S$ if for all $U\ni p$, there is some $V$ with $p\in V\subset U$ and $\partial V = \emptyset$. Then if $S$ is nonempty, $\dim_\text{ind}(S)=0$ if $S$ has dimension 0 at each of its points.
+        </definition>
+
+
+        <section>Lebesgue Covering Dimension</section>
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  </body>
+
+  <script type="text/x-mathjax-config">
+    new HTMLTeX(document.getElementById('LaTeX'), MathJax).render({
+      'highlight_links':true
+    });
+  </script>
+</html>

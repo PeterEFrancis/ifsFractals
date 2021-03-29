@@ -42,30 +42,7 @@
   </head>
   <body>
 
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="\">IFS Fractals</a>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active" ><a href="\math">Math</a></li>
-          <li><a href="\playground">Playground</a></li>
-          <li><a href="\saved">Saved</a></li>
-          <li><a href="\word-fractals">Word Fractals</a></li>
-          <!-- <li><a href="#">Transformation Maker</a></li>
-          <li><a href="#">Experiment</a></li>
-          <li><a href="#">Batch</a></li> -->
-          <!-- <li><a href="#">Animations</a></li> -->
-        </ul>
-      </div>
-    </div>
-  </nav>
+{{navbar|safe}}
 
   <div class="container" style="margin-bottom: 100px;">
     <div class="row">
@@ -106,8 +83,6 @@
         Although the word <strong>fractal</strong> can have various meanings in different contexts, the fractals that we are concerned with are fixed points of linear contraction mappings on compact subsets of the plane, and are decidedly self-similar.
         <br><br>
         Here, motivated by the desire to randomly generate fractals from the full sample space of possible transformations, we fully classify the affine linear transformations that can determine them with a particular functional decomposition. We will also discuss the ways that fractal images are generated on this site.
-
-
 
 
         <!-- We will use the following definition (given by Benoit Mandelbrot in 1975):
@@ -403,31 +378,35 @@
 
         </proof>
 
-        If we let $\C$ denote the set of invertible and affine linear contraction mappings on $\R^2$ and write
+        If we let $\C$ denote the set of invertible and affine linear contraction mappings on $\R^2$, $\T=\R^2 \times [0,2\pi) \times E$, and write
         $$E = \{(w,x,y)\in \R\times(0,1)\times((-1,0)\cup(0,1)) \mid w^2y^2 < (1-x^2)(1-y^2)\},$$
-        Theorem <ref to="contraction-classification"></ref> implies that the function
-        $$\Phi : \R^2 \times [0,2\pi) \times E\to \C$$
-        that maps the 6-tuple of real numbers $(h,k,\theta, w, x, y)$ to the transformation $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$
+        then Theorem <ref to="contraction-classification"></ref> implies that the function
+        $$\Phi : \T\to \C$$
+        that maps the 6-tuple of real numbers $(h,k,\theta, w, x, y)\in \T$ to the transformation $$\Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)$$
         is a surjection.
         <theorem id="path-connected-space">
-          The set $\T = \R^2 \times [0,2\pi) \times E$ has exactly two symmetric path connected components.
+          The set $\T$ has exactly two path connected components.
         </theorem>
         <proof collapse="true" open="false">
-          The set $\R^2\times [0,2\pi)$ is clearly is path connected, so to prove our theorem we just must show that $E$ has exaclty two symmetric path connected components.
+          The set $\R^2\times [0,2\pi)$ is clearly is path connected, so to prove our theorem we just must show that $E$ has exaclty two path connected components.
           It is easy to see that given any point $(a,b,c)\in E$, There is a strightline path $\alpha: [0,a]\to E$, given by $\alpha(t)=(t,b,c)$, from $(a,b,c)$ to $(0,b,c)$ since for any $t\in [0,a]$
           $$t^2 \leq a^2 < \frac{(1-b^2)(1-c^2)}{c^2}.$$
           In other words, there is a path from any point in $E$, to the subset of $E$
           $$\{(0,b,c)\in E\} = \{0\}\times(0,1)\times ((-1,0)\cup(0,1)),$$
-          which itself has exaclty two symmetric path connected components. Thus the $wx$-plane ($\R^2\times\{0\}$) symmetrically divides $E$ into two path connected components.
+          which itself has exaclty two path connected components.
         </proof>
+        There is clearly some notion of "symmetry" at work here. Let $E^+=E\cap \{y > 0\}$ and $E^-=E\cap\{y < 0\}$. Note that $E$ is this disjoint union of $E^+$ and $E^-$. The proof above shows that $E^-$ and $E^+$ are the path connected components of $E$. In fact, $E^+$ is homeomorphic to $E^-$ via the map $(w,x,y)\mapsto(w,x,-y)$, and $\Phi$ keeps the image of these two sets disjoint: $\C^+ = \Phi(\R^2 \times [0,2\pi)\times E^+)$ and $\C^- =\Phi(\R^2 \times [0,2\pi)\times E^-)$ are disjoint since transformtaions $Ax+b$ in $\C^+$ have $\det(A)>0$ and transformtations in $\C^-$ have $\det(A) < 0$.
 
-        Consider two symmetric points $(w,x,y)$ and $(w,x,-y)$ in $E$, lying in different path connected components. Then for any $h,k,\theta\in\R^2\times[0,2\pi)$,
+        <br>
+
+        Furthermore, consider two "symmetric" points $(w,x,y)\in E^+$ and $(w,x,-y)\in E^-$. Then for any $h,k,\theta\in\R^2\times[0,2\pi)$,
         \begin{align*}
           \Phi(h,k,\theta,w,x,-y) & = \Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,-y) \\
                                   & = \Translate(h,k)\ \Rotate(\theta)\ \XShear(w)\ \XYScale(x,y)\ \YScale(-1) \\
                                   & = \Phi(h,k,\theta,w,x,y)\ \YScale(-1).
         \end{align*}
-        Therefore we see that the two path connected components of $E$ are symmetric with respect to transformations that differ by a reflection across the $y$-axis.
+        Therefore we see that $\C^+$ and $\C^-$ are "symmetric" with respect to transformations that differ by a reflection across the $y$-axis.
+      
 
 
 

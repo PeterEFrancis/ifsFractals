@@ -168,14 +168,23 @@ def initialize_examples():
  # |_|          |___/
 
 
+
+def get_navbar(active=None):
+    return render_template('navbar.html', active=active)
+
+
+
+
+
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', navbar=get_navbar())
 
 
 @app.route('/math')
 def math():
-    return render_template('math.html')
+    return render_template('math.html', navbar=get_navbar('math'))
 
 
 
@@ -192,26 +201,22 @@ def playground():
 def playground_saved(s):
     if is_a_playground_name(s):
         playground = db.session.query(Playground).filter(Playground.name == s)[0]
-        return render_template('playground.html', playground=playground)
+        return render_template('playground.html', playground=playground, navbar=get_navbar('playground'))
     else:
         return "no playground found"
 
 
 @app.route('/word-fractals')
-def word_fractals():
-    return render_template('word-fractals.html', word='Fractal')
-
-
 @app.route('/word-fractals/<string:word>')
-def word_fractals_specific(word):
-    return render_template('word-fractals.html', word=word)
+def word_fractal(word='Fractal'):
+    return render_template('word-fractals.html', word=word, navbar=get_navbar('word-fractals'))
 
 
 
 
 @app.route('/saved')
 def saved():
-    return render_template('saved.html', all=db.session.query(Playground))
+    return render_template('saved.html', all=db.session.query(Playground), navbar=get_navbar('saved'))
 
 
 
@@ -265,7 +270,7 @@ def random(num):
         points="10000",
         color="#000000"
     )
-    return render_template('playground.html', playground=playground)
+    return render_template('playground.html', playground=playground, navbar=get_navbar('playground'))
 
 
 
@@ -279,6 +284,10 @@ def test():
 @app.route('/comb')
 def comb():
     return render_template('comb.html')
+
+@app.route('/dimension')
+def dimension():
+    return render_template('dimension.html', navbar=get_navbar())
 
 
 
