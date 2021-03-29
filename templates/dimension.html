@@ -65,6 +65,7 @@
           \newcommand{\e}{\varepsilon}
           \newcommand{\diam}{\operatorname{diam}}
           \newcommand{\dim}{\operatorname{dim}}
+          \newcommand{\Ord}{\operatorname{Ord}}
           \newcommand{\Trace}{\operatorname{Trace}}
           \renewcommand{\mid}{\ : \ }
         \)
@@ -79,18 +80,19 @@
           <li>$S\subset X$</li>
           <li>$B_\e(p)$: open ball of radius $\e$ centered at point $p$</li>
           <li>$N_\e(S)$: the number of boxes of side length $\e$ required to cover $S$</li>
+          <li>$M_C(p)$: (given a cover $C$ of $S$ and $p\in S$) $M_C(p)$ is the cardinality of the set $\{U\in C\mid p\in U\}$.</li>
         </ul>
 
         <section>Hausdorf Dimension</section>
           <a href="https://en.wikipedia.org/wiki/Hausdorff_dimension#Hausdorff_content" class='highlight'>(See Wikipedia)</a><br>
 
-          <definition>
+          <!-- <definition>
             For any $q\in[0,\infty)$, we define the <b>unlimilted Hausdorff content</b> of $S$ to be
             $$C_H^q(S)=\inf\left\{\sum_{i}r_i^q\mid \text{there is a cover of $S$ by open balls with radii $r_i>0$}\right\}.$$
-          </definition>
+          </definition> -->
 
           <definition>
-            For $q\geq 0$, the <b>$q$-dimensional Hausdorf measure</b> of $S$ to be
+            For $q\geq 0$, the <b>$q$-dimensional Hausdorf measure</b> of $S$ is
             $$ \mathcal{H}^{q}(S)=\lim_{\e \to 0} \inf \left\{\sum_{i} r_{i}^{q}\mid \text { there is a cover of } S \text { by balls with radii } 0 < r_{i} < \e\right\}.$$
           </definition>
 
@@ -128,13 +130,29 @@
         Assume that $S$ is seperable.
 
         <definition>
-          The space $S$ has ind demension 0 at $p\in S$ if for all $U\ni p$, there is some $V$ with $p\in V\subset U$ and $\partial V = \emptyset$. Then if $S$ is nonempty, $\dim_\text{ind}(S)=0$ if $S$ has dimension 0 at each of its points.
+          We define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <p>inductive dimension</p> of $S$, $\dim_\text{ind}(S)$.
+          <ul>
+            <li>If for all $U$ containing $p$, there is some $V$ with $p\in V\subset U$ and $\partial V = \emptyset$, then $\dim^p_\text{ind}(S)=0$.</li>
+            <li>If $S$ is nonempty and has dimension 0 at each of its points, $\dim_\text{ind}(S)=0$.</li>
+            <li>Only the empty set has dimension $-1$.</li>
+            <li>For $p\in S$, if $\dim^p_\text{ind}(S)\leq n$ and it is not true that $\dim^p_\text{ind}(S)\leq n-1$, then $\dim^p_\text{ind}(S)=n$.</li>
+            <li>If for all $p\in S$, $\dim^p_\text{ind}(S)\leq n$, then $\dim_\text{ind}(S)\leq n$.</li>
+            <li>If $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)\leq n - 1$ is false, then $\dim_\text{ind}(S)= n$.</li>
+            <li>If $\dim_\text{ind}(S)\leq n$ is false for each $n\in\N$, then $\dim_\text{ind}(S)=\infty$.</li>
+          </ul>
         </definition>
 
 
         <section>Lebesgue Covering Dimension</section>
 
-
+        Suppose that $C$ is a cover of $S$.
+        <definition>
+          The <b>order</b> of $C$ (if it exists) is the smallest $n\in\N$ for which all points of $S$ lie in at most $n$ sets in $C$.
+          $$\Ord_S(C)=\min\{n\in\N\mid \forall p\in S, M_C(p)\leq n\}.$$
+        </definition>
+        <!-- <definition>
+          A <b>refinement</b> of $C$ is
+        </definition> -->
 
 
 
