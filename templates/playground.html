@@ -649,9 +649,15 @@
           var factorization_td = document.createElement('td');
           var func_string = ""; // for use button
           for (var j in factorizations[i]) {
-            var text = factorizations[i][j].name + "(" + round(factorizations[i][j].args, 5);
+            let num = String(round(factorizations[i][j].args, 5));
+            var text = factorizations[i][j].name + "(";
             if (factorizations[i][j].name == "Rotate") {
-              text = text + " π";
+              if (num != "1") {
+                text = text + num + ' ';
+              }
+              text = text + "π";
+            } else {
+              text = text + num;
             }
             text = text + ")";
             func_string = func_string + text;
