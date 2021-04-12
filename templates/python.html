@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>IFS Fractals : Pythpn Docs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/static/img/leaf.gif" type="image/gif">
+
+    <!-- redirect to mobile -->
+    <script language="javascript">
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        if (confirm("Your device might not be suitable for the fractal playground.\n\nClick 'Cancel' to continue, and 'OK' to return to IFS-Fractal home.")) {
+          window.location.href = '/';
+        }
+      }
+    </script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']]
+        }
+      });
+    </script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+
+    <!-- MathJs -->
+    <script src="/static/js/math.js"></script>
+
+
+    <style>
+
+      body {
+        min-width: 600px;
+      }
+
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+      br {
+        user-select: none;
+      }
+
+    </style>
+  </head>
+  <body>
+
+  {{navbar|safe}}
+
+  <div class="container-fluid" style="max-width: 1500px;">
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-sm-8">
+        <br><br>
+        Nothing here yet
+      </div>
+    </div>
+  </div>
+
+  </body>
+</html>

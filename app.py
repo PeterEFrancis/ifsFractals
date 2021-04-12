@@ -274,6 +274,11 @@ def random(num):
 
 
 
+@app.route('/python')
+def python_docs():
+    return render_template('python.html', navbar=get_navbar())
+
+
 
 
 @app.route('/test')

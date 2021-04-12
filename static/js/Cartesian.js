@@ -19,7 +19,7 @@ class Cartesian {
     const cart = this;
 
     const curTxt = document.createElement('div');
-    curTxt.id="cursorText";
+    curTxt.id = "cursorText";
     document.body.appendChild(curTxt);
 
     this.canvas.onmousedown = function(e) {
