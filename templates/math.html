@@ -46,7 +46,7 @@
 
   <div class="container" style="margin-bottom: 100px;">
     <div class="row">
-      <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="false">
+      <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="false" style="text-align: justify;">
         <div hidden>
         \(
           \newcommand{\R}{\mathbb{R}}
@@ -70,13 +70,12 @@
           \newcommand{\Ord}{\operatorname{Ord}}
           \newcommand{\Ref}{\operatorname{Ref}}
           \newcommand{\O}{\mathcal{O}}
-
         \)
         </div>
 
 
-        <h1>IFS Fractals</h1>
-        <em>Peter E. Francis</em>
+        <h1 style="text-align: center;">The Beautiful Mathematics of IFS Fractals</h1>
+        <em style="display: block; text-align: center;">Peter E. Francis</em>
         <hr>
         <tableofcontents></tableofcontents>
         <hr>
@@ -89,9 +88,11 @@
         <definition id="fractal">
           A <em>fractal</em> is a set whose Hausdorff–Besicovitch dimension is strictly greater than its topological dimension.
         </definition>
-        <br><br>
+
+
         The concept of dimension is a complicated one, and relies on topological concepts that we won't fully discuss. We will defer a deeper investigation into dimension (and thus Mandelbrot's definition), and start instead with a discussion of our iterated function system fractals.
-        <br><br>
+
+
         Motivated by the desire to randomly generate fractals from the full sample space of possible transformations, we fully classify the affine linear transformations that can determine them with a particular functional decomposition. We will also discuss the computational ways that fractal images are generated on this site.
 
 
@@ -141,7 +142,8 @@
         </theorem>
         <proof collapse="true" open="false">
           (Adapted from <cite to="BBK"></cite>). Let $c_1, \dots, c_k$ be the contraction constants of the contractions $f_1, \dots, f_k:\R^2\to\R^2.$ We will show that $F$ has contraction constant $c=\max\{c_1,\dots, c_k\}.$
-          <br><br>
+
+
           Take any $U,V\in\K$, write $r=h(U,V)$, and choose any point $x\in F(U).$ Then there exists some $j\in\{1,\dots,k\}$ and some $u\in U$ for which $x=f_j(u)$, so by the definition of the Hausdorff metric, there is some $v\in V$ for which $|u-v|\leq r.$ Since $f_j$ is a contraction, we have
           $$|x - f_j(v)| = |f_j(u) - f_j(v)|\leq c_j|u-v|\leq cr.$$
           Clearly, $f_j(v)\in F(V)$, so the inequality above shows that any point of $F(U)$ is within $cr$ of some point of $F(V)$:
@@ -153,8 +155,9 @@
         </proof>
 
         Now Theorem <ref to="contraction-mapping-principle"></ref> tells us that any Hutchinson operator has a unique fixed point in $\K.$ These fixed points (compact sets in $\R^2$) are the fractals that we will be studying. Specifically, the Hutchinson operators that we will focus our attention to are built using Affine Linear Transformations of $\R^2.$
-        <br><br>
-        Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $U\in\K$, the iterative sequence $$U,\ F(U),\ F(F(U)),\ F(F(F(U))),\ \dots$$ converges to a unique fixed point $X$, where $F(X)=X.$
+
+
+        Note that the phrase "Iterated Function System" now makes sense: the contraction mapping principle tells us that with hutchinson operator $F$, and any $U\in\K$, the iterative sequence $$U,\ F(U),\ F(F(U)),\ F(F(F(U))),\ \dots$$ converges to a unique fixed point $S\in\K$, where $F(S)=S.$
 
 
 
@@ -167,11 +170,13 @@
         where $A$ is a two-by-two real-valued matrix and $b$ is a vector in $\R^2.$ Alone, multiplication by $A$ is a linear transformation, and with the addition of non-zero $b$, $f$ is affine. We can identify the the plane $\R^2$ with the plane $\R^2\times\{1\}\subseteq \R^3$, and so define these transformations with a single matrix.  The block matrix $$\begin{pmatrix}A & b \\ 0 & 1\end{pmatrix}$$ defines a linear transformation that maps
         $$\begin{bmatrix}v\\ 1\end{bmatrix}\mapsto \begin{bmatrix}f(v)\\ 1\end{bmatrix}.$$
         Compositions of affine linear transformations can therefore be seen as products of these $3\times 3$ matrices. Since every affine linear transformation uniquely corresponds to a $3\times 3$ matrix, we will interchangeably refer to the function and its $3\times 3$ standard matrix as the same object.
-        <br><br>
+
+
         There are some "basic" matrices whose actions are naturally understood geometrically. To start, since we already know that $b$ is a translation vector, we can write $\text{Translate}(h,k)$ for the function with standard matrix $$\begin{pmatrix} 1 & 0 & h \\ 0 & 1 & k \\ 0 & 0 & 1 \end{pmatrix};$$ the function that maps
         $$\begin{bmatrix}x \\ y\\ 1\end{bmatrix}\mapsto \begin{bmatrix}x+h \\ y+k\\ 1\end{bmatrix}.$$
         We can narrow our focus to the action made by $A.$ The following table shows the $A$ matrices for our basic transformations.
-        <br>
+
+
         <table class="table-bordered" id="basic-transformations" caption="Basic Transformations">
          <thead>
            <tr>
@@ -225,7 +230,8 @@
           equivalently, for all nonzero $v\in\R^2$,
           $$|Av|\leq k|v|.$$
           We can now see that $A$ is a contraction exactly when $$|Au|\leq k$$ for all unit vectors $u.$ Since the quantity $|Au|$ is a continuous function of $u$ and $S^1$ is a compact subset of $\R^2$, the maximum value of $|Au|$ exists and is called the <em>operator norm</em> of $A$, denoted $M_A.$ Certainly, if $M_A < 1$, $A$ is a contraction mapping with contraction constant $M_A$, and if $M_A\geq 1$, $A$ is not a contraction mapping. Now we will compute $M_A.$
-          <br><br>
+
+
           Since $A^TA$ is a symmetric real matrix, it has real eigenvalues $\lambda_1\geq \lambda_2$ and is orthogonally diagonalizable:
           $$A^TA = PDP^{-1},$$
           where $D$ is the diagonal matrix $$\m{\lambda_1}{0}{0}{\lambda_2}$$ and $P=\begin{pmatrix}v_1 & v_2\end{pmatrix}$ is an orthogonal matrix whose columns are eigenvectors. Therefore, $P^{-1}=P^T$, so if we let $x=P^Tu$, we get
@@ -407,7 +413,7 @@
         </proof>
         There is clearly some notion of "symmetry" at work here. Let $E^+=E\cap \{y > 0\}$ and $E^-=E\cap\{y < 0\}$. Note that $E$ is this disjoint union of $E^+$ and $E^-$. The proof above shows that $E^-$ and $E^+$ are the path connected components of $E$. In fact, $E^+$ is homeomorphic to $E^-$ via the map $(w,x,y)\mapsto(w,x,-y)$, and $\Phi$ keeps the image of these two sets disjoint: $\C^+ = \Phi(\R^2 \times [0,2\pi)\times E^+)$ and $\C^- =\Phi(\R^2 \times [0,2\pi)\times E^-)$ are disjoint since transformations $Ax+b$ in $\C^+$ have $\det(A)>0$ and transformations in $\C^-$ have $\det(A) < 0$.
 
-        <br>
+
 
         Furthermore, consider two "symmetric" points $(w,x,y)\in E^+$ and $(w,x,-y)\in E^-$. Then for any $h,k,\theta\in\R^2\times[0,2\pi)$,
         \begin{align*}
@@ -426,21 +432,26 @@
         with $T(t)\in\C$ as well for any $t\in I$. -->
 
         <section id="approximating-an-ifs-fractal-image">Approximating an IFS Fractal Image</section>
-        Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a Hutchinson operator $F$, what are the computational methods we can use to find the compact set $X\subset \R^2$ for which $F(X)=X?$
-        <br><br>
-        To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $X_0\in \K$, the $n$th iteration of $F$ on $X_0$ (written $F^{(n)}(X_0)$) approaches $X$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:
-        <br><br>
+        Now that we have an understanding of what an IFS fractal is and some of its properties, we can discuss methods of generating an image of the fractal. That is, given a Hutchinson operator $F$, what are the computational methods we can use to find the <span style="color: red">non-empty</span> compact set $S\subset \R^2$ for which $F(S)=S?$
+
+
+        To start, we have the brute-force method of "figure iteration". The contraction mapping principle (Theorem <ref to="contraction-mapping"></ref>) tells us that given any initial compact set $S_0\in \K$, the $n$th iteration of $F$ on $S_0$ (written $F^{(n)}(S_0)$) approaches $S$ as $n$ approaches infinity. Therefore, we have a feasible algorithm:
+
+
         <ol>
-          <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a set: $L=\{X_0\}.$</li>
+          <li>Start with any compact subset of $\R^2$ (the unit square, perhaps) as the only element in a set: $L=\{S_0\}.$</li>
           <li>Apply each of the transformations used to build $F$ to each element of $L.$</li>
           <li>Re-define $L$ to be the set of the resulting subsets.</li>
           <li>Go to step 2, or stop.</li>
         </ol>
-        <br>
-        After repeating this process a large number of times ("going to step 2 instead of stopping"), eventually we will be left with an image of our desired fractal. However, this process is computationally exhausting: suppose the Hutchinson operator is built using $k$ contractions on $\R^2.$ Then $F^{(n)}(X_0)$ is the union of $k^n$ subsets of $\R^2.$ This exponential growth makes this algorithm very memory-inefficient, very quickly.
-        <br><br>
+
+
+        After repeating this process a large number of times ("going to step 2 instead of stopping"), eventually we will be left with an image of our desired fractal. However, this process is computationally exhausting: suppose the Hutchinson operator is built using $k$ contractions on $\R^2.$ Then $F^{(n)}(S_0)$ is the union of $k^n$ subsets of $\R^2.$ This exponential growth makes this algorithm very memory-inefficient, very quickly.
+
+
         Luckily, there is an algorithm in linear time that is commonly used to generate an approximate image of a IFS fractal, called <em>The Chaos Game</em>. Instead of applying each transformation during every iteration, this algorithm uses a randomly chosen one. We outline the algorithm below.
-        <br><br>
+
+
         <ol>
           <li>Write $f_1,\dots, f_k:\R^2\to\R^2$ for the contraction mappings that are used to build $F.$</li>
           <li>Choose some discrete probability distribution (called the "weights") $P=(p_1,\dots, p_k)$, where $\sum P = 1$ and $p_i\in(0,1]$ for each $i\in\{1, \dots, k\}.$</li>
@@ -458,31 +469,33 @@
         In the proof below, only $U\in\K$ are considered ($U$ is closed) so,
           $$\diam(U)=\max\{|x-y|\mid x,y\in U\}.$$
         <proof collapse="true" open="false">
-          Let $\e>0$ be given and suppose $F:\K\to\K$ is a Hutchinson operator defined using contraction mappings $f_1,\dots,f_k:\R^2\to\R^2$ with contraction constants $c_1,\dots, c_k.$ Write $X$ for the unique fixed point of $F.$ Choose any point $r\in\R^2$, and any $x\in X.$ Also, let $P=(p_1,\dots,p_k)$ be any discrete probability distribution with each $p_i>0$ and $\sum_{i=1}^kp_i=1.$ Write $(g_n)$ for any sequence of points generated by the chaos game using $F$ and $P$, based at $r.$ That is, let $(t_n)$ be an infinite sequence of randomly distributed (according to $P$) integers from the set $\N_k = \{1,\dots,k\}$, and
+          Let $\e>0$ be given and suppose $F:\K\to\K$ is a Hutchinson operator defined using contraction mappings $f_1,\dots,f_k:\R^2\to\R^2$ with contraction constants $c_1,\dots, c_k.$ Write $S$ for the unique fixed point of $F.$ Choose any point $r\in\R^2$, and any $x\in S.$ Also, let $P=(p_1,\dots,p_k)$ be any discrete probability distribution with each $p_i>0$ and $\sum_{i=1}^kp_i=1.$ Write $(g_n)$ for any sequence of points generated by the chaos game using $F$ and $P$, based at $r.$ That is, let $(t_n)$ be an infinite sequence of randomly distributed (according to $P$) integers from the set $\N_k = \{1,\dots,k\}$, and
           $$(g_n)=((f_{t_n}\circ\dots\circ f_{t_{1}})(r) \mid n\in\N).$$
           We will show that we can find some $N\in\N$ for which $|g_N - x| < \e.$
-          <br><br>
-          Choose any point $x_0\in X$ and consider the sequence
+
+
+          Choose any point $x_0\in S$ and consider the sequence
           $$(h_n)=((f_{t_n}\circ\dots\circ f_{t_{1}})(x_0) \mid n\in\N).$$
-          Since $x_0$ is a member of the fixed set $X$, every term of $(h_n)$ is also in $X$, and since each $f_i$ is a contraction mapping,
+          Since $x_0$ is a member of the fixed set $S$, every term of $(h_n)$ is also in $S$, and since each $f_i$ is a contraction mapping,
           $$|g_{n+1}-h_{n+1}| \leq c_{t_n+1}|g_n-h_n| < |g_n - h_n|.$$
           Therefore, we can choose $N_1\in\N$ large enough so that $$|g_n-h_n| < \frac{\e}{2}$$
           for all $n\in\N$ with $n\geq N_1.$ Now recognize that
-          $$X = F(X) = f_1(X)\cup \dots \cup f_k(X),$$
-          so there must be some $s_1\in\N_k$ for which $x\in f_{s_1}(X).$ Similarly,
+          $$S = F(S) = f_1(S)\cup \dots \cup f_k(S),$$
+          so there must be some $s_1\in\N_k$ for which $x\in f_{s_1}(S).$ Similarly,
           \begin{align*}
-            f_{s_1}(X) & = f_{s_1}(f_1(X)\cup \dots \cup f_k(X)) \\
-                       & = f_{s_1}(f_1(X))\cup \dots \cup f_{s_1}(f_k(X)),
+            f_{s_1}(S) & = f_{s_1}(f_1(S)\cup \dots \cup f_k(S)) \\
+                       & = f_{s_1}(f_1(S))\cup \dots \cup f_{s_1}(f_k(S)),
           \end{align*}
-          so there is some $s_2\in\N_k$ for which $x\in f_{s_1}(f_{s_2}(X)).$ Continue this process, defining an infinite sequence $(s_n)$. Then use this sequence to build another:
-          $$(A_n) = ((f_{s_1}\circ \dots \circ f_{s_n})(X)\mid n\in\N).$$
+          so there is some $s_2\in\N_k$ for which $x\in f_{s_1}(f_{s_2}(S)).$ Continue this process, defining an infinite sequence $(s_n)$. Then use this sequence to build another:
+          $$(A_n) = ((f_{s_1}\circ \dots \circ f_{s_n})(S)\mid n\in\N).$$
           Clearly, for any $n\in\N$, $x\in A_n$, and since each $f_i$ is a contraction mapping with contraction constant $c_i$,
           $$\diam(A_{n+1})\leq c_i\diam(A_n)<\diam(A_n).$$
           In particular, we can choose $m\in\N$ large enough so that $\diam(A_{m})<\frac{\e}{2}.$
-          <br><br>
+
+
           Since the sequence $(t_n)$ is random, there is a probability of 1 (by the infinite monkey Theorem proven in <cite to="monkey"></cite>) that the fininte sequence $s_{m}, \dots, s_{1}$ eventually appears as a continuous subseqence of $(t_n)$ after the $N_1$st term. That is, there is some $N\in\N$ with $N > N_1$, for which
           $$t_{N - \ell + 1} = s_{1 + \ell - 1}$$
-          for all $\ell\in\{1,\dots, m\}.$ Then we know that $h_{N-m}\in X$ (if $N=m$, we can write $h_0=x_0\in X$), so
+          for all $\ell\in\{1,\dots, m\}.$ Then we know that $h_{N-m}\in S$ (if $N=m$, we can write $h_0=x_0\in S$), so
           \begin{align*}
             h_{N} & = (f_{t_N}\circ\dots\circ f_{1})(x_0) \\
                   & = (f_{s_1}\circ\dots\circ f_{s_m}\circ f_{t_{N-m}}\circ\dots\circ f_{t_1})(x_0) \\
@@ -493,10 +506,10 @@
           $$|g_N - x| \leq |g_N - h_N| + |h_N - x| < \e.$$
         </proof>
 
-        It is important to note in the proof above, $|g_n-h_n|<\frac\e2$ for all $n\in\N$ with $n\geq N_1$, but we only found a <em>specific</em> $N>N_1$ for which $|g_N-x| < \e.$ This leaves the question: are the points in $(g_n)$ just dense everywhere (which would be uninteresting), or do they stay close to $X$? The answer is the latter, since $(h_n)\subset X$, and for $n\geq N_1$, $(g_n)$ and $(h_n)$ stay arbitrarily close.
-        <br><br>
+        It is important to note in the proof above, $|g_n-h_n|<\frac\e2$ for all $n\in\N$ with $n\geq N_1$, but we only found a <em>specific</em> $N>N_1$ for which $|g_N-x| < \e.$ This leaves the question: are the points in $(g_n)$ just dense everywhere (which would be uninteresting), or do they stay close to $S$? The answer is the latter, since $(h_n)\subset S$, and for $n\geq N_1$, $(g_n)$ and $(h_n)$ stay arbitrarily close.
+
         The proof also explains intuitively that the more contraction mappings that are used to defined a Hutchinson Operator, the longer the chaos game might take to converge: the more transformations used, the longer the sequence $(s_n)$ might be, the larger $N$ must be.
-        <br><br>
+
         The role of the weights is purely aesthetic: in infinitum, any weight distribution will result in the same fractal image, but computationally restricted to a finite number of iterations, choosing certain $f_i$ to use more or less frequently than others allows the points in the approximated image to be more evenly distributed. It is currently an open problem to determine the "best" way to choose $P$, but <cite to="fractals-for-the-classroom"></cite> suggests defining
         $$p_i=\frac{\max(\delta, |\det A_i|)}{\sum_{j=1}^k\max(\delta, |\det A_j|)},$$
         where $\delta$ is some small positive number, and $A_i$ is the real $2\times 2$ matrix associated with contraction mapping $f_i$. This formula makes intuitive sense, since $|\det A_i|$ is the area of the the image of the unit square under $f_i$. In the <a href="/playground" class="highlight">playground</a>, we use $\delta = 0.01$ for our "Auto Distribute Weights" feature in order to account for noninvertible transformations whose associated matrices have determinant 0.
@@ -515,104 +528,36 @@
         <section>Dimension</section>
 
         Now we will return to Mandelbrot's definition of fractals, and square it with our work on iterated function systems. It should be noted that Mandelbrot himself was not satisfied with his own definition, since it excludes some notable "fractal-like" sets, like the "Devil's Staircase".
-        <br><br>
-        To start, we develop some theory of different formulations of dimension, and then restrict oursleves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ be a subset of $X$.
 
-        <br><br>
+        To start, we develop some theory of different formulations for dimension, and then restrict oursleves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ is a subset of $X$.
 
+        The two types of dimension that we will discuss are topological dimensions (which, as the name would suggest, are topological invarients), and fractal dimensions (which are not necessarily invarient under homeomorphisms). Mandelbrot's definition of <em>fractal</em> comes from comparing the Hausdorf-Besicovitch, and the Lesbesgue Covering (what Mandelbrot calls "topological") dimension. These two sets of dimension definitions hold interesting memebrs, and we will explore the important ones, primarily Hausdorf-Besicovitch, and Lesbesgue Covering dimension. The later is always an integer, while the former is often not. It might be tempting to declare fractals to only be those set with non-integer Lesbegue Covering dimension, but there are examples of fractals that have integer (but different!) Hausdorff-Besicovitch and Lesbegue Covering dimensions (see <cite to="mandelbrot"></cite>).
 
+        A history of the two categories of dimension can be helpful; a more detailed version is given in <cite to="mandelbrot"></cite>.
 
+        <subsection>Formulations of Topological Dimension</subsection>
 
+        Among the notable figures that appear in the story of the creation of topological dimension are Euclid, Reimann, Cantor, Peano, Hermite, Poincaré, Brouwer, Menger, Urysohn, and Lesbegue. Before Cantor and Peano's work on mappings between lines and surfaces, the subject of dimension recieved little attention, although many pointed out that the concept was not well enough understood. Hermite detested Cantor's work, calling it "vertibale torure" and was surprised that Poincaré took interest in it. These mappings showed that dimension was not a simple as commonly accepted definition, "the minimum number of continuous real parameters needed to describe a space." Poincaré suggested an intuitive and pragmatic approach. Brouwer formalized Poincaré's work in 1913, and in 1922 Menger and Urysohn independently (without knowledge of Brouwer or each other) recreated and improved upon Brouwer's work; their "Inductive" dimension remains to be widly used today.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <b>Notations:</b>
-        <ul>
-          <li>$B_\e(p)$: open ball of radius $\e$ centered at point $p$</li>
-          <li>$N_\e(S)$: the number of boxes of side length $\e$ required to cover $S$</li>
-          <li>$\O(S)$: set of open covers of $S$</li>
-          <li>$M_C(p)$: (given a cover $C$ of $S$ and $p\in S$) $M_C(p)$ is the cardinality of the set $\{U\in C\mid p\in U\}$</li>
-          <li>$\Ref_S(C)$: set of refinements of $C$</li>
-        </ul>
-
-        <subsection>Hausdorf Dimension (from <cite to="hausdorff-wiki"></cite>)</subsection>
-
-
-          <!-- <definition>
-            For any $q\in[0,\infty)$, we define the <b>unlimilted Hausdorff content</b> of $S$ to be
-            $$C_H^q(S)=\inf\left\{\sum_{i}r_i^q\mid \text{there is a cover of $S$ by open balls with radii $r_i>0$}\right\}.$$
-          </definition> -->
-
-          <definition title="Hausdorf-Besicovitch Dimension">
-            For $q\geq 0$, the <b>$q$-dimensional Hausdorf measure</b> of $S$ is
-            $$ \mathcal{H}^{q}(S)=\lim_{\e \to 0} \inf \left\{\sum_{i} r_{i}^{q}\mid \text { there is a cover of } S \text { by balls with radii } 0 < r_{i} < \e\right\}.$$
-          </definition>
-
-          <definition>
-            The <b>Hausdorff dimension</b> of $S$ is defined by
-            $$\dim_{\mathrm{H}}(S)=\inf \left\{q \geq 0\mid \mathcal{H}^{d}(S)=0\right\}.$$
-            If we let $Q=\{q\geq 0 \mid \mathcal{H}^q(S)=\infty\}$, then
-            $$\dim_{\mathrm{H}}(S)=\begin{cases} 0 & |Q|=0\\ \sup Q & \text{otherwise}.\end{cases}$$
-          </definition>
-
-          If $I$ is countable and $S=\bigcup_{i\in I} S_i$, then
-          $$\dim_\text{Haus}(S)=\sup_{i\in I}\dim_\text{Haus}(S_i).$$
-
-          If $X$ and $Y$ are non-empty metric spaces, then
-          $$\dim_\text{Haus}(X\times Y)\geq \dim_\text{Haus}(X)+\dim_\text{Haus}(Y).$$
-
-
-        <subsection>Minkowski-Bouligand (Box-Counting) Dimension (from <cite to="box-counting-wiki"></cite>)</subsection>
-          <definition>
-            The Minkowski–Bouligand (box-counting) dimension of $S$ is defined to be the limit
-            $$\dim_\text{box}(S)=\lim_{\e\to\infty}\frac{\log N_\e(S)}{\log(1/\e)}.$$
-            If the above limit does not exist, one may still take the limit superior and limit inferior, which respectively define the <b>upper box dimension</b> and <b>lower box dimension</b>, denoted $\dim_\text{upperbox}$ and $\dim_\text{lowerbox}$.
-          </definition>
-
-
-
-        <subsection>Menger-Urysohn (Inductive) Dimension </subsection>
-        Assume that $S$ is seperable.
-
-        <definition title="(From <cite to='dimension-theory'></cite>)">
-          We define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <b>inductive dimension</b> of $S$, $\dim_\text{ind}(S)$.
+        <definition title="Menger-Urysohn (Inductive) Dimension <cite to='dimension-theory'></cite>">
+          Assuming $S$ is seperable, we define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <b>inductive dimension</b> of $S$, $\dim_\text{ind}(S)$.
           <ul>
             <li>If for all $U$ containing $p$, there is some $V$ with $p\in V\subset U$ and $\partial V = \emptyset$, then $\dim^p_\text{ind}(S)=0$.</li>
             <li>If $S$ is nonempty and has dimension 0 at each of its points, $\dim_\text{ind}(S)=0$.</li>
             <li>Only the empty set has dimension $-1$.</li>
-            <li>For $p\in S$, if $\dim^p_\text{ind}(S)\leq n$ and it is not true that $\dim^p_\text{ind}(S)\leq n-1$, then $\dim^p_\text{ind}(S)=n$.</li>
-            <li>If for all $p\in S$, $\dim^p_\text{ind}(S)\leq n$, then $\dim_\text{ind}(S)\leq n$.</li>
+            <li>$\dim^p_\text{ind}(S)\leq n$ if $p$ has arbitrarily small neighborhoods whose boundaries have dimension at most $n-1$.</li>
+            <li>$\dim_\text{ind}(S)\leq n$ if $\dim^p_\text{ind}(S)\leq n$ for each $p\in S$.</li>
+            <li>If $\dim^p_\text{ind}(S)\leq n$ and it is not true that $\dim^p_\text{ind}(S)\leq n-1$, then $\dim^p_\text{ind}(S)=n$.</li>
             <li>If $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)\leq n - 1$ is false, then $\dim_\text{ind}(S)= n$.</li>
             <li>If $\dim_\text{ind}(S)\leq n$ is false for each $n\in\N$, then $\dim_\text{ind}(S)=\infty$.</li>
           </ul>
         </definition>
 
-        <cite to="lebesgue-wiki"></cite> gives an alternate definition and also defines the large inductive dimension, denoted $\dim_\text{Ind}$.
-        <definition title="(From <cite to='lebesgue-wiki'></cite>)">
+        Equivalent to $\dim_\text{ind}\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
+
+
+        We have an alternate definition from <cite to="inductive-wiki"></cite> that includes the large inductive dimension, denoted $\dim_\text{Ind}$.
+        <definition title="Inductive dimension <cite to='inductive-wiki'></cite>">
           Let $\dim_\text{ind}(\emptyset)=\dim_\text{Ind}(\emptyset)=-1.$
           <ul>
             <li>$\dim_\text{ind}(S)$ is the smallest $n$ such that, for every $x\in S$ and every open set $U$ containing $x$, there is an open set $V$ containing $x$, such that $\overline{V}\subseteq U$, and $\dim_\text{ind}(\partial V)\leq n - 1$.
@@ -621,12 +566,10 @@
           </ul>
         </definition>
 
+        Cantor and Peano's work motivated a search for a proof that Euclidean $n_0$-space and $n_1$-space are homeomorphic if and only if $n_0=n_1$. J. Luroth settled the case of $n_0\leq 3$ and $n_1>n_0$ in 1906, but the proof did not include any simple property of the spaces that would guarantee the non-existence of a homeomorphism between them. Brouwer's proof in 1911, which introduced a topologically-invarient and integer-valued function on topological spaces, did just that, and was therefore more impactful. Lesbegue had a different approach to define a dimension function that would be topologically invarient, and gave a conjecture on how it can be used to distinguish Euclidean spaces; Brouwer proved the conjecture in 1913. We will see that Lesbegue's idea is useful. The following three defintions come from <cite to="lebesgue-wiki"></cite>.
 
-
-        <subsection>Lebesgue Covering Dimension (From <cite to="lebesgue-wiki"></cite>)</subsection>
-
-        Suppose that $C$ is a cover of $S$.
-        <definition>
+        Suppose that $C$ is a cover of $S$. If $p\in S$, then we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$.
+        <definition title="The order of a cover">
           The <b>order</b> of $C$ (if it exists) is the smallest $n\in\N$ for which all points of $S$ lie in at most $n$ sets in $C$:
           $$\Ord_S(C)=\min\{n\in\N\mid \forall p\in S, M_C(p)\leq n\}.$$
         </definition>
@@ -634,22 +577,70 @@
         Alternatively, if we decide to understand that the "maximum" of an unbounded subset of $\N$ is $\infty$, then we have
         $$\Ord_S(C)=\sup M_C(S)=\max\{M_C(p)\mid p\in S\}.$$
 
-        <definition>
+        <definition title="A refinement of a cover">
           A <b>refinement</b> of $C$ is an open cover $D$ of $X$ so that every element of $D$ is a subset of an element of $C$.
         </definition>
 
-        <definition>
+        We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
+
+        <definition title="Lesbegue Covering dimension">
           The <b>covering dimmension</b> of $S$ is the minimum value of $n$ such that every open cover $C$ of $S$ has an open refinement with order $n+1$ or less. If no minimum exists, $S$ has infinite dimension:
           $$\dim_{LCD}(S) = \min\{n\in\N\mid \forall C\in\O(S), \exists D\in\Ref_S(C),\Ord_S(D)\leq n+1\}.$$
         </definition>
 
-        In other words, the covering dimension of $S$ is $n$ if and only if
+        In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
         <ol>
           <li>every open cover of $S$ has a refinement with order $n+1$ or less, and</li>
           <li>there is some open cover with no refinment of order $n$ or less;
             <ul><li style="list-style-type:none">$\Leftarrow$ there is no open cover of order $n$ or less.
           </li>
         </ol>
+
+
+        <subsection>Formulations of Fractal Dimension</subsection>
+
+        Russell mentions fractional dimension in an 1897 footnote while referencing Delboeuf, but nothing more has been uncovered in Delbeouf's work. The history of Fractal dimension comes mostly just from Hausdorff.
+
+        While the cocepts of topological dimension are <em>topological</em> in nature, the concepts of Fractal dimension are <em>metrical</em> in nature.
+
+
+        <definition title="$q$-dimensional Measure <cite to='dimension-theory'></cite>">
+          For $q\geq 0$, the <b>$q$-dimensional measure</b> of $S$ is
+          $$m_q(S)=\sup_{\e>0} m^\e_q(S),$$
+          where
+          $$m_q^\e(S) = \inf\left\{\sum_{i=1}^\infty \diam(A_i)^q\mid C=\{A_1,\dots\}\in\O(S),\forall A_i\in C, \diam(A_i)<\e\right\}$$
+        </definition>
+
+
+        <definition title="Hausdorff Dimension">
+          The <b>Hausdorff dimension</b> of $S$ is defined by
+          $$\dim_\text{Haus}=\sup\{q\in\R \mid m_q(S)>0\}.$$
+        </definition>
+
+
+
+        Alternatively (from <cite to="hausdorff-wiki"></cite>), <span style="color: red">(check that these are actually equivalent)</span> we can let
+        $$ \mathcal{H}^{q}(S)=\lim_{\e \to 0} \inf \left\{\sum_{i} r_{i}^{q}\mid \text { there is a cover of } S \text { by balls with radii } 0 < r_{i} < \e\right\},$$
+        and define the <b>Hausdorff dimension</b> of $S$ by
+          $$\dim_\text{Haus}(S)=\inf \left\{q \geq 0\mid \mathcal{H}^{d}(S)=0\right\}.$$
+        Furthermore, if we let $Q=\{q\geq 0 \mid \mathcal{H}^q(S)=\infty\}$, then
+          $$\dim_\text{Haus}(S)=\begin{cases} 0 & |Q|=0\\ \sup Q & \text{otherwise}.\end{cases}$$
+
+        If $I$ is countable and $S=\bigcup_{i\in I} S_i$, then
+        $$\dim_\text{Haus}(S)=\sup_{i\in I}\dim_\text{Haus}(S_i).$$
+
+        If $X$ and $Y$ are non-empty metric spaces, then
+        $$\dim_\text{Haus}(X\times Y)\geq \dim_\text{Haus}(X)+\dim_\text{Haus}(Y).$$
+
+
+        A related dimension makes some calculations easier. Define $N_\e(S)$ to be the number of boxes of side length $\e$ required to cover $S$.
+
+        <definition title="Cantor-Minkowski-Bouligand (Box-Counting) Dimension <cite to='box-counting-wiki'></cite>">
+          The box-counting dimension of $S$ is defined to be the limit
+          $$\dim_\text{box}(S)=\lim_{\e\to\infty}\frac{\log N_\e(S)}{\log(1/\e)}.$$
+          If the above limit does not exist, one may still take the limit superior and limit inferior, which respectively define the <b>upper box dimension</b> and <b>lower box dimension</b>, denoted $\dim_\text{upperbox}$ and $\dim_\text{lowerbox}$.
+        </definition>
+
 
 
         <subsection>Connections Between Dimensions</subsection>
@@ -667,7 +658,7 @@
             <td style="background-color:grey"></td>
             <td>$$\dim_\text{Haus}\leq \dim_\text{lowerbox}\leq \dim_\text{upperbox}.$$ It is possible that both inequalities are strict. <cite to="box-counting-wiki"></cite></td>
             <td>If $S$ is non-empty, then $\dim_\text{Haus}(S) \geq \dim_\text{ind}(S)$. Moreover,
-            $$\inf_{R\cong S} \dim_\text{Haus}(R) = \dim_\text{ind}(S).$$ <cite to="hausdorff-wiki"></cite></td>
+            $$\inf_{R\cong S} \dim_\text{Haus}(R) = \dim_\text{ind}(S).$$ <cite to="dimension-theory"></cite></td>
             <td></td>
           </tr>
           <tr>
@@ -700,6 +691,13 @@
         </table>
 
 
+        In our case of linear IFS, we consider $X=\R^2$, which is seperable, metrizable, and Hausdorff. Since the fixed points $S$ of our Hutchinson operators are compact and non-empty, we have
+        $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S)$$
+
+
+
+
+
 
 
 
@@ -716,6 +714,7 @@
           <item id="inductive-wiki"><a href="https://en.wikipedia.org/wiki/Inductive_dimension" class="highlight">Inductive dimension on Wikipedia</a></item>
           <item id="dimension-theory">Witold Hurewicz and Henry Wallman. <em>Dimension Theory.</em> 1941.</item>
           <item id="mandelbrot">Benoit Mandelbrot. <em>The Fractal Geometry of Nature.</em> W. H. Freeman and Company, New York, 1977.</item>
+          <item id="hausdorff-paper">Dierk Schleicher. <em>Hausdorff Dmension, Its Properties, and Its Surprises</em>. The Mathematical Association of America (Monthly 114), 2007. <a class="highlight" href="http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf">http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf</a></item>
         </references>
       </div>
     </div>
