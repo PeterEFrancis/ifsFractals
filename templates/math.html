@@ -531,29 +531,29 @@
 
         To start, we develop some theory of different formulations for dimension, and then restrict oursleves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ is a subset of $X$.
 
-        The two types of dimension that we will discuss are topological dimensions (which, as the name would suggest, are topological invarients), and fractal dimensions (which are not necessarily invarient under homeomorphisms). Mandelbrot's definition of <em>fractal</em> comes from comparing the Hausdorf-Besicovitch, and the Lesbesgue Covering (what Mandelbrot calls "topological") dimension. These two sets of dimension definitions hold interesting memebrs, and we will explore the important ones, primarily Hausdorf-Besicovitch, and Lesbesgue Covering dimension. The later is always an integer, while the former is often not. It might be tempting to declare fractals to only be those set with non-integer Lesbegue Covering dimension, but there are examples of fractals that have integer (but different!) Hausdorff-Besicovitch and Lesbegue Covering dimensions (see <cite to="mandelbrot"></cite>).
+        The two types of dimension that we will discuss are topological dimensions (which are topological invariants), and fractal dimensions (which are not necessarily invariant under homeomorphisms). These two sets of dimension definitions hold interesting memebrs, and we will explore the important ones, primarily Hausdorf-Besicovitch, and Lesbesgue Covering dimension, which Mandelbrot uses in his definition. The later is always an integer, while the former is often not. It might be tempting to declare fractals to only be those set with non-integer Lesbegue Covering dimension, but there are examples of fractals that have integer (but different!) Hausdorff-Besicovitch and Lesbegue Covering dimensions (see <cite to="mandelbrot"></cite>).
 
         A history of the two categories of dimension can be helpful; a more detailed version is given in <cite to="mandelbrot"></cite>.
 
         <subsection>Formulations of Topological Dimension</subsection>
 
-        Among the notable figures that appear in the story of the creation of topological dimension are Euclid, Reimann, Cantor, Peano, Hermite, Poincaré, Brouwer, Menger, Urysohn, and Lesbegue. Before Cantor and Peano's work on mappings between lines and surfaces, the subject of dimension recieved little attention, although many pointed out that the concept was not well enough understood. Hermite detested Cantor's work, calling it "vertibale torure" and was surprised that Poincaré took interest in it. These mappings showed that dimension was not a simple as commonly accepted definition, "the minimum number of continuous real parameters needed to describe a space." Poincaré suggested an intuitive and pragmatic approach. Brouwer formalized Poincaré's work in 1913, and in 1922 Menger and Urysohn independently (without knowledge of Brouwer or each other) recreated and improved upon Brouwer's work; their "Inductive" dimension remains to be widly used today.
+        Among the notable figures that appear in the story of the creation of topological dimension are Euclid, Reimann, Cantor, Peano, Hermite, Poincaré, Brouwer, Menger, Urysohn, and Lesbegue. Before Cantor and Peano's work on mappings between lines and surfaces, the subject of dimension recieved little attention, although many pointed out that the concept was not well enough understood. Hermite detested Cantor's work, calling it "vertibale torure" and was surprised that Poincaré took interest in it. These mappings showed that dimension was not a simple as commonly accepted definition, "the minimum number of continuous real parameters needed to describe a space." Poincaré suggested an intuitive and pragmatic approach. Brouwer formalized Poincaré's work in 1913, and in 1922 Menger and Urysohn independently (without knowledge of Brouwer or each other) recreated and improved upon Brouwer's work; their "Inductive" dimension remains to be widely used today.
 
         <definition title="Menger-Urysohn (Inductive) Dimension <cite to='dimension-theory'></cite>">
-          Assuming $S$ is seperable, we define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <b>inductive dimension</b> of $S$, $\dim_\text{ind}(S)$.
-          <ul>
-            <li>If for all $U$ containing $p$, there is some $V$ with $p\in V\subset U$ and $\partial V = \emptyset$, then $\dim^p_\text{ind}(S)=0$.</li>
-            <li>If $S$ is nonempty and has dimension 0 at each of its points, $\dim_\text{ind}(S)=0$.</li>
-            <li>Only the empty set has dimension $-1$.</li>
-            <li>$\dim^p_\text{ind}(S)\leq n$ if $p$ has arbitrarily small neighborhoods whose boundaries have dimension at most $n-1$.</li>
+          Assuming $S$ is separable, we define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <b>inductive dimension</b> of $S$, $\dim_\text{ind}(S)$.
+          <ol>
+            <li>$\dim_\text{ind}(S)=-1$ if and only if $S=\emptyset$.</li>
+            <li>$\dim^p_\text{ind}(S)=0$ if for all open $U\ni p$, there is some open $V$ with $p\in V\subset U$ and $\partial V = \emptyset$.</li>
+            <li>$\dim_\text{ind}(S)=0$ if $S\neq\emptyset$ and $\dim^p_\text{ind}(S)=0$ for all $p\in S$.</li>
+            <li>$\dim^p_\text{ind}(S)\leq n$ if for all open $U\ni p$, there is some open $V$ with $p\in V\subseteq U$, for which $\dim_\text{ind}(\partial V)\leq n - 1$.</li>
             <li>$\dim_\text{ind}(S)\leq n$ if $\dim^p_\text{ind}(S)\leq n$ for each $p\in S$.</li>
-            <li>If $\dim^p_\text{ind}(S)\leq n$ and it is not true that $\dim^p_\text{ind}(S)\leq n-1$, then $\dim^p_\text{ind}(S)=n$.</li>
-            <li>If $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)\leq n - 1$ is false, then $\dim_\text{ind}(S)= n$.</li>
-            <li>If $\dim_\text{ind}(S)\leq n$ is false for each $n\in\N$, then $\dim_\text{ind}(S)=\infty$.</li>
-          </ul>
+            <li>$\dim^p_\text{ind}(S)=n$ if $\dim^p_\text{ind}(S)\leq n$ and $\dim^p_\text{ind}(S)\leq n-1$ is false.</li>
+            <li>$\dim_\text{ind}(S)= n$ if $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)\leq n - 1$ is false.</li>
+            <li>$\dim_\text{ind}(S)=\infty$ if $\dim_\text{ind}(S)\leq n$ is false for each $n\in\N$.</li>
+          </ol>
         </definition>
 
-        Equivalent to $\dim_\text{ind}\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
+        Equivalent to $\dim_\text{ind}(S)\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
 
 
         We have an alternate definition from <cite to="inductive-wiki"></cite> that includes the large inductive dimension, denoted $\dim_\text{Ind}$.
@@ -566,7 +566,7 @@
           </ul>
         </definition>
 
-        Cantor and Peano's work motivated a search for a proof that Euclidean $n_0$-space and $n_1$-space are homeomorphic if and only if $n_0=n_1$. J. Luroth settled the case of $n_0\leq 3$ and $n_1>n_0$ in 1906, but the proof did not include any simple property of the spaces that would guarantee the non-existence of a homeomorphism between them. Brouwer's proof in 1911, which introduced a topologically-invarient and integer-valued function on topological spaces, did just that, and was therefore more impactful. Lesbegue had a different approach to define a dimension function that would be topologically invarient, and gave a conjecture on how it can be used to distinguish Euclidean spaces; Brouwer proved the conjecture in 1913. We will see that Lesbegue's idea is useful. The following three defintions come from <cite to="lebesgue-wiki"></cite>.
+        Cantor and Peano's work motivated a search for a proof that Euclidean $n_0$-space and $n_1$-space are homeomorphic if and only if $n_0=n_1$. J. Luroth settled the case of $n_0\leq 3$ and $n_1>n_0$ in 1906, but the proof did not include any simple property of the spaces that would guarantee the non-existence of a homeomorphism between them. Brouwer's proof in 1911, which introduced a topologically-invariant and integer-valued function on topological spaces, did just that, and was therefore more impactful. Lesbegue had a different approach to define a dimension function that would be topologically invariant, and gave a conjecture on how it can be used to distinguish Euclidean spaces; Brouwer proved the conjecture in 1913. We will see that Lesbegue's idea is useful. The following three defintions come from <cite to="lebesgue-wiki"></cite>.
 
         Suppose that $C$ is a cover of $S$. If $p\in S$, then we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$.
         <definition title="The order of a cover">
@@ -584,7 +584,7 @@
         We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
 
         <definition title="Lesbegue Covering dimension">
-          The <b>covering dimmension</b> of $S$ is the minimum value of $n$ such that every open cover $C$ of $S$ has an open refinement with order $n+1$ or less. If no minimum exists, $S$ has infinite dimension:
+          The <b>covering dimension</b> of $S$ is the minimum value of $n$ such that every open cover $C$ of $S$ has an open refinement with order $n+1$ or less. If no minimum exists, $S$ has infinite dimension:
           $$\dim_{LCD}(S) = \min\{n\in\N\mid \forall C\in\O(S), \exists D\in\Ref_S(C),\Ord_S(D)\leq n+1\}.$$
         </definition>
 
@@ -601,14 +601,14 @@
 
         Russell mentions fractional dimension in an 1897 footnote while referencing Delboeuf, but nothing more has been uncovered in Delbeouf's work. The history of Fractal dimension comes mostly just from Hausdorff.
 
-        While the cocepts of topological dimension are <em>topological</em> in nature, the concepts of Fractal dimension are <em>metrical</em> in nature.
+        While the concepts of topological dimension are <em>topological</em> in nature, the concepts of Fractal dimension are <em>metric</em> in nature.
 
 
         <definition title="$q$-dimensional Measure <cite to='dimension-theory'></cite>">
           For $q\geq 0$, the <b>$q$-dimensional measure</b> of $S$ is
-          $$m_q(S)=\sup_{\e>0} m^\e_q(S),$$
+          $$m_q(S)=\sup\{m^\e_q(S)\mid \e>0\},$$
           where
-          $$m_q^\e(S) = \inf\left\{\sum_{i=1}^\infty \diam(A_i)^q\mid C=\{A_1,\dots\}\in\O(S),\forall A_i\in C, \diam(A_i)<\e\right\}$$
+          $$m_q^\e(S) = \inf\left\{\sum_{i=1}^\infty \diam(A_i)^q\mid C=\{A_1,\dots\}\subseteq P(S), \bigcup C = S, \forall A_i\in C, \diam(A_i)<\e\right\}$$
         </definition>
 
 
@@ -691,7 +691,7 @@
         </table>
 
 
-        In our case of linear IFS, we consider $X=\R^2$, which is seperable, metrizable, and Hausdorff. Since the fixed points $S$ of our Hutchinson operators are compact and non-empty, we have
+        In our case of linear IFS, we consider $X=\R^2$, which is invariant, metrizable, and Hausdorff. Since the fixed points $S$ of our Hutchinson operators are compact and non-empty, we have
         $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S)$$
 
 
