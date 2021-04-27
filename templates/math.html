@@ -527,7 +527,7 @@
 
         <section>Dimension</section>
 
-        Now we will return to Mandelbrot's definition of fractals, and square it with our work on iterated function systems. It should be noted that Mandelbrot himself was not satisfied with his own definition, since it excludes some notable "fractal-like" sets, like the "Devil's Staircase".
+        Now we will return to Mandelbrot's definition of fractals, and square it with our work on iterated function systems. It should be noted that Mandelbrot himself was not satisfied with his own definition, since it excludes some notable "fractal-like" sets, like the <a href="/playground/5c07cb5f98075" class="highlight" target="_blank">Devil's Staircase</a>, which has Hausdorf-Besicovitch and Lesbesgue Covering dimension equal to 1.
 
         To start, we develop some theory of different formulations for dimension, and then restrict oursleves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ is a subset of $X$.
 
@@ -539,7 +539,7 @@
 
         Among the notable figures that appear in the story of the creation of topological dimension are Euclid, Reimann, Cantor, Peano, Hermite, Poincaré, Brouwer, Menger, Urysohn, and Lesbegue. Before Cantor and Peano's work on mappings between lines and surfaces, the subject of dimension recieved little attention, although many pointed out that the concept was not well enough understood. Hermite detested Cantor's work, calling it "vertibale torure" and was surprised that Poincaré took interest in it. These mappings showed that dimension was not a simple as commonly accepted definition, "the minimum number of continuous real parameters needed to describe a space." Poincaré suggested an intuitive and pragmatic approach. Brouwer formalized Poincaré's work in 1913, and in 1922 Menger and Urysohn independently (without knowledge of Brouwer or each other) recreated and improved upon Brouwer's work; their "Inductive" dimension remains to be widely used today.
 
-        <definition title="Menger-Urysohn (Inductive) Dimension <cite to='dimension-theory'></cite>">
+        <!-- <definition title="Menger-Urysohn (Inductive) Dimension <cite to='dimension-theory'></cite>">
           Assuming $S$ is separable, we define <b>inductive dimension at a point</b> $p$ of $S$, $\dim^p_\text{ind}(S)$, and then <b>inductive dimension</b> of $S$, $\dim_\text{ind}(S)$.
           <ol>
             <li>$\dim_\text{ind}(S)=-1$ if and only if $S=\emptyset$.</li>
@@ -551,12 +551,9 @@
             <li>$\dim_\text{ind}(S)= n$ if $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)\leq n - 1$ is false.</li>
             <li>$\dim_\text{ind}(S)=\infty$ if $\dim_\text{ind}(S)\leq n$ is false for each $n\in\N$.</li>
           </ol>
-        </definition>
+        </definition> -->
 
-        Equivalent to $\dim_\text{ind}(S)\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
-
-
-        We have an alternate definition from <cite to="inductive-wiki"></cite> that includes the large inductive dimension, denoted $\dim_\text{Ind}$.
+        <!-- We have an alternate definition from <cite to="inductive-wiki"></cite> that includes the large inductive dimension, denoted $\dim_\text{Ind}$.
         <definition title="Inductive dimension <cite to='inductive-wiki'></cite>">
           Let $\dim_\text{ind}(\emptyset)=\dim_\text{Ind}(\emptyset)=-1.$
           <ul>
@@ -564,11 +561,39 @@
             </li>
             <li>For the large inductive dimension, we restrict the choice of V still further; $\dim_\text{Ind}(S)$ is the smallest $n$ such that, for every closed subset $F$ of every open subset $U$ of $S$, there is an open $V$ in between (that is, $F$ is a subset of $V$ and the closure of $V$ is a subset of $U$), such that $\dim_\text{Ind}(\partial V)\leq n - 1$.</li>
           </ul>
+        </definition> -->
+
+        <!-- We have an alternate definitions from <cite to="engelking"></cite>. -->
+        <definition title="Small Inductive (Menger-Urysohn) dimension <cite to='engelking'></cite>">
+          Suppose $S$ is regular. We define the small inductive dimension $\dim_\text{ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
+          <ul>
+            <li>$\dim_\text{ind}(S)=-1$ if and only if $S=\emptyset$.</li>
+            <li>$\dim_\text{ind}(S)\leq n$, where $n\in\{0, 1, 2, \dots\}$, if for every point $x\in S$ and each neighborhood $V \subset S$ of the point $x$ there exists an open set $U \subset S$  such that $x\in U\subset V$ and $\dim_\text{ind}(\partial U)\leq n - 1$.</li>
+            <li>$\dim_\text{ind}(S)=n$ if $\dim_\text{ind}(S)\leq n$ and $\dim_\text{ind}(S)>n-1$, i.e., the inequality $\dim_\text{ind}(S)\leq n-1$ does not hold.</li>
+            <li>$\dim_\text{ind}(S)=\infty$ if $\dim_\text{ind}(S)>n$ for all $n\in\{-1,0,1\dots\}$.</li>
+          </ul>
         </definition>
 
-        Cantor and Peano's work motivated a search for a proof that Euclidean $n_0$-space and $n_1$-space are homeomorphic if and only if $n_0=n_1$. J. Luroth settled the case of $n_0\leq 3$ and $n_1>n_0$ in 1906, but the proof did not include any simple property of the spaces that would guarantee the non-existence of a homeomorphism between them. Brouwer's proof in 1911, which introduced a topologically-invariant and integer-valued function on topological spaces, did just that, and was therefore more impactful. Lesbegue had a different approach to define a dimension function that would be topologically invariant, and gave a conjecture on how it can be used to distinguish Euclidean spaces; Brouwer proved the conjecture in 1913. We will see that Lesbegue's idea is useful. The following three defintions come from <cite to="lebesgue-wiki"></cite>.
+        <definition title="Large Inductive (Brouwer-Čech) dimension <cite to='engelking'></cite>">
+          Suppose $S$ is $S$ is normal. We define the large inductive dimension $\dim_\text{Ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
+          <ul>
+            <li>$\dim_\text{Ind}(S)=-1$ if and only if $S=\emptyset$.</li>
+            <li>$\dim_\text{Ind}(S)\leq n$, where $n\in\{0, 1, 2, \dots\}$, if for every closed set $A\subset S$ and each open set $V\subset S$ which contains the set $A$ there exists an open set $U\subset X$ such that $A\subset U\subset V$ and $\dim_\text{Ind}(\partial U)\leq n - 1$.</li>
+            <li>$\dim_\text{Ind}(S)=n$ if $\dim_\text{Ind}(S)\leq n$ and $\dim_\text{Ind}(S)>n-1$.</li>
+            <li>$\dim_\text{ind}(S)=\infty$ if $\dim_\text{Ind}(S)>n$ for all $n\in\{-1,0,1\dots\}$.</li>
+          </ul>
+        </definition>
 
-        Suppose that $C$ is a cover of $S$. If $p\in S$, then we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$.
+        We record two result from <cite to="engelking"></cite>. If $S$ is normal, then $\dim_\text{ind}(S)\leq \dim_\text{Ind}(S)$. If $S$ is seperable and metric, then $\dim_\text{Ind}(S)=\dim_\text{ind}(S)$.
+
+
+        Equivalent to $\dim_\text{ind}(S)\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
+
+        Cantor and Peano's work motivated a search for a proof that Euclidean $n_0$-space and $n_1$-space are homeomorphic if and only if $n_0=n_1$. J. Luroth settled the case of $n_0\leq 3$ and $n_1>n_0$ in 1906, but the proof did not include any simple property of the spaces that would guarantee the non-existence of a homeomorphism between them. Brouwer's proof in 1911, which introduced a topologically-invariant and integer-valued function on topological spaces, did just that, and was therefore more impactful. Lesbegue had a different approach to define a dimension function that would be topologically invariant, and gave a conjecture on how it can be used to distinguish Euclidean spaces; Brouwer proved the conjecture in 1913. We will see that Lesbegue's idea is useful.
+
+
+        <!-- The following three defintions come from <cite to="lebesgue-wiki"></cite>.
+
         <definition title="The order of a cover">
           The <b>order</b> of $C$ (if it exists) is the smallest $n\in\N$ for which all points of $S$ lie in at most $n$ sets in $C$:
           $$\Ord_S(C)=\min\{n\in\N\mid \forall p\in S, M_C(p)\leq n\}.$$
@@ -587,12 +612,40 @@
           The <b>covering dimension</b> of $S$ is the minimum value of $n$ such that every open cover $C$ of $S$ has an open refinement with order $n+1$ or less. If no minimum exists, $S$ has infinite dimension:
           $$\dim_{LCD}(S) = \min\{n\in\N\mid \forall C\in\O(S), \exists D\in\Ref_S(C),\Ord_S(D)\leq n+1\}.$$
         </definition>
+        -->
 
-        In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
+        <definition title="The order of a cover <cite to='engelking'></cite>">
+          Let $S$ be a set and let $C$ a family of subsets of $S$. The <b>order</b> of $C$ is the largest integer $n$ such that the family $C$ contains $n+1$ sets with a non-empty intersection; if no such integer exists, we say that the family $C$ has order $\infty$.
+        </definition>
+        We'll decide to understand that the "maximum" of an unbounded subset of $\N$ is $\infty$. Notationally, if we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$, then
+        \begin{align*}
+          \Ord_S(C) & = \max \{n \in \N \mid \exists U_1,\dots, U_{n+1}\in C, \bigcap U_i \neq \emptyset\} \\
+                    & = \max \{n \in \N \mid \exists p\in S, M_C(p) \geq n + 1\} \\
+                    & = \max \{M_C(p) \mid p\in S\}.
+        \end{align*}
+
+        <definition title="A refinement of a cover <cite to='engelking'></cite>">
+          If $C$ is a cover of $S$, then a <b>refinement</b> of $C$ is an open cover $D$ of $S$ so that every element of $D$ is a subset of an element of $C$.
+        </definition>
+
+        We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
+
+        <definition title="Čech-Lesbegue Covering dimension <cite to='engelking'></cite>">
+          Suppose $S$ is $S$ is normal. We define the large inductive dimension $\dim_\text{Ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
+          <ul>
+            <li>$\dim_{LCD}(S)\leq n$, where $n\in\{-1,0,1,\dots\}$, if for every finite open cover of the space $S$ has a finite open refinement of order at most $n$.</li>
+            <li>$\dim_\text{LCD}(S)=n$ if $\dim_\text{LCD}(S)\leq n$ and $\dim_\text{LCD}(S)>n-1$.</li>
+            <li>$\dim_\text{LCD}(S)=\infty$ if $\dim_\text{LCD}(S)>n$ for all $n\in\{-1,0,1\dots\}$.</li>
+          </ul>
+        </definition>
+        <!-- Notationally,
+        $$\dim_{LCD}(S) = \min\{n\in\N\mid \forall C\in\O(S), \exists D\in\Ref_S(C),\Ord_S(D)\leq n+1\}.$$ -->
+
+        <span style="color: red">Check</span> In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
         <ol>
           <li>every open cover of $S$ has a refinement with order $n+1$ or less, and</li>
           <li>there is some open cover with no refinment of order $n$ or less;
-            <ul><li style="list-style-type:none">$\Leftarrow$ there is no open cover of order $n$ or less.
+            <ul><li>Sufficiently, there is no open cover of order $n$ or less.</li></ul>
           </li>
         </ol>
 
@@ -612,14 +665,14 @@
         </definition>
 
 
-        <definition title="Hausdorff Dimension">
+        <definition title="Hausdorff Dimension <cite to='dimension-theory'></cite>">
           The <b>Hausdorff dimension</b> of $S$ is defined by
           $$\dim_\text{Haus}=\sup\{q\in\R \mid m_q(S)>0\}.$$
         </definition>
 
 
 
-        Alternatively (from <cite to="hausdorff-wiki"></cite>), <span style="color: red">(check that these are actually equivalent)</span> we can let
+        <!-- Alternatively (from <cite to="hausdorff-wiki"></cite>), <span style="color: red">(check that these are actually equivalent)</span> we can let
         $$ \mathcal{H}^{q}(S)=\lim_{\e \to 0} \inf \left\{\sum_{i} r_{i}^{q}\mid \text { there is a cover of } S \text { by balls with radii } 0 < r_{i} < \e\right\},$$
         and define the <b>Hausdorff dimension</b> of $S$ by
           $$\dim_\text{Haus}(S)=\inf \left\{q \geq 0\mid \mathcal{H}^{d}(S)=0\right\}.$$
@@ -630,17 +683,26 @@
         $$\dim_\text{Haus}(S)=\sup_{i\in I}\dim_\text{Haus}(S_i).$$
 
         If $X$ and $Y$ are non-empty metric spaces, then
-        $$\dim_\text{Haus}(X\times Y)\geq \dim_\text{Haus}(X)+\dim_\text{Haus}(Y).$$
+        $$\dim_\text{Haus}(X\times Y)\geq \dim_\text{Haus}(X)+\dim_\text{Haus}(Y).$$ -->
 
 
-        A related dimension makes some calculations easier. Define $N_\e(S)$ to be the number of boxes of side length $\e$ required to cover $S$.
+        Related dimensions makes some calculations easier.
 
-        <definition title="Cantor-Minkowski-Bouligand (Box-Counting) Dimension <cite to='box-counting-wiki'></cite>">
-          The box-counting dimension of $S$ is defined to be the limit
-          $$\dim_\text{box}(S)=\lim_{\e\to\infty}\frac{\log N_\e(S)}{\log(1/\e)}.$$
-          If the above limit does not exist, one may still take the limit superior and limit inferior, which respectively define the <b>upper box dimension</b> and <b>lower box dimension</b>, denoted $\dim_\text{upperbox}$ and $\dim_\text{lowerbox}$.
+        <definition title="Self Similarity dimension <cite to='hausdorff-paper'></cite>">
+          If $S\subset \R^n$ can be divided into some finite number $N(r)$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $X$ by a linear factor $r$. Then the <b>self-similarity</b> dimension of $S$ is
+          $$\dim_\text{sim}(S) = \frac{\log(N(r))}{\log(1/r)}.$$
         </definition>
 
+
+
+        Suppose we partition $\R^n$ with a grid of boxes with side length $\e$. Define $N_\e(S)$ to be the number of boxes that intersect $S$.
+
+        <definition title="Box-Counting Dimension <cite to='hausdorff-paper'></cite>">
+          The box-counting dimension of $S$ is defined to be the limit
+          $$\dim_\text{box}(S)=\lim_{\e\to 0}\frac{\log (N_\e(S))}{\log(1/\e)}.$$
+        </definition>
+        <!-- If the above limit does not exist, one may still take the limit superior and limit inferior, which respectively define the <b>upper box dimension</b> and <b>lower box dimension</b>, denoted $\dim_\text{upperbox}$ and $\dim_\text{lowerbox}$. -->
+        <span style="color: red">Box counting dimension is sometimes refered to as Cantor-Minkowski-Bouligand dimension.</span>
 
 
         <subsection>Connections Between Dimensions</subsection>
@@ -673,12 +735,17 @@
             <td style="background-color:grey"></td>
             <td style="background-color:grey"></td>
             <td style="background-color:grey"></td>
-            <td>$$\dim_\text{LCD}(S)=0 \iff \dim_\text{Ind}(S)=0.$$ When $S$ is normal with a countable base,
-              $$\dim_\text{LCD}(S)=\dim_\text{Ind}(S)=\dim_\text{ind}(S).$$
-            The Nöbeling–Pontryagin theorem then states that such spaces with finite dimension are characterised up to homeomorphism as the subspaces of the Euclidean spaces. If $S$ is metrizable,
-            $$\dim_\text{ind}(S)\leq\dim_\text{Ind}(S)=\dim_\text{LCD}(S).$$
-            If $S$ is compact and Hausdorff,
-            $$\dim_\text{LCD}(S)\leq\dim_\text{ind}(S)\leq\dim_\text{Ind}(S).$$ Either inequality here may be strict; an example of Vladimir V. Filippov shows that the two inductive dimensions may differ. <cite to="inductive-wiki"></cite>
+            <td>
+              From <cite to="engelking"></cite>: <span style="color: red">Find source for when inequality can be strict.</span>
+              <ul>
+                <li>If $S$ is normal, then $\dim_\text{LCD}(S)=0$ and $\dim_\text{Ind}(S)=0$ are equivalent.</li>
+                <!-- <li>If $S$ is a seperable metric space, then $$\dim_\text{LCD}(S)\leq \dim_\text{ind}(S) \leq \dim_\text{Ind}(S)$$.</li> -->
+                <li>If $S$ is a compact metric space, then $$\dim_\text{ind}(S) \leq \dim_\text{LCD}(S)$$.</li>
+                <li>If $S$ is seperable metric space, then $$\dim_\text{LCD}(S) = \dim_\text{ind}(S) = \dim_\text{Ind}(S).$$</li>
+              </ul>
+
+            <span style="color: red"> When $S$ is normal with a countable base,
+            $$\dim_\text{LCD}(S)=\dim_\text{Ind}(S)=\dim_\text{ind}(S).$$ The Nöbeling–Pontryagin theorem then states that such spaces with finite dimension are characterised up to homeomorphism as the subspaces of the Euclidean spaces.</span>
           </td>
           </tr>
           <tr>
@@ -690,9 +757,8 @@
           </tr>
         </table>
 
-
-        In our case of linear IFS, we consider $X=\R^2$, which is invariant, metrizable, and Hausdorff. Since the fixed points $S$ of our Hutchinson operators are compact and non-empty, we have
-        $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S)$$
+        In our case of linear IFS, we consider $X=\R^2$, which is a seperable metric space. Since the fixed points $S$ of our Hutchinson operators are non-empty, we have
+        $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S).$$
 
 
 
@@ -708,10 +774,11 @@
           <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
           <item id="fractals-for-the-classroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
           <item id="monkey">Richard E. Isaac, <em>The Pleasures of Probability</em>, Springer 1995.</item>
-          <item id="hausdorff-wiki"><a href="https://en.wikipedia.org/wiki/Hausdorff_dimension" class="highlight">Hausdorff Dimension on Wikipedia</a></item>
-          <item id="box-counting-wiki"><a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension" class="highlight">Box-counting dimension on Wikipedia</a></item>
-          <item id="lebesgue-wiki"><a href="https://en.wikipedia.org/wiki/Lebesgue_covering_dimension" class="highlight">Lebesgue covering dimension on Wikipedia</a></item>
-          <item id="inductive-wiki"><a href="https://en.wikipedia.org/wiki/Inductive_dimension" class="highlight">Inductive dimension on Wikipedia</a></item>
+          <item id="engelking">Ryszard Engelking, <em>Theory of Dimensions Finite and Infinite</em>, </item>
+          <!-- <item id="hausdorff-wiki"><a href="https://en.wikipedia.org/wiki/Hausdorff_dimension" class="highlight">Hausdorff Dimension on Wikipedia</a></item> -->
+          <!-- <item id="box-counting-wiki"><a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension" class="highlight">Box-counting dimension on Wikipedia</a></item> -->
+          <!-- <item id="lebesgue-wiki"><a href="https://en.wikipedia.org/wiki/Lebesgue_covering_dimension" class="highlight">Lebesgue covering dimension on Wikipedia</a></item> -->
+          <!-- <item id="inductive-wiki"><a href="https://en.wikipedia.org/wiki/Inductive_dimension" class="highlight">Inductive dimension on Wikipedia</a></item> -->
           <item id="dimension-theory">Witold Hurewicz and Henry Wallman. <em>Dimension Theory.</em> 1941.</item>
           <item id="mandelbrot">Benoit Mandelbrot. <em>The Fractal Geometry of Nature.</em> W. H. Freeman and Company, New York, 1977.</item>
           <item id="hausdorff-paper">Dierk Schleicher. <em>Hausdorff Dmension, Its Properties, and Its Surprises</em>. The Mathematical Association of America (Monthly 114), 2007. <a class="highlight" href="http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf">http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf</a></item>

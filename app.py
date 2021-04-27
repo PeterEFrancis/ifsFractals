@@ -292,7 +292,8 @@ def comb():
 
 @app.route('/dimension')
 def dimension():
-    return render_template('dimension.html', navbar=get_navbar())
+    return redirect('/math')
+    # return render_template('dimension.html', navbar=get_navbar())
 
 
 
