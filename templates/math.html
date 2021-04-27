@@ -584,7 +584,7 @@
           </ul>
         </definition>
 
-        We record two result from <cite to="engelking"></cite>. If $S$ is normal, then $\dim_\text{ind}(S)\leq \dim_\text{Ind}(S)$. If $S$ is seperable and metric, then $\dim_\text{Ind}(S)=\dim_\text{ind}(S)$.
+        We record two results from <cite to="engelking"></cite>. If $S$ is normal, then $\dim_\text{ind}(S)\leq \dim_\text{Ind}(S)$. If $S$ is seperable and metric, then $\dim_\text{Ind}(S)=\dim_\text{ind}(S)$.
 
 
         Equivalent to $\dim_\text{ind}(S)\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
@@ -615,13 +615,13 @@
         -->
 
         <definition title="The order of a cover <cite to='engelking'></cite>">
-          Let $S$ be a set and let $C$ a family of subsets of $S$. The <b>order</b> of $C$ is the largest integer $n$ such that the family $C$ contains $n+1$ sets with a non-empty intersection; if no such integer exists, we say that the family $C$ has order $\infty$.
+          Let $S$ be a set and let $C$ be a cover of $S$. The <b>order</b> of $C$ is the largest integer $n$ such that the family $C$ contains $n+1$ sets with a non-empty intersection; if no such integer exists, we say that the family $C$ has order $\infty$.
         </definition>
         We'll decide to understand that the "maximum" of an unbounded subset of $\N$ is $\infty$. Notationally, if we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$, then
         \begin{align*}
           \Ord_S(C) & = \max \{n \in \N \mid \exists U_1,\dots, U_{n+1}\in C, \bigcap U_i \neq \emptyset\} \\
-                    & = \max \{n \in \N \mid \exists p\in S, M_C(p) \geq n + 1\} \\
-                    & = \max \{M_C(p) \mid p\in S\}.
+                    & = \max \{n \in \N \mid \exists p\in S, M_C(p) > n\} \\
+                    & = \max \{M_C(p) \mid p\in S\} - 1.
         \end{align*}
 
         <definition title="A refinement of a cover <cite to='engelking'></cite>">
@@ -631,11 +631,11 @@
         We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
 
         <definition title="Čech-Lesbegue Covering dimension <cite to='engelking'></cite>">
-          Suppose $S$ is $S$ is normal. We define the large inductive dimension $\dim_\text{Ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
+          Suppose $S$ is normal. We define the large inductive dimension $\dim_\text{Ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
           <ul>
             <li>$\dim_{LCD}(S)\leq n$, where $n\in\{-1,0,1,\dots\}$, if for every finite open cover of the space $S$ has a finite open refinement of order at most $n$.</li>
             <li>$\dim_\text{LCD}(S)=n$ if $\dim_\text{LCD}(S)\leq n$ and $\dim_\text{LCD}(S)>n-1$.</li>
-            <li>$\dim_\text{LCD}(S)=\infty$ if $\dim_\text{LCD}(S)>n$ for all $n\in\{-1,0,1\dots\}$.</li>
+            <li>$\dim_\text{LCD}(S)=\infty$ if $\dim_\text{LCD}(S)>n$ for all $n\in\{-1,0,1,\dots\}$.</li>
           </ul>
         </definition>
         <!-- Notationally,
@@ -643,9 +643,9 @@
 
         <span style="color: red">Check</span> In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
         <ol>
-          <li>every open cover of $S$ has a refinement with order $n+1$ or less, and</li>
-          <li>there is some open cover with no refinment of order $n$ or less;
-            <ul><li>Sufficiently, there is no open cover of order $n$ or less.</li></ul>
+          <li>every open cover of $S$ has a refinement with order $n$ or less, and</li>
+          <li>there is some open cover with no refinment of order $n - 1$ or less;
+            <ul><li>Sufficiently, there is no open cover of order $n - 1$ or less.</li></ul>
           </li>
         </ol>
 
@@ -774,7 +774,7 @@
           <item id="BBK">Benjamin B. Kennedy, <em>Introduction to Real Analysis</em>, Gettysburg College 2018.</item>
           <item id="fractals-for-the-classroom">Evan Maletsky, Terry Perciante, and Lee Yunker, <em>Fractals for the Classroom, Part 1: Introduction to Fractals and Chaos</em>, 1992.</item>
           <item id="monkey">Richard E. Isaac, <em>The Pleasures of Probability</em>, Springer 1995.</item>
-          <item id="engelking">Ryszard Engelking, <em>Theory of Dimensions Finite and Infinite</em>, </item>
+          <item id="engelking">Ryszard Engelking, <em>Dimension Theorey</em>, North-Holland Publishing Company, 1978.</item>
           <!-- <item id="hausdorff-wiki"><a href="https://en.wikipedia.org/wiki/Hausdorff_dimension" class="highlight">Hausdorff Dimension on Wikipedia</a></item> -->
           <!-- <item id="box-counting-wiki"><a href="https://en.wikipedia.org/wiki/Minkowski%E2%80%93Bouligand_dimension" class="highlight">Box-counting dimension on Wikipedia</a></item> -->
           <!-- <item id="lebesgue-wiki"><a href="https://en.wikipedia.org/wiki/Lebesgue_covering_dimension" class="highlight">Lebesgue covering dimension on Wikipedia</a></item> -->
