@@ -114,6 +114,10 @@
       outline: 0px;
     }
 
+    .trans-td {
+      font-family: monospace;
+    }
+
   </style>
 </head>
 <body>
@@ -142,7 +146,7 @@
       Examples:
       <a href="\playground\barnsley">Barnsley Fern</a> &middot;
       <a href="\playground\serpinski">Serpinski Triangle</a> &middot;
-      <a href="\playground\vonkoch">Von Koch Cruve</a> &middot;
+      <a href="\playground\vonkoch">Von Koch Curve</a> &middot;
       <a href="\playground\dragon">Dragon</a> &middot;
       <a href="\playground\crab">Crab</a> &middot;
       <a href="\playground\tree">Tree</a>
@@ -214,45 +218,47 @@
               <h4 class="modal-title">Transformations and Weights</h4>
             </div>
             <div class="modal-body">
-                <table class="table">
+              <h5>Built-in Transformations</h5>
+                <table class="table" id="trans-table">
                   <tr>
-                    <th colspan="2">Built-in Transformations</th>
+                    <th style="width: 30%">Command</th>
+                    <th>Mapping</th>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">Scale(s)</span></td>
-                    <td>\((x,y)\to(sx,sy)\)</td>
+                    <td><span class="trans-td">Scale(s)</span></td>
+                    <td>\((x,y)\mapsto(sx,sy)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">XScale(s)</span></td>
-                    <td> \((x,y)\to(sx,y)\)</td>
+                    <td><span class="trans-td">XScale(s)</span></td>
+                    <td> \((x,y)\mapsto(sx,y)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">YScale(s)</span></td>
-                    <td> \((x,y)\to(x,sy)\)</td>
+                    <td><span class="trans-td">YScale(s)</span></td>
+                    <td> \((x,y)\mapsto(x,sy)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">XYScale(s,t)</span></td>
-                    <td> \((x,y)\to(sx,ty)\)</td>
+                    <td><span class="trans-td">XYScale(s,t)</span></td>
+                    <td> \((x,y)\mapsto(sx,ty)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">Translate(h,k)</span></td>
-                    <td> \((x,y)\to(x+h,y+k)\)</td>
+                    <td><span class="trans-td">Translate(h,k)</span></td>
+                    <td> \((x,y)\mapsto(x+h,y+k)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">Rotate(theta)</span></td>
-                    <td> \((x,y)\to(x\cos\theta-y\sin\theta, x\sin\theta+y\cos\theta)\)</td>
+                    <td><span class="trans-td">Rotate(theta)</span></td>
+                    <td> \((x,y)\mapsto(x\cos\theta-y\sin\theta, x\sin\theta+y\cos\theta)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">XShear(t)</span></td>
-                    <td> \((x,y)\to(x+ty,y)\)</td>
+                    <td><span class="trans-td">XShear(t)</span></td>
+                    <td> \((x,y)\mapsto(x+ty,y)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">YShear(t)</span></td>
-                    <td> \((x,y)\to(x,xt+y)\)</td>
+                    <td><span class="trans-td">YShear(t)</span></td>
+                    <td> \((x,y)\mapsto(x,xt+y)\)</td>
                   </tr>
                   <tr>
-                    <td><span style="font-family:monospace">M(a,b,c,d,f,g)</span></td>
-                    <td> \((x,y)\to(ax+by+f,cx+dy+g)\)</td>
+                    <td><span class="trans-td">M(a,b,c,d,f,g)</span></td>
+                    <td> \((x,y)\mapsto(ax+by+f,cx+dy+g)\)</td>
                   </tr>
                 </table>
 
