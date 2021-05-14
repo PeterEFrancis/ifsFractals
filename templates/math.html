@@ -635,7 +635,7 @@
 
         We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
 
-        <definition title="Čech-Lesbegue Covering dimension <cite to='engelking'></cite>">
+        <definition title="Čech-Lesbegue Covering Dimension <cite to='engelking'></cite>">
           Suppose $S$ is normal. We define the large inductive dimension $\dim_\text{Ind}$, which is an integer larger than or equal to $-1$, or infinity ($\infty$).
           <ul>
             <li>$\dim_{LCD}(S)\leq n$, where $n\in\{-1,0,1,\dots\}$, if for every finite open cover of the space $S$ has a finite open refinement of order at most $n$.</li>
@@ -648,9 +648,9 @@
 
         <span style="color: red">Check</span> In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
         <ol>
-          <li>every open cover of $S$ has a refinement with order $n$ or less, and</li>
+          <li>every finite open cover of $S$ has a refinement with order $n$ or less, and</li>
           <li>there is some open cover with no refinment of order $n - 1$ or less;
-            <ul><li>Sufficiently, there is no open cover of order $n - 1$ or less.</li></ul>
+            <ul><li>sufficiently, there is no open cover of order $n - 1$ or less.</li></ul>
           </li>
         </ol>
 
@@ -693,7 +693,7 @@
 
         Related dimensions makes some calculations easier.
 
-        <definition title="Self Similarity dimension <cite to='hausdorff-paper'></cite>">
+        <definition title="Self Similarity Dimension <cite to='hausdorff-paper'></cite>">
           If $S\subset \R^n$ can be divided into some finite number $N(r)$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $X$ by a linear factor $r$. Then the <b>self-similarity</b> dimension of $S$ is
           $$\dim_\text{sim}(S) = \frac{\log(N(r))}{\log(1/r)}.$$
         </definition>
