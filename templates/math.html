@@ -76,6 +76,11 @@
 
         <h1 style="text-align: center;">The Beautiful Mathematics of IFS Fractals</h1>
         <em style="display: block; text-align: center;">Peter E. Francis</em>
+
+        <abstract>
+
+        </abstract>
+
         <hr>
         <tableofcontents></tableofcontents>
         <hr>
@@ -113,7 +118,7 @@
           Suppose that $X$ is a complete metric space with metric $d$ and that $f:X\to X$ is a contraction mapping. Then
           <ul>
             <li>$f$ has a unique fixed point: there is a single $p\in X$ such that $f(p)=p$;</li>
-            <li>Given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n+1}=f(x_n)$ for $n>0$ converges to $p.$</li>
+            <li>given any $q\in X$, the sequence $(x_n)$ defined by $x_0=q$ and $x_{n}=f(x_{n-1})$ for $n>0$ converges to $p.$</li>
           </ul>
         </theorem>
         In order to use apply this principle to iterated function systems, we have to discuss the metric space $\K$, the set of nonempty compact subsets of $\R^2.$ The metric on this space is called the Hausdorff Metric, which first requires the following definition.
@@ -497,7 +502,7 @@
           $$t_{N - \ell + 1} = s_{1 + \ell - 1}$$
           for all $\ell\in\{1,\dots, m\}.$ Then we know that $h_{N-m}\in S$ (if $N=m$, we can write $h_0=x_0\in S$), so
           \begin{align*}
-            h_{N} & = (f_{t_N}\circ\dots\circ f_{1})(x_0) \\
+            h_{N} & = (f_{t_N}\circ\dots\circ f_{t_1})(x_0) \\
                   & = (f_{s_1}\circ\dots\circ f_{s_m}\circ f_{t_{N-m}}\circ\dots\circ f_{t_1})(x_0) \\
                   & = (f_{s_1}\circ\dots\circ f_{s_m})(h_{N-m}) \\
                   & \in A_m.
