@@ -46,7 +46,7 @@
 
   <div class="container" style="margin-bottom: 100px;">
     <div class="row">
-      <div class="col-md-12" id="LaTeX" spellcheck="true" contenteditable="false" style="text-align: justify;">
+      <div class="col-md-12" id="LaTeX" spellcheck="false" contenteditable="false" style="text-align: justify;">
         <div hidden>
         \(
           \newcommand{\R}{\mathbb{R}}
@@ -87,7 +87,7 @@
 
         <abstract>
         Just a few random numbers and 2-by-2 matrices can be used in unison to create spectacularly beautiful images of planar fractals. These iterated function systems (IFS) are easy to understand, but lead to deep constructions, connecting the vast areas of research on the fringe between topology and geometry.
-        We will prove the existance of IFS fractals and present a new way to represent transformations that can be used to define them. This paper will also compare two algorithms for IFS fractal generation (iterative mapping vs. the chaos game) and prove that they are probabilistically equivalent. By doing this we'll exaplin aspects of the online <a href="/plyground">playground</a> interface. Finally, we'll compare various formulations of dimension, both fractal and topological, and see how they relate to the cases of planar IFS fractals.
+        We will prove the existence of IFS fractals and present a new way to represent transformations that can be used to define them. This paper will also compare two algorithms for IFS fractal generation (iterative mapping vs. the chaos game) and prove that they are probabilistically equivalent. By doing this we'll explain aspects of the online <a href="/plyground">playground</a> interface. Finally, we'll compare various formulations of dimension, both fractal and topological, and see how they relate to the cases of planar IFS fractals.
         </abstract>
 
         <hr>
@@ -138,7 +138,7 @@
         </theorem>
         Now that we have a complete metric space, we can define the transformations used in an IFS.
         <definition id="hutchinson-operator">
-          Suppose that we have an interated function system of contraction mappings $f_1, f_2, \dots, f_k:\R^2\to \R^2$. Then the function
+          Suppose that we have an iterated function system of contraction mappings $f_1, f_2, \dots, f_k:\R^2\to \R^2$. Then the function
           \begin{align*}
             F : \K & \to \K \\
                  U & \mapsto f_1(U)\cup f_2(U)\cup \dots \cup f_k(U)
@@ -331,14 +331,14 @@
           The largest eigenvalue of a real $2\times 2$ symmetric matrix $$P=\begin{pmatrix}\alpha & \beta \\ \beta & \gamma\end{pmatrix}$$ is less than 1 if and only if $\Trace(P) < \min(2, 1 + \det(P))$.
         </lemma>
         <proof collapse="true" open="false">
-          Since $P$ is real and symmetric, it has real eigenvalues. We can find the eigenvalues of $P$ with a charactaristic polynomial:
+          Since $P$ is real and symmetric, it has real eigenvalues. We can find the eigenvalues of $P$ with a characteristic polynomial:
           \begin{align*}
                  & 0 = \det(P-\lambda I) \\
             \iff & 0 = \lambda^2 - (\gamma + \alpha)\lambda + (\alpha\gamma - \beta^2) \\
             \iff & \lambda = \frac{(\gamma+\alpha)\pm\sqrt{(\gamma+\alpha)^2-4(\alpha\gamma - \beta^2)}}{2} \\
             \iff & \lambda = \frac{\Trace(P)\pm\sqrt{\Trace(P)^2-4\det(P)}}{2} \\
           \end{align*}
-          Then the largest eiegenvalue of $P$ is $\lambda_1 = \frac{\Trace(P)+\sqrt{\Trace(P)-4\det(P)}}{2}$, so
+          Then the largest eigenvalue of $P$ is $\lambda_1 = \frac{\Trace(P)+\sqrt{\Trace(P)-4\det(P)}}{2}$, so
           \begin{align*}
             \lambda_1 < 1 \iff & \Trace(P)+\sqrt{\Trace(P)^2-4\det(P)} < 2 \\
                           \iff & \sqrt{\Trace(P)^2-4\det(P)} < 2 - \Trace(P) \\
@@ -435,7 +435,7 @@
 
         By choosing $N$ large enough, we will have an approximate image of our desired fractal. However, this process is computationally exhausting: suppose the Hutchinson operator is built using $k$ contractions on $\R^2.$ Then $F^{(n)}(S_0)$ is the union of $k^n$ subsets of $\R^2.$ This exponential growth makes this algorithm very memory-inefficient, very quickly. This process is also time-inefficient since $\lim_n\to\infty S_n=S$.
 
-        There is another&mdash;more subtle&mdash;problem with this algorthm. The sequence $(S_n)$ is iteratively defined, so the closer (with respect to the Hausdorff metric) that $S_0$ is to $S$, the faster the sequence will converge to $S$. This arbitrary choice of $S_0$ makes it difficult to choose an effective value of $N$ since we don't know what $S$ is. If we want to make a good choice for $S_0$, we already have to know what $S$ looks like. I suggest calling tasks like this "arbitrarily impossible."
+        There is another&mdash;more subtle&mdash;problem with this algorithm. The sequence $(S_n)$ is iteratively defined, so the closer (with respect to the Hausdorff metric) that $S_0$ is to $S$, the faster the sequence will converge to $S$. This arbitrary choice of $S_0$ makes it difficult to choose an effective value of $N$ since we don't know what $S$ is. If we want to make a good choice for $S_0$, we already have to know what $S$ looks like. I suggest calling tasks like this "arbitrarily impossible."
 
 
         Luckily, there is an algorithm in linear time that is commonly used to generate an approximate image of a IFS fractal, called <em>The Chaos Game</em>. Instead of applying each transformation during every iteration, this algorithm uses a randomly chosen one. We outline the algorithm below.
@@ -526,9 +526,9 @@
 
         Now we will return to Mandelbrot's definition of fractals, and square it with our work on iterated function systems. It should be noted that Mandelbrot himself was not satisfied with his own definition, since it excludes some notable "fractal-like" sets, like the <a href="/playground/5c07cb5f98075" class="highlight" target="_blank">Devil's Staircase</a>, which has Hausdorf-Besicovitch and Lesbesgue Covering dimension equal to 1.
 
-        To start, we develop some theory of different formulations for dimension, and then restrict oursleves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ is a subset of $X$.
+        To start, we develop some theory of different formulations for dimension, and then restrict ourselves to sets in $\R^2$. Until otherwise specified, we are operating in a general metric space $X$ with metric $d_X$, and $S$ is a subset of $X$.
 
-        The two types of dimension that we will discuss are topological dimensions (which are topological invariants), and fractal dimensions (which are not necessarily invariant under homeomorphisms). These two sets of dimension definitions hold interesting memebrs, and we will explore the important ones, primarily Hausdorf-Besicovitch, and Lesbesgue Covering dimension, which Mandelbrot uses in his definition. The later is always an integer, while the former is often not. It might be tempting to declare fractals to only be those set with non-integer Lesbegue Covering dimension, but there are examples of fractals that have integer (but different!) Hausdorff-Besicovitch and Lesbegue Covering dimensions (see <cite to="mandelbrot"></cite>).
+        The two types of dimension that we will discuss are topological dimensions (which are topological invariants), and fractal dimensions (which are not necessarily invariant under homeomorphisms). These two sets of dimension definitions hold interesting members, and we will explore the important ones, primarily Hausdorf-Besicovitch, and Lesbesgue Covering dimension, which Mandelbrot uses in his definition. The later is always an integer, while the former is often not. It might be tempting to declare fractals to only be those set with non-integer Lesbegue Covering dimension, but there are examples of fractals that have integer (but different!) Hausdorff-Besicovitch and Lesbegue Covering dimensions (see <cite to="mandelbrot"></cite>).
 
         A history of the two categories of dimension can be helpful; a more detailed version is given in <cite to="mandelbrot"></cite>.
 
@@ -557,7 +557,7 @@
           </ul>
         </definition>
 
-        We record two results from <cite to="engelking"></cite>. If $S$ is normal, then $\dim_\text{ind}(S)\leq \dim_\text{Ind}(S)$. If $S$ is seperable and metric, then $\dim_\text{Ind}(S)=\dim_\text{ind}(S)$.
+        We record two separable from <cite to="engelking"></cite>. If $S$ is normal, then $\dim_\text{ind}(S)\leq \dim_\text{Ind}(S)$. If $S$ is seperable and metric, then $\dim_\text{Ind}(S)=\dim_\text{ind}(S)$.
 
 
         Equivalent to $\dim_\text{ind}(S)\leq n$ is the existence of a basis of $S$ whose elements have boundaries with dimension at most $n-1$ (from <cite to="dimension-theory"></cite>).
@@ -567,7 +567,7 @@
 
 
         <definition title="The order of a cover <cite to='engelking'></cite>">
-          Let $S$ be a set and let $C$ be a cover of $S$. The <b>order</b> of $C$ is the largest integer $n$ such that the family $C$ contains $n+1$ sets with a non-empty intersection; if no such integer exists, we say that the family $C$ has order $\infty$.
+          Let $S$ be a set and let $C$ be a cover of $S$. The <em>order</em> of $C$ is the largest integer $n$ such that the family $C$ contains $n+1$ sets with a non-empty intersection; if no such integer exists, we say that the family $C$ has order $\infty$.
         </definition>
         We'll decide to understand that the "maximum" of an unbounded subset of $\N$ is $\infty$. Notationally, if we write $M_C(p)$ for the cardinality of the set $\{U\in C\mid p\in U\}$, then
         \begin{align*}
@@ -577,7 +577,7 @@
         \end{align*}
 
         <definition title="A refinement of a cover <cite to='engelking'></cite>">
-          If $C$ is a cover of $S$, then a <b>refinement</b> of $C$ is an open cover $D$ of $S$ so that every element of $D$ is a subset of an element of $C$.
+          If $C$ is a cover of $S$, then a <em>refinement</em> of $C$ is an open cover $D$ of $S$ so that every element of $D$ is a subset of an element of $C$.
         </definition>
 
         We let $\Ref_S(C)$ be the set of refinements of $C$, and write $\O(S)$ for the set of open covers of $S$.
@@ -594,7 +594,7 @@
         In other words, the Lesbegue Covering dimension of $S$ is $n$ if and only if
         <ol>
           <li>every finite open cover of $S$ has a refinement with order $n$ or less, and</li>
-          <li>there is some open cover with no refinment of order $n - 1$ or less;
+          <li>there is some open cover with no refinement of order $n - 1$ or less;
             <ul><li>sufficiently, there is no open cover of order $n - 1$ or less.</li></ul>
           </li>
         </ol>
@@ -608,7 +608,7 @@
 
 
         <definition title="$q$-dimensional Measure <cite to='dimension-theory'></cite>">
-          For $q\geq 0$, the <b>$q$-dimensional measure</b> of $S$ is
+          For $q\geq 0$, the <em>$q$-dimensional measure</em> of $S$ is
           $$m_q(S)=\sup\{m^\e_q(S)\mid \e>0\},$$
           where
           $$m_q^\e(S) = \inf\left\{\sum_{i=1}^\infty \diam(A_i)^q\mid C=\{A_1,\dots\}\subseteq P(S), \bigcup C = S, \forall A_i\in C, \diam(A_i)<\e\right\}$$
@@ -616,7 +616,7 @@
 
 
         <definition title="Hausdorff Dimension <cite to='dimension-theory'></cite>">
-          The <b>Hausdorff dimension</b> of $S$ is defined by
+          The <em>Hausdorff dimension</em> of $S$ is defined by
           $$\dim_\text{Haus}=\sup\{q\in\R \mid m_q(S)>0\}.$$
         </definition>
 
@@ -626,26 +626,26 @@
         Related dimensions makes some calculations easier.
 
         <definition title="Self Similarity Dimension <cite to='hausdorff-paper'></cite>">
-          If $S\subset \R^n$ can be divided into some finite number $N(r)$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $X$ by a linear factor $r$, then the <b>self-similarity</b> dimension of $S$ is
+          If $S\subset \R^n$ can be divided into some finite number $N(r)$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $X$ by a linear factor $r$, then the <em>self-similarity</em> dimension of $S$ is
           $$\dim_\text{sim}(S) = \frac{\log(N(r))}{\log(1/r)}.$$
         </definition>
 
         Let $N_\e(S)$ be the minimum number of open balls of diameter $\e$ needed to cover $S$. Alternatively, suppose we partition $\R^n$ with a grid of boxes with side length $\e$ and define $N_\e(S)$ to be the number of boxes that intersect $S$ (from <cite to='hausdorff-paper'></cite>).
 
         <definition title="Minkowski (Box-Counting) Dimension <cite to='stonybrook'></cite>">
-          Define the <b>upper Minkowski dimension</b> as
+          Define the <em>upper Minkowski dimension</em> as
           $$\overline{\dim}_{\text{box}}(S)=\limsup_{\e \rightarrow 0} \frac{\log N_\e(S)}{\log(1 / \e)},$$
-          and the <b>lower Minkowski dimension</b>
+          and the <em>lower Minkowski dimension</em>
           $$\underline{\dim}_{\text{box}}(S)=\liminf_{\e \rightarrow 0} \frac{\log N_\e(S)}{\log(1 / \e)}.$$
-          If the two values agree, the common value is simply called the <b>Minkowski dimension</b> of $S$ and denoted by $\dim_\text{box}(S)$.
+          If the two values agree, the common value is simply called the <em>Minkowski dimension</em> of $S$ and denoted by $\dim_\text{box}(S)$.
         </definition>
 
-        The <b>packing dimension</b> is also closely related to the box counting dimension; it can be defined in terms of the upper minkowski dimension. See <cite to="stonybrook"></cite> for details.
+        The <em>packing dimension</em> is also closely related to the box counting dimension; it can be defined in terms of the upper Minkowski dimension. See <cite to="stonybrook"></cite> for details.
 
 
         <subsection>Connections Between Dimensions</subsection>
 
-        Many different formulations of dimenison are computationally convinient: some are easier to compute in certain cases. If our goal is to show that a set is a fractal by demonstrating that its Hausdorff dimension is greater than its topological dimension, it is sufficient to find a number strictly between the two. In other cases, certain dimensions coincide and are just easier to compute.
+        Many different formulations of dimension are computationally convenient: some are easier to compute in certain cases. If our goal is to show that a set is a fractal by demonstrating that its Hausdorff dimension is greater than its topological dimension, it is sufficient to find a number strictly between the two. In other cases, certain dimensions coincide and are just easier to compute.
 
         We have the following relation between Hausdorff and box-counting dimension from <cite to="stonybrook"></cite>:
         $$\dim_\text{Haus}\leq \underline{\dim}_\text{box}\leq \overline{\dim}_\text{box}.$$
@@ -656,18 +656,18 @@
 
 
 
-        Authors in <cite to="engelking"></cite> give us the following various ways to relate inductive and Lesbegue covering dimension. If $S$ is normal, then $\dim_\text{LCD}(S)=0$ and $\dim_\text{Ind}(S)=0$ are equivalent. If $S$ is a compact metric space, then $$\dim_\text{ind}(S) \leq \dim_\text{LCD}(S)$$. If $S$ is seperable metric space, then $$\dim_\text{LCD}(S) = \dim_\text{ind}(S) = \dim_\text{Ind}(S).$$
+        Authors in <cite to="engelking"></cite> give us the following various ways to relate inductive and Lesbegue covering dimension. If $S$ is normal, then $\dim_\text{LCD}(S)=0$ and $\dim_\text{Ind}(S)=0$ are equivalent. If $S$ is a compact metric space, then $$\dim_\text{ind}(S) \leq \dim_\text{LCD}(S)$$. If $S$ is separable metric space, then $$\dim_\text{LCD}(S) = \dim_\text{ind}(S) = \dim_\text{Ind}(S).$$
         <!-- <span style="color: red">Find source for when inequality can be strict.</span>
 
         <span style="color: red"> When $S$ is normal with a countable base,
         $$\dim_\text{LCD}(S)=\dim_\text{Ind}(S)=\dim_\text{ind}(S).$$ The Nöbeling–Pontryagin theorem then states that such spaces with finite dimension are characterised up to homeomorphism as the subspaces of the Euclidean spaces.</span> -->
 
 
-        In our case of linear IFS, we consider $X=\R^2$, which is a seperable metric space. Since the fixed points $S$ of our Hutchinson operators are non-empty, we have
+        In our case of linear IFS, we consider $X=\R^2$, which is a separable metric space. Since the fixed points $S$ of our Hutchinson operators are non-empty, we have
         $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S).$$
 
 
-
+        <section>Conclusion</section>
 
 
         <hr>
