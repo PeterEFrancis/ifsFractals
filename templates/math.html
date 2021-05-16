@@ -73,7 +73,7 @@
         \)
         </div>
 
-        <h1 style="text-align: center">The Beautiful Mathematics of IFS Fractals</h1>
+        <h1 style="text-align: center; margin-top: 60px;">The Beautiful Mathematics of IFS Fractals</h1>
         <br style="height: 30px">
         <em style="display: block; text-align: center">Peter E. Francis</em>
         <br>
@@ -87,7 +87,7 @@
 
         <abstract>
         Just a few random numbers and 2-by-2 matrices can be used in unison to create spectacularly beautiful images of planar fractals. These iterated function systems (IFS) are easy to understand, but lead to deep constructions, connecting the vast areas of research on the fringe between topology and geometry.
-        We will prove the existence of IFS fractals and present a new way to represent transformations that can be used to define them. This paper will also compare two algorithms for IFS fractal generation (iterative mapping vs. the chaos game) and prove that they are probabilistically equivalent. By doing this we'll explain aspects of the online <a href="/plyground">playground</a> interface. Finally, we'll compare various formulations of dimension, both fractal and topological, and see how they relate to the cases of planar IFS fractals.
+        We will prove the existence of IFS fractals and present a new way to represent transformations that can be used to define them. This paper will also compare two algorithms for IFS fractal generation (iterative mapping vs. the chaos game) and prove that they are probabilistically equivalent. By doing this we'll explain aspects of the online <a href="/plyground" class="highlight">playground</a> interface. Finally, we'll compare various formulations of dimension, both fractal and topological, and see how they relate to the cases of planar IFS fractals.
         </abstract>
 
         <hr>
@@ -621,22 +621,26 @@
         </definition>
 
 
-
-
         Related dimensions makes some calculations easier.
 
-        <definition title="Self Similarity Dimension <cite to='hausdorff-paper'></cite>">
-          If $S\subset \R^n$ can be divided into some finite number $N(r)$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $X$ by a linear factor $r$, then the <em>self-similarity</em> dimension of $S$ is
-          $$\dim_\text{sim}(S) = \frac{\log(N(r))}{\log(1/r)}.$$
+        <definition title="Self Similarity Dimension <cite to='hutchinson'></cite>,<cite to='hausdorff-paper'></cite>">
+          If $S\subset \R^n$ can be divided into some finite number $k$ of subsets, all congruent (by translations or rotations) to one another and each a rescaled copy of $S$ by a linear factor $r_i$, then the <em>self-similarity</em> dimension of $S$ is the unique number $D$ for which
+          $$\sum_{i=1}^k r_i^D=1.$$
+          We denote the similarity dimension of $S$ as $\dim_\text{sim}(S)$.
+          <!-- $$\dim_\text{sim}(S) = \frac{\log(k)}{\log(1/r)}.$$ -->
         </definition>
+
+        Note that if $r_1=\dots=r_k=r$, then $kr^D=1$, so we can solve for $D$:
+        $$\dim_\text{sim}(S)=D=\log_r(1/k)=\frac{\log(k)}{\log(1/r)}.$$
+        This last form can serve as a motivation for the following dimension.
 
         Let $N_\e(S)$ be the minimum number of open balls of diameter $\e$ needed to cover $S$. Alternatively, suppose we partition $\R^n$ with a grid of boxes with side length $\e$ and define $N_\e(S)$ to be the number of boxes that intersect $S$ (from <cite to='hausdorff-paper'></cite>).
 
         <definition title="Minkowski (Box-Counting) Dimension <cite to='stonybrook'></cite>">
           Define the <em>upper Minkowski dimension</em> as
-          $$\overline{\dim}_{\text{box}}(S)=\limsup_{\e \rightarrow 0} \frac{\log N_\e(S)}{\log(1 / \e)},$$
+          $$\overline{\dim}_{\text{box}}(S)=\limsup_{\e \rightarrow 0} \frac{\log (N_\e(S))}{\log(1 / \e)},$$
           and the <em>lower Minkowski dimension</em>
-          $$\underline{\dim}_{\text{box}}(S)=\liminf_{\e \rightarrow 0} \frac{\log N_\e(S)}{\log(1 / \e)}.$$
+          $$\underline{\dim}_{\text{box}}(S)=\liminf_{\e \rightarrow 0} \frac{\log (N_\e(S))}{\log(1 / \e)}.$$
           If the two values agree, the common value is simply called the <em>Minkowski dimension</em> of $S$ and denoted by $\dim_\text{box}(S)$.
         </definition>
 
@@ -662,12 +666,28 @@
         <span style="color: red"> When $S$ is normal with a countable base,
         $$\dim_\text{LCD}(S)=\dim_\text{Ind}(S)=\dim_\text{ind}(S).$$ The Nöbeling–Pontryagin theorem then states that such spaces with finite dimension are characterised up to homeomorphism as the subspaces of the Euclidean spaces.</span> -->
 
+        Perhaps, however, the most important connection is between Hausdorff dimension and self similarity dimension. In order to understand this connection we need to understand the following condition.
+
+        <definition title="Open Set Condition <cite to='hutchinson'></cite>">
+          Given a Hutchinson operator $F:\K\to\K$ defined on contractions $f_1,\dots f_k:\R^2\to\R^2$, a set $S\subseteq\R^n$ satisfies the <em>open set condition</em> if there exists a non-empty open set $U$ such that
+          <ol>
+            <li>$F(U)\subseteq U$, and</li>
+            <li>$f_i(U)\cap f_j(U)=\emptyset$ if $i\neq j$.</li>
+          </ol>
+        </definition>
+
+        It is proven in <cite to='hutchinson'></cite> that if a set satisfies the open set condition, then $S$ is self similar and $$\dim_\text{haus}(S)=\dim_\text{sim}(S).$$
+        Intuitively, the open set condition is to ensure that the self similar pieces of the IFS "don't overlap too much." On the <a href="/playground" class="highlight">playground</a> page, to show that a fixed point set satisfies the open set condition, it is sufficient to ensure that the squares in the "Generator" image do not overlap (other than edges).
 
         In our case of linear IFS, we consider $X=\R^2$, which is a separable metric space. Since the fixed points $S$ of our Hutchinson operators are non-empty, we have
         $$\dim_\text{Haus}(S) \geq \dim_\text{ind}(S) = \dim_\text{LCD}(S).$$
 
 
         <section>Conclusion</section>
+
+        Finally we have a fuller understanding of affine linear iterated function systems and the images that they can produce. However, we still have one more loose end to tie up: do our IFS fractals satisfy Mandelbrot's definition of fractal? Unfortunately, the answer is no. Using Hutchinson operators, we can get an IFS fixed point that is <a class="highlight" href="https://ifs-fractals.herokuapp.com/playground/5c26c3a967b90">single point</a>, <a class="highlight" href="https://ifs-fractals.herokuapp.com/playground/5c262ff9596da">line segment</a>, and <a class="highlight" href="https://ifs-fractals.herokuapp.com/playground/5c26301172ecc">solid square</a>, which are not fractals, since they have a Hausdorff <b>and</b> Topological dimension of 0, 1, and 2, respectively.
+
+        However, we can produce actual fractals if we use more interesting transformations than those used in the point, line, and square examples above. For instance, the <a href="/playground/vonkoch">Koch curve</a> can be made using an IFS with four transformations. The Koch curve is self-similar and has similarity dimension $\log_4(3)$, which is strictly greater than its topological dimension of 1.
 
 
         <hr>
@@ -681,7 +701,7 @@
           <item id="mandelbrot">Benoit Mandelbrot. <em>The Fractal Geometry of Nature.</em> W. H. Freeman and Company, New York, 1977.</item>
           <item id="hausdorff-paper">Dierk Schleicher. <em>Hausdorff Dmension, Its Properties, and Its Surprises</em>. The Mathematical Association of America (Monthly 114), 2007. <a class="highlight" href="http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf">http://hiperc.buffalostate.edu/MSMTprogram/uploads/MSMT/Hausdorff-Dim.pdf</a></item>
           <item id="stonybrook">Christopher J. Bishop and Yuval Peres. <em>Fractals in Probability and Analysis</em>. Stony Brook University and Microsoft Research. <a class="highlight" href="https://www.math.stonybrook.edu/~bishop/classes/math324.F15/book1Dec15.pdf">https://www.math.stonybrook.edu/~bishop/classes/math324.F15/book1Dec15.pdf</a></item>
-
+          <item id="hutchinson">John E. Hutchinson. <em>Fractals and Self Similarity</em>. Indiana University Mathematics Journal, Vol. 30, No. 5, 1981.</item>
         </references>
       </div>
     </div>
